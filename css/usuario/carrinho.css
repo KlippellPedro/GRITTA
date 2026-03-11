@@ -1,0 +1,169 @@
+/* Container principal do carrinho */
+.container-carrinho {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 140px 20px 60px 20px;
+    /* Espaço para o header fixo */
+}
+
+.titulo-pagina {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #111;
+    padding-bottom: 10px;
+}
+
+/* Layout de duas colunas */
+.layout-carrinho {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+/* Estilo de cada item no carrinho */
+.item-carrinho {
+    display: flex;
+    gap: 20px;
+    border: 1px solid #eee;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    align-items: center;
+}
+
+.item-carrinho img {
+    width: 120px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.detalhes-item {
+    flex-grow: 1;
+}
+
+.detalhes-item h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+}
+
+.detalhes-item p {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.preco-item {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #111;
+}
+
+/* Controles de quantidade e remoção */
+.controles-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+}
+
+.quantidade {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+}
+
+.quantidade button {
+    background: none;
+    border: none;
+    padding: 5px 15px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.quantidade span {
+    padding: 0 10px;
+    font-weight: 700;
+}
+
+.btn-remover {
+    background: none;
+    border: none;
+    color: #cc0000;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+/* Caixa lateral de Resumo */
+.resumo-pedido {
+    background-color: #fff;
+    border: 1px solid #eee;
+    padding: 25px;
+    position: sticky;
+    top: 140px;
+    /* Fica fixo na tela ao rolar */
+}
+
+.resumo-pedido h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.linha-resumo {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.linha-resumo.total {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-top: 15px;
+}
+
+.btn-finalizar {
+    width: 100%;
+    padding: 15px;
+    background-color: #111;
+    color: #fff;
+    border: none;
+    font-weight: 900;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-finalizar:hover {
+    background-color: var(--cor-destaque);
+}
+
+.link-continuar {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #666;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+/* Responsividade para celular */
+@media (max-width: 768px) {
+    .layout-carrinho {
+        grid-template-columns: 1fr;
+    }
+
+    .item-carrinho {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .controles-item {
+        align-items: center;
+    }
+}

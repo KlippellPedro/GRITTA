@@ -1,106 +1,175 @@
 /* ================= BANNER ================= */
 .banner {
-    height: 60vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.pexels.com/photos/1884584/pexels-photo-1884584.jpeg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #fff;
+  height: 600px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
 }
 
 .banner-conteudo h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 5rem;
-    letter-spacing: 4px;
-    margin: 0 0 10px 0;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 75px;
+  letter-spacing: 4px;
+  margin: 0 0 10px 0;
 }
 
 .banner-conteudo p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
+  font-size: 20px;
+  margin-bottom: 30px;
 }
 
 .btn-comprar {
-    background-color: #fff;
-    color: #111;
-    padding: 15px 30px;
-    text-decoration: none;
-    font-weight: 900;
-    letter-spacing: 1px;
-    transition: background 0.3s, color 0.3s;
+  background-color: #fff;
+  color: #111;
+  padding: 15px 30px;
+  text-decoration: none;
+  font-weight: 900;
+  letter-spacing: 1px;
+  transition:
+    background 0.3s,
+    color 0.3s;
 }
 
 .btn-comprar:hover {
-    background-color: #111;
-    color: #fff;
+  background-color: #111;
+  color: #fff;
 }
 
 /* ================= VITRINE DE PRODUTOS ================= */
 .destaques {
-    padding: 60px 5%;
-    text-align: center;
+  padding: 60px 5%;
+  text-align: center;
 }
 
 .destaques h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 3rem;
-    margin-bottom: 40px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 3rem;
+  margin-bottom: 40px;
 }
 
 .vitrine {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
-    gap: 30px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
+  gap: 30px;
 }
 
 .produto-card {
-    background-color: #fff;
-    border: 1px solid #eee;
-    padding: 15px;
-    text-align: left;
-    transition: transform 0.3s;
+  background-color: #fff;
+  border: 1px solid #eee;
+  padding: 15px;
+  text-align: left;
+  transition: transform 0.3s;
 }
 
 .produto-card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .produto-card img {
-    width: 100%;
-    height: 450px;
-    object-fit: cover;
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
 }
 
 .produto-info {
-    padding-top: 15px;
+  padding-top: 15px;
 }
 
 .produto-info h4 {
-    margin: 0 0 10px 0;
-    font-size: 1rem;
+  margin: 0 0 10px 0;
+  font-size: 1rem;
 }
 
 .preco {
-    font-weight: 900;
-    font-size: 1.2rem;
-    margin-bottom: 15px;
+  font-weight: 900;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
 }
 
 .add-carrinho {
-    width: 100%;
-    padding: 12px;
-    background-color: #111;
-    color: #fff;
-    border: none;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.3s;
+  width: 100%;
+  padding: 12px;
+  background-color: #111;
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
 .add-carrinho:hover {
-    background-color: var(--cor-destaque);
+  background-color: var(--cor-destaque);
+}
+.footer-gritta {
+  background-color: #0a0a0a;
+  color: #ffffff;
+  padding: 60px 20px 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+.footer-colum h2 {
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+  letter-spacing: -2px;
+}
+
+.footer-colum h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.footer-colum ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-colum li {
+  margin-bottom: 12px;
+}
+
+.footer-colum a {
+  color: #cccccc;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.footer-colum a:hover {
+  color: #ffffff;
+}
+
+.footer-direitos {
+  text-align: center;
+  margin-top: 60px;
+  border-top: 1px solid #222;
+  padding-top: 20px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+/* Futura responsividade */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+  }
 }

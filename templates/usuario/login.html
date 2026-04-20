@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <title>GR!TTA | Login</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../statics/img/icons/loja-icon.png" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/global.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/menu.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/usuario/login.css" />
+    <script src="../../statics/js/components.js" defer></script>
+    <script src="../../statics/js/config.js" defer></script>
+    <script src="../../statics/js/menu.js" defer></script>
+    <script src="../../statics/js/usuario/login.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <gritta-header></gritta-header>
+
+    <!-- Main do login -->
+    <main class="login-main">
+      <div class="login-container">
+        <h2 class="login-titulo">IDENTIFICAÇÃO</h2>
+        <form id="loginForm" class="login-form">
+          <div id="login-message" class="message-area"></div>
+          <div class="input-group">
+            <label for="email">E-MAIL</label>
+            <input type="email" id="email" placeholder="seu@email.com" required />
+          </div>
+
+          <div class="input-group">
+            <label for="password">SENHA</label>
+            <div class="password-wrapper">
+              <input type="password" id="password" placeholder="********" required />
+              <span class="toggle-password">
+                <img src="../../statics/img/icons/olho-fechado.png" alt="Ver Senha" />
+              </span>
+            </div>
+          </div>
+
+          <div class="login__check">
+            <div class="login__check-box">
+              <input type="checkbox" id="user-check" />
+              <label for="user-check">Manter-me logado</label>
+            </div>
+            <a href="recuperar-senha.html" class="login__forgot">Esqueceu a senha?</a>
+          </div>
+
+          <button type="submit" class="btn-login">ENTRAR</button>
+
+          <div class="login__register">Ainda não tem conta? <a href="cadastro.html">Cadastre-se</a></div>
+        </form>
+      </div>
+    </main>
+    <!-- Fechamento do Main do login -->
+
+    <gritta-footer></gritta-footer>
+  </body>
+</html>

@@ -1,0 +1,175 @@
+.favoritos-main {
+  padding: 160px 5% 60px;
+  min-height: 60vh;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.favoritos-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.favoritos-titulo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  letter-spacing: 4px;
+  color: #fff;
+  margin-bottom: 15px;
+  line-height: 0.9;
+}
+
+.favoritos-contador {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #ccc;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.6;
+}
+
+/* Reutilizando a estrutura da vitrine da Home */
+.vitrine {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 25px;
+  margin-top: 50px;
+}
+
+.produto-card {
+  position: relative; /* Para o botão de remover */
+  background-color: #fff; /* Fundo branco para as escritas não ficarem no body */
+  border-radius: 4px;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.produto-card:hover {
+  transform: translateY(-10px);
+}
+
+.produto-imagem {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background-color: #f5f5f5; /* Moldura de estúdio */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  overflow: hidden;
+  position: relative;
+}
+
+.produto-imagem img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.6s ease;
+}
+
+.produto-card:hover .produto-imagem img {
+  transform: scale(1.1);
+}
+
+.produto-info {
+  padding: 20px; /* Adicionado respiro interno */
+  text-align: left;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.produto-info h4 {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  color: #000;
+  text-transform: uppercase;
+}
+
+.btn-favoritar-vitrine {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #fff;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-favoritar-vitrine img {
+  width: 20px;
+  height: 20px;
+}
+
+.btn-favoritar-vitrine:hover {
+  transform: scale(1.2);
+}
+
+.btn-favoritar-vitrine.active {
+  background-color: #ff4444; /* Fundo vermelho */
+  color: #fff;
+}
+
+.btn-favoritar-vitrine.active img {
+  filter: brightness(0) invert(1); /* Coração fica branco sobre o fundo vermelho */
+}
+
+.preco {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: #888;
+  margin-bottom: 25px;
+}
+
+.add-carrinho {
+  background-color: #fff;
+  color: #111;
+  border: none;
+  padding: 18px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.add-carrinho:hover {
+  background-color: #111;
+  color: #fff;
+  outline: 1px solid #fff;
+}
+
+.favoritos-vazio {
+  text-align: center;
+  padding: 100px 0;
+}
+
+.favoritos-vazio p {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.btn-continuar {
+  display: inline-block;
+  background-color: #000;
+  color: #fff;
+  padding: 15px 40px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: opacity 0.3s;
+}

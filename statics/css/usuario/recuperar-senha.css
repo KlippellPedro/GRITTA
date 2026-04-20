@@ -1,0 +1,11 @@
+/* Estilos específicos para a recuperação de senha */
+
+.login-main {
+  background-image: linear-gradient(rgba(22, 37, 48, 0.8), rgba(22, 37, 48, 0.8)), url("../../img/banners/banner_principal.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.login-titulo {
+  text-transform: uppercase;
+}

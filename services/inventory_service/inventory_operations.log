@@ -1,0 +1,20 @@
+2026-04-18 15:46:44,683 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5004
+2026-04-18 15:46:44,683 - INFO - [33mPress CTRL+C to quit[0m
+2026-04-18 15:46:44,684 - INFO -  * Restarting with stat
+2026-04-18 15:46:45,106 - WARNING -  * Debugger is active!
+2026-04-18 15:46:45,108 - INFO -  * Debugger PIN: 774-792-931
+2026-04-18 15:47:10,770 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5004
+2026-04-18 15:47:10,771 - INFO - [33mPress CTRL+C to quit[0m
+2026-04-18 15:47:10,772 - INFO -  * Restarting with stat
+2026-04-18 15:47:11,133 - WARNING -  * Debugger is active!
+2026-04-18 15:47:11,135 - INFO -  * Debugger PIN: 774-792-931
+2026-04-18 15:48:22,908 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5004
+2026-04-18 15:48:22,908 - INFO - [33mPress CTRL+C to quit[0m
+2026-04-18 15:48:22,910 - INFO -  * Restarting with stat
+2026-04-18 15:48:23,305 - WARNING -  * Debugger is active!
+2026-04-18 15:48:23,307 - INFO -  * Debugger PIN: 774-792-931
+2026-04-18 15:50:25,881 - INFO -  * Detected change in 'C:\\Users\\Pedro\\OneDrive\\Documentos\\D.E.V\\T.D.S\\GRITTA\\services\\inventory_service\\app\\routes.py', reloading
+2026-04-18 15:50:25,914 - INFO -  * Restarting with stat

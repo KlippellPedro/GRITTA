@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <title>GR!TTA | Detalhes do Produto</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../statics/img/icons/loja-icon.png" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/global.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/menu.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/usuario/produto.css" />
+    <script src="../../statics/js/components.js" defer></script>
+    <script src="../../statics/js/config.js" defer></script>
+    <script src="../../statics/js/menu.js" defer></script>
+    <script src="../../statics/js/usuario/produto.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <gritta-header></gritta-header>
+
+    <main class="produto-main">
+      <div id="loading-product" class="loading">Buscando detalhes da peça...</div>
+
+      <div id="product-content" class="produto-grid" style="display: none">
+        <!-- Lado Esquerdo: Galeria -->
+        <div class="produto-galeria">
+          <div class="main-image-container">
+            <img id="main-product-img" src="" alt="" />
+          </div>
+        </div>
+
+        <!-- Lado Direito: Info e Compra -->
+        <div class="produto-detalhes">
+          <h1 id="product-name">NOME DO PRODUTO</h1>
+          <div id="product-badges"></div>
+          <!-- Placeholder para badges como "ÚLTIMAS PEÇAS" -->
+          <p id="product-price" class="product-price">R$ 0,00</p>
+
+          <div class="product-description">
+            <p id="product-desc"></p>
+          </div>
+
+          <div class="selection-group">
+            <label>ESCOLHA O TAMANHO</label>
+            <div id="variacoes-container">
+              <!-- Injetado pelo JS -->
+            </div>
+          </div>
+
+          <div class="selection-group">
+            <label>QUANTIDADE</label>
+            <div class="qty-selector">
+              <button onclick="changeQty(-1)">-</button>
+              <span id="qty-value">1</span>
+              <button onclick="changeQty(1)">+</button>
+            </div>
+          </div>
+
+          <button id="btn-add-cart" class="btn-add-cart">ADICIONAR À SACOLA</button>
+        </div>
+      </div>
+    </main>
+
+    <section class="related-section">
+      <div class="related-container">
+        <h2 class="related-title">VOCÊ TAMBÉM PODE GOSTAR</h2>
+        <div id="related-products-grid" class="related-grid"></div>
+      </div>
+    </section>
+
+    <gritta-footer></gritta-footer>
+  </body>
+</html>

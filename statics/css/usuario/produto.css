@@ -1,0 +1,286 @@
+.produto-main {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 160px 5% 80px;
+  min-height: 100vh;
+}
+
+.produto-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 60px;
+  align-items: start;
+}
+
+/* Galeria e Moldura da Imagem */
+.produto-galeria {
+  position: sticky;
+  top: 160px;
+}
+
+.main-image-container {
+  background-color: #f0f0f0;
+  padding: 80px; /* Aumentado para dar mais "ar" ao produto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0; /* Estilo industrial reto */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.5s ease;
+}
+
+.main-image-container img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1)); /* Sombra suave na peça */
+}
+
+/* Detalhes do Produto */
+.produto-detalhes {
+  color: #fff; /* Texto branco sobre o fundo escuro do global */
+}
+
+.produto-detalhes h1 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 0.9;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+}
+
+.product-price {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 40px;
+  color: #fff;
+}
+
+.product-description {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: #ccc;
+  margin-bottom: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  max-width: 450px;
+}
+
+/* Grupos de Seleção (Tamanho, Cor, Qtd) */
+.selection-group {
+  margin-bottom: 35px;
+}
+
+.selection-group label {
+  display: block;
+  font-weight: 900;
+  font-size: 0.7rem;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+  color: #666;
+}
+
+/* Novos Seletores de Variação (Chips) */
+.variation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px;
+}
+
+.variation-chip {
+  background: transparent;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 15px 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.variation-chip span {
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+.variation-chip small {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  color: #888;
+  margin-top: 4px;
+}
+
+.variation-chip:hover {
+  border-color: #fff;
+}
+
+.variation-chip.active {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
+.qty-selector {
+  display: flex;
+  align-items: center;
+  border: 2px solid #fff;
+  width: fit-content;
+  background: transparent;
+}
+
+.qty-selector button {
+  background: none;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-weight: 700;
+  color: #fff;
+  transition: background 0.3s;
+}
+
+.qty-selector button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.qty-selector span {
+  padding: 0 20px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 900;
+  min-width: 40px;
+  text-align: center;
+}
+
+.btn-add-cart {
+  width: 100%;
+  background-color: #fff;
+  color: #111;
+  border: none;
+  padding: 25px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.btn-add-cart:hover:not(:disabled) {
+  background-color: #111;
+  color: #fff;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  outline: 2px solid #fff;
+}
+
+.btn-add-cart:disabled {
+  background-color: #333;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.esgotado {
+  color: #ff4444;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+/* Seção de Relacionados */
+.related-section {
+  padding: 120px 5%;
+  background-color: #162530;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.related-container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.related-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: #fff;
+  letter-spacing: 4px;
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.related-card {
+  background: #fff;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border-radius: 0;
+}
+.related-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.related-image-wrapper {
+  background-color: #f5f5f5;
+  padding: 20px;
+  aspect-ratio: 3/4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.related-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.6s ease;
+  margin-bottom: 0;
+}
+
+.related-card:hover img {
+  transform: scale(1.1);
+}
+
+.related-info {
+  padding: 20px;
+  text-align: center;
+}
+
+.related-card h4 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.2rem;
+  color: #111;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.related-price {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 1024px) {
+  .produto-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .produto-galeria {
+    position: static;
+  }
+
+  .main-image-container {
+    padding: 40px;
+  }
+}

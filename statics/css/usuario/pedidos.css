@@ -1,0 +1,143 @@
+.pedidos-main {
+  padding: 160px 5% 60px;
+  max-width: 1000px;
+  margin: 0 auto;
+  min-height: 70vh;
+}
+
+.pedidos-titulo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 3rem;
+  color: #fff;
+  letter-spacing: 3px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.pedido-card {
+  background-color: #fff;
+  padding: 25px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.pedido-card:hover {
+  transform: scale(1.02);
+}
+
+.pedido-info h4 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #888;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.pedido-info p {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #111;
+}
+
+.status-badge {
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-align: center;
+  background-color: #eee;
+}
+
+.status-pago {
+  background-color: #d4edda;
+  color: #155724;
+}
+.status-aguardando {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+/* Estilos do Modal (Reutilizando padrão do perfil) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 4px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.modal-header h3 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.8rem;
+  color: #111;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.item-detalhe {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.item-detalhe img {
+  width: 60px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.item-info-detalhe h5 {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+.item-info-detalhe p {
+  font-size: 0.8rem;
+  color: #666;
+}

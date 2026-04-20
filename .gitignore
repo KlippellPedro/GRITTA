@@ -1,0 +1,2 @@
+# Serve para não subir a .env para o github 
+.env

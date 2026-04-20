@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <title>GR!TTA | Finalizar Compra</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/global.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/menu.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/usuario/checkout.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/usuario/perfil-modais.css" />
+    <script src="../../statics/js/components.js" defer></script>
+    <script src="../../statics/js/config.js" defer></script>
+    <script src="../../statics/js/menu.js" defer></script>
+    <script src="../../statics/js/usuario/checkout.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <gritta-header></gritta-header>
+
+    <main class="checkout-main">
+      <h2 class="checkout-titulo">FINALIZAR PEDIDO</h2>
+
+      <div class="checkout-grid">
+        <!-- Seção de Dados e Escolhas -->
+        <div class="checkout-col-left">
+          <section class="checkout-section">
+            <h3>1. ENDEREÇO DE ENTREGA</h3>
+            <div id="lista-enderecos-checkout" class="enderecos-selecao">
+              <p class="loading">Carregando seus endereços...</p>
+            </div>
+            <button type="button" id="btn-abrir-modal-endereco" class="link-novo-endereco" style="background: none; border: none; cursor: pointer">
+              + Adicionar novo endereço
+            </button>
+          </section>
+
+          <section class="checkout-section">
+            <h3>2. FORMA DE PAGAMENTO</h3>
+            <div class="pagamento-opcoes">
+              <label class="pagamento-card">
+                <input type="radio" name="metodo_pagamento" value="pix" checked />
+                <span class="radio-custom"></span>
+                <div class="pagamento-info">
+                  <strong>PIX</strong>
+                  <span>Aprovação instantânea</span>
+                </div>
+              </label>
+              <label class="pagamento-card">
+                <input type="radio" name="metodo_pagamento" value="cartao" />
+                <span class="radio-custom"></span>
+                <div class="pagamento-info">
+                  <strong>CARTÃO DE CRÉDITO</strong>
+                  <span>Até 12x sem juros</span>
+                </div>
+              </label>
+            </div>
+          </section>
+        </div>
+
+        <!-- Resumo e Botão Final -->
+        <aside class="checkout-col-right">
+          <div class="resumo-fixo">
+            <h3>RESUMO DO PEDIDO</h3>
+            <div id="itens-checkout" class="lista-itens-checkout">
+              <!-- Injetado pelo JS -->
+            </div>
+            <div class="total-container">
+              <div class="total-linha">
+                <span>Total</span>
+                <span id="checkout-total-valor">R$ 0,00</span>
+              </div>
+            </div>
+            <button id="btn-confirmar-pedido" class="btn-finalizar">CONFIRMAR E PAGAR</button>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- Modal de Novo Endereço (Reutilizado do Perfil) -->
+    <div id="modal-endereco" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>NOVO ENDEREÇO</h3>
+          <button id="btn-fechar-modal" class="btn-close">&times;</button>
+        </div>
+        <form id="form-endereco">
+          <div class="input-group">
+            <label for="addr-cep">CEP</label>
+            <input type="text" id="addr-cep" placeholder="00000-000" required />
+          </div>
+          <div class="input-group">
+            <label for="addr-rua">RUA</label>
+            <input type="text" id="addr-rua" required />
+          </div>
+          <div style="display: flex; gap: 10px">
+            <div class="input-group" style="flex: 1">
+              <label for="addr-numero">NÚMERO</label>
+              <input type="text" id="addr-numero" required />
+            </div>
+            <div class="input-group" style="flex: 1">
+              <label for="addr-bairro">BAIRRO</label>
+              <input type="text" id="addr-bairro" required />
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px">
+            <div class="input-group" style="flex: 2">
+              <label for="addr-cidade">CIDADE</label>
+              <input type="text" id="addr-cidade" required />
+            </div>
+            <div class="input-group" style="flex: 1">
+              <label for="addr-estado">UF</label>
+              <input type="text" id="addr-estado" maxlength="2" required />
+            </div>
+          </div>
+          <button type="submit" class="btn-login" style="width: 100%; margin-top: 20px">SALVAR ENDEREÇO</button>
+        </form>
+      </div>
+    </div>
+
+    <gritta-footer></gritta-footer>
+  </body>
+</html>

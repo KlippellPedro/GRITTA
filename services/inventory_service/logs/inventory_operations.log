@@ -1,0 +1,18 @@
+2026-04-18 16:58:05,211 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5004
+2026-04-18 16:58:05,211 - INFO - [33mPress CTRL+C to quit[0m
+2026-04-18 16:58:05,213 - INFO -  * Restarting with stat
+2026-04-18 16:58:05,616 - WARNING -  * Debugger is active!
+2026-04-18 16:58:05,618 - INFO -  * Debugger PIN: 774-792-931
+2026-04-18 17:09:06,477 - INFO -  * Detected change in 'C:\\Users\\Pedro\\OneDrive\\Documentos\\D.E.V\\T.D.S\\GRITTA\\services\\inventory_service\\app\\routes.py', reloading
+2026-04-18 17:09:06,516 - INFO -  * Restarting with stat
+2026-04-18 17:09:06,948 - WARNING -  * Debugger is active!
+2026-04-18 17:09:06,950 - INFO -  * Debugger PIN: 774-792-931
+2026-04-18 17:10:00,208 - INFO -  * Detected change in 'C:\\Users\\Pedro\\OneDrive\\Documentos\\D.E.V\\T.D.S\\GRITTA\\services\\inventory_service\\app\\routes.py', reloading
+2026-04-18 17:10:00,243 - INFO -  * Restarting with stat
+2026-04-18 18:18:29,955 - INFO -  * Restarting with stat
+2026-04-18 18:20:01,850 - INFO -  * Restarting with stat
+2026-04-18 18:53:45,032 - INFO -  * Restarting with stat
+2026-04-18 19:09:51,748 - INFO -  * Restarting with stat
+2026-04-18 19:41:26,307 - INFO -  * Restarting with stat
+2026-04-18 19:51:32,554 - INFO -  * Restarting with stat

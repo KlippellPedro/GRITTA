@@ -1,0 +1,269 @@
+.checkout-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 160px 5% 80px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.checkout-titulo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: #fff;
+  margin-bottom: 50px;
+  text-align: left;
+  letter-spacing: 4px;
+  border-left: 8px solid #fff;
+  padding-left: 20px;
+}
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 50px;
+  align-items: start;
+}
+
+.checkout-section {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.checkout-section h3 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  color: #111;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.enderecos-selecao {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.endereco-option {
+  border: 2px solid #e0e0e0;
+  padding: 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  position: relative;
+}
+
+.endereco-option:hover,
+.pagamento-card:hover {
+  border-color: #b0b0b0;
+  background-color: #fcfcfc;
+}
+
+.endereco-option:has(input:checked) {
+  border-color: #000;
+  background: #f8f8f8;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.endereco-option input[type="radio"],
+.pagamento-card input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #000;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.endereco-option input[type="radio"]::after,
+.pagamento-card input[type="radio"]::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background-color: #000;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.endereco-option input[type="radio"]:checked::after,
+.pagamento-card input[type="radio"]:checked::after {
+  transform: scale(1);
+}
+
+.addr-details strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.addr-details small {
+  color: #666;
+  line-height: 1.4;
+}
+
+.link-novo-endereco {
+  display: inline-block;
+  margin-top: 20px;
+  color: #111;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 0.85rem;
+  border-bottom: 2px solid #000;
+  padding-bottom: 2px;
+  transition: opacity 0.3s;
+}
+
+.link-novo-endereco:hover {
+  opacity: 0.7;
+}
+
+.pagamento-opcoes {
+  display: grid;
+  gap: 15px;
+}
+
+.pagamento-card {
+  border: 2px solid #e0e0e0;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.pagamento-card:has(input:checked) {
+  border-color: #000;
+  background: #f8f8f8;
+}
+
+.radio-custom {
+  /* Esconde o span vazio pois agora estilizamos o input diretamente */
+  display: none;
+}
+
+.pagamento-info strong {
+  display: block;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+.pagamento-info span {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.resumo-fixo {
+  background: #fff;
+  padding: 40px;
+  border-radius: 8px;
+  position: sticky;
+  top: 160px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.resumo-fixo h3 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #000;
+  padding-bottom: 10px;
+}
+
+.item-checkout-resumo {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.item-resumo-info p {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.total-container {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid #000;
+}
+
+.total-linha {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-family: "Montserrat", sans-serif;
+}
+
+.btn-finalizar {
+  width: 100%;
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 22px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.6rem;
+  cursor: pointer;
+  margin-top: 30px;
+  letter-spacing: 3px;
+  transition: all 0.3s ease;
+}
+
+.btn-finalizar:hover:not(:disabled) {
+  background: #333;
+  transform: translateY(-2px);
+}
+
+.btn-finalizar:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsividade */
+@media (max-width: 1100px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resumo-fixo {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .checkout-titulo {
+    font-size: 2.5rem;
+  }
+
+  .checkout-section {
+    padding: 25px;
+  }
+
+  .enderecos-selecao {
+    grid-template-columns: 1fr;
+  }
+}

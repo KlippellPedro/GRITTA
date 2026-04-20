@@ -1,0 +1,127 @@
+.sucesso-main {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 120px;
+}
+
+.sucesso-container {
+  background: #fff;
+  padding: 60px 40px;
+  text-align: center;
+  max-width: 550px;
+  width: 90%;
+  border-radius: 4px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.icon-check {
+  width: 80px;
+  height: 80px;
+  background: #000;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 30px;
+}
+
+.icon-check svg {
+  width: 40px;
+}
+
+.sucesso-titulo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 3rem;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  color: #111;
+}
+
+.sucesso-sub {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.order-info-boxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.order-box {
+  background: #f5f5f5;
+  padding: 15px;
+  border: 1px dashed #ccc;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.order-box span {
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: #999;
+  letter-spacing: 1px;
+}
+.order-box strong {
+  font-size: 1.5rem;
+  color: #111;
+}
+
+.sucesso-items-lista {
+  margin-bottom: 30px;
+  text-align: left;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.item-sucesso {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.item-sucesso img {
+  width: 50px;
+  height: 65px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.item-sucesso-info p {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.btn-sucesso {
+  display: block;
+  background: #000;
+  color: #fff;
+  padding: 20px;
+  text-decoration: none;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  transition: opacity 0.3s;
+}
+
+.btn-sucesso:hover {
+  opacity: 0.8;
+}
+
+.link-home {
+  color: #111;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-decoration: underline;
+}

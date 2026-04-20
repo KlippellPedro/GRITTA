@@ -1,0 +1,181 @@
+.carrinho-main {
+  padding: 160px 5% 60px; /* Padding-top maior para o menu */
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 70vh;
+}
+
+.carrinho-titulo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 3rem;
+  color: #fff;
+  letter-spacing: 3px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.carrinho-grid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Estilo dos Itens (Gerados pelo JS) */
+.item-carrinho {
+  display: flex;
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  gap: 20px;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.item-carrinho img {
+  width: 120px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.detalhes-item {
+  flex-grow: 1;
+}
+
+.detalhes-item h4 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.detalhes-item p {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.preco-item {
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: #000;
+}
+
+/* Controles de Quantidade */
+.controles-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 15px;
+}
+
+.quantidade {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+}
+
+.quantidade button {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.quantidade button:hover {
+  background: #f0f0f0;
+}
+
+.quantidade span {
+  padding: 0 15px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  color: #111;
+}
+
+.btn-remover {
+  background: none;
+  border: none;
+  color: #ff4444;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Resumo do Pedido */
+.resumo-box {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 4px;
+  position: sticky;
+  top: 120px;
+}
+
+.resumo-box h3 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #000;
+  padding-bottom: 10px;
+  color: #111;
+}
+
+.resumo-linha {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+}
+
+.resumo-linha.total {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  font-weight: 900;
+  font-size: 1.2rem;
+}
+
+.btn-checkout {
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 18px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.btn-checkout:hover {
+  opacity: 0.9;
+}
+
+.continuar-comprando {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.8rem;
+  color: #666;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .carrinho-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resumo-carrinho {
+    order: -1; /* Resumo aparece antes no mobile? Ou mantenha embaixo removendo essa linha */
+  }
+}

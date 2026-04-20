@@ -1,0 +1,200 @@
+/* Importação global das fontes oficiais da marca */
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap");
+
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  min-height: 100vh;
+  background-color: #162530;
+  margin: 0;
+  color: #fff; /* Garante que o texto base seja sempre legível sobre o fundo escuro */
+  line-height: 1.6;
+}
+
+/* Estilo padrão para todos os títulos que não possuem definição específica */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 1px;
+}
+
+/* Garante que elementos de formulário e botões herdem a tipografia do sistema */
+input,
+select,
+textarea,
+button {
+  font-family: inherit;
+}
+
+/* Estilização global para estados de carregamento ou mensagens de 'vazio' */
+.loading,
+.empty-msg {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.5rem;
+  color: #888;
+  text-align: center;
+  padding: 60px 20px;
+  letter-spacing: 2px;
+  width: 100%;
+}
+
+/* Adiciona espaço no topo para páginas internas não serem cobertas pelo menu fixo */
+main.login-main,
+main.carrinho-main,
+main.perfil-main,
+main.favoritos-main,
+main.pedidos-main,
+main.categoria-main {
+  padding-top: 160px; /* Apenas o recuo para o menu fixo */
+  min-height: 80vh;
+}
+
+/* ================= AJUSTE DE CONTRASTE PARA CONTAINERS CLAROS ================= */
+/* Garante que o texto seja legível (escuro) dentro de componentes que usam fundo branco,
+   sobrescrevendo o branco padrão definido no body. */
+.produto-card,
+.item-carrinho,
+.resumo-box,
+.checkout-section,
+.resumo-fixo,
+.info-card,
+.sidebar-box,
+.modal-content,
+.address-card,
+.order-box,
+.pedido-card,
+.login__check {
+  color: #111;
+}
+
+/* ================= SISTEMA DE TOASTS (NOTIFICAÇÕES) ================= */
+.toast-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.toast {
+  background-color: #fff;
+  color: #111;
+  padding: 18px 25px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border-left: 6px solid #000;
+  display: flex;
+  align-items: center;
+  min-width: 300px;
+  animation: toastSlideIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+.toast.error {
+  border-left-color: #ff4444;
+  color: #ff4444;
+}
+.toast.success {
+  border-left-color: #27ae60;
+  color: #27ae60;
+}
+
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast.hide {
+  animation: toastFadeOut 0.4s ease forwards;
+}
+@keyframes toastFadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* Animação de Erro (Shake) */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+}
+.error-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+/* Estilo para variações sem estoque */
+.variation-chip.out-of-stock {
+  opacity: 0.4;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  background-color: #eee;
+  border-color: #ddd;
+  color: #999;
+  pointer-events: none; /* Impede qualquer interação */
+}
+
+/* Estilo para a etiqueta de "ÚLTIMAS PEÇAS" */
+.badge-ultimas-pecas {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: rgba(255, 165, 0, 0.9); /* Laranja para chamar atenção */
+  color: #fff;
+  padding: 8px 15px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  z-index: 5;
+  pointer-events: none; /* Não deve ser clicável */
+}
+/* Estilo para a etiqueta na página de detalhes do produto */
+.badge-ultimas-pecas-detail {
+  background-color: #ff8c00; /* Laranja mais forte */
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  margin-left: 10px;
+  display: inline-block;
+}

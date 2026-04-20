@@ -1,0 +1,172 @@
+.login-main {
+  min-height: 100vh;
+  padding-top: 160px; /* Alinhado com o global */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 5%;
+  background-size: cover;
+  background-position: center;
+}
+
+.login-container {
+  background-color: rgba(255, 255, 255, 0.85); /* Fundo branco com 85% de opacidade */
+  backdrop-filter: blur(12px); /* Efeito de desfoque no que está atrás */
+  border-radius: 20px; /* Bordas arredondadas */
+  width: 100%;
+  max-width: 450px;
+  padding: 50px 40px;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borda sutil para brilho lateral */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.login-titulo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #111;
+}
+
+.message-area {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+}
+
+.message-area.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+.message-area.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group label {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: #666;
+}
+
+.input-group input {
+  padding: 15px;
+  border: 1px solid #ddd;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  transition: border-color 0.3s ease;
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 45px !important; /* Espaço para o ícone */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+  user-select: none;
+  z-index: 5;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-password img {
+  width: 22px;
+  height: auto;
+  opacity: 0.6;
+  pointer-events: none; /* O clique passa através da imagem para o span .toggle-password */
+  transition: opacity 0.3s ease;
+}
+
+.toggle-password:hover img {
+  opacity: 1;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #000;
+}
+
+.login__check {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  font-family: "Montserrat", sans-serif;
+}
+
+.login__check-box {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.login__forgot {
+  color: #888;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.login__forgot:hover {
+  color: #000;
+}
+
+.btn-login {
+  background-color: #000;
+  color: #fff;
+  padding: 18px;
+  border: none;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 10px;
+}
+
+.btn-login:hover {
+  background-color: #333;
+}
+
+.login__register {
+  text-align: center;
+  margin-top: 20px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.login__register a {
+  color: #000;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid #000;
+}

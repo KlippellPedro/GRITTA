@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <title>GR!TTA | Carrinho</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../statics/img/icons/loja-icon.png" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/global.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/menu.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/usuario/carrinho.css" />
+    <script src="../../statics/js/components.js" defer></script>
+    <script src="../../statics/js/config.js" defer></script>
+    <script src="../../statics/js/menu.js" defer></script>
+    <script src="../../statics/js/usuario/carrinho.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <gritta-header></gritta-header>
+
+    <main class="carrinho-main">
+      <h2 class="carrinho-titulo">MEU CARRINHO</h2>
+
+      <div class="carrinho-grid">
+        <!-- Lado Esquerdo: Lista de Itens -->
+        <section class="itens-container">
+          <div id="lista-itens">
+            <!-- Injetado pelo JS (carrinho.js) -->
+          </div>
+        </section>
+
+        <!-- Lado Direito: Resumo do Pedido -->
+        <aside class="resumo-carrinho">
+          <div class="resumo-box">
+            <h3>RESUMO DO PEDIDO</h3>
+            <div class="resumo-linha">
+              <span>Subtotal</span>
+              <span id="valor-subtotal">R$ 0,00</span>
+            </div>
+            <div class="resumo-linha">
+              <span>Frete</span>
+              <span id="valor-frete">R$ 0,00</span>
+            </div>
+            <div class="resumo-linha total">
+              <span>TOTAL</span>
+              <span id="valor-total">R$ 0,00</span>
+            </div>
+            <button class="btn-checkout" onclick="location.href = 'checkout.html'">FINALIZAR COMPRA</button>
+            <a href="../index.html" class="continuar-comprando">Continuar Comprando</a>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <gritta-footer></gritta-footer>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <title>GR!TTA | Favoritos</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../statics/img/icons/loja-icon.png" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/global.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/menu.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/usuario/favorito.css" />
+    <script src="../../statics/js/components.js" defer></script>
+    <script src="../../statics/js/config.js" defer></script>
+    <script src="../../statics/js/menu.js" defer></script>
+    <script src="../../statics/js/usuario/favorito.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <gritta-header></gritta-header>
+
+    <main class="favoritos-main">
+      <div class="favoritos-header">
+        <h2 class="favoritos-titulo">MEUS FAVORITOS</h2>
+        <p class="favoritos-contador">Você tem <span id="fav-qty">2</span> itens salvos</p>
+      </div>
+
+      <section class="favoritos-container">
+        <!-- Container onde os produtos favoritados serão injetados -->
+        <div class="vitrine"></div>
+
+        <!-- Estado Vazio (escondido por padrão via JS se houver itens) -->
+        <div class="favoritos-vazio" style="display: none">
+          <p>Sua lista de desejos está vazia.</p>
+          <a href="../index.html" class="btn-continuar">VOLTAR PARA A LOJA</a>
+        </div>
+      </section>
+    </main>
+
+    <gritta-footer></gritta-footer>
+  </body>
+</html>

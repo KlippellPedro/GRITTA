@@ -1,0 +1,161 @@
+.perfil-main {
+  padding: 160px 5% 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 70vh;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.perfil-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 20px;
+}
+
+.perfil-titulo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 3rem;
+  color: #fff;
+  letter-spacing: 3px;
+}
+
+.btn-logout-link {
+  background: none;
+  border: none;
+  color: #ff4444;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.8rem;
+}
+
+.perfil-grid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 40px;
+}
+
+.info-card,
+.sidebar-box {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.perfil-section h3,
+.sidebar-box h3 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.5rem;
+  color: #fff; /* Título fora do card é branco */
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.sidebar-box h3 {
+  color: #111; /* Título dentro do card é escuro */
+}
+
+.info-group {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.info-group label {
+  display: block;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.info-group p {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  color: #111;
+  font-weight: 500;
+}
+
+.btn-editar,
+.btn-shop {
+  display: block;
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.2rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  transition:
+    background 0.3s ease,
+    letter-spacing 0.3s ease;
+}
+
+.btn-editar:hover {
+  background-color: #333;
+  letter-spacing: 2px;
+}
+
+.empty-msg {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .perfil-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.enderecos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.address-card {
+  background: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  position: relative;
+}
+
+.address-card p {
+  font-size: 0.85rem;
+  color: #333;
+  line-height: 1.4;
+}
+.btn-del-addr {
+  color: #ff4444;
+  font-weight: 700;
+  font-size: 0.7rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-top: 10px;
+}

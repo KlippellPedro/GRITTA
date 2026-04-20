@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <title>GR!TTA | Redefinir Senha</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../statics/img/icons/loja-icon.png" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/global.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/menu.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/usuario/login.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/usuario/resetar-senha.css" />
+    <script src="../../statics/js/components.js" defer></script>
+    <script src="../../statics/js/config.js" defer></script>
+    <script src="../../statics/js/menu.js" defer></script>
+    <script src="../../statics/js/usuario/resetar-senha.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <gritta-header></gritta-header>
+
+    <main class="login-main">
+      <div class="login-container">
+        <h2 class="login-titulo">NOVA SENHA</h2>
+        <form id="resetForm" class="login-form">
+          <div id="reset-message" class="message-area"></div>
+
+          <div class="input-group">
+            <label for="password">NOVA SENHA</label>
+            <input type="password" id="password" placeholder="Mínimo 6 caracteres" required />
+          </div>
+
+          <div class="input-group">
+            <label for="confirm-password">CONFIRMAR NOVA SENHA</label>
+            <input type="password" id="confirm-password" placeholder="********" required />
+          </div>
+
+          <button type="submit" class="btn-login">REDEFINIR SENHA</button>
+        </form>
+      </div>
+    </main>
+
+    <gritta-footer></gritta-footer>
+  </body>
+</html>

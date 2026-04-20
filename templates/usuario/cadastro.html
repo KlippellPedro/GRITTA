@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <title>GR!TTA | Cadastro</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../statics/img/icons/loja-icon.png" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/global.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/menu.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/usuario/login.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/usuario/cadastro.css" />
+    <script src="../../statics/js/components.js" defer></script>
+    <script src="../../statics/js/config.js" defer></script>
+    <script src="../../statics/js/menu.js" defer></script>
+    <script src="../../statics/js/usuario/cadastro.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <gritta-header></gritta-header>
+
+    <!-- Main do cadastro -->
+    <main class="login-main">
+      <!-- Reutilizando o estilo do main de login -->
+      <div class="login-container">
+        <!-- Reutilizando o container de login -->
+        <h2 class="login-titulo">CADASTRE-SE</h2>
+        <form id="cadastroForm" class="login-form">
+          <!-- Reutilizando o estilo do form de login -->
+          <div id="cadastro-message" class="message-area"></div>
+          <div class="input-group">
+            <label for="nome">NOME COMPLETO</label>
+            <input type="text" id="nome" placeholder="Seu nome completo" required />
+          </div>
+          <div class="input-group">
+            <label for="email">E-MAIL</label>
+            <input type="email" id="email" placeholder="seu@email.com" required />
+          </div>
+          <div class="input-group">
+            <label for="cpf">CPF</label>
+            <input type="text" id="cpf" placeholder="000.000.000-00" required />
+          </div>
+          <div class="input-group">
+            <label for="telefone">TELEFONE</label>
+            <input type="text" id="telefone" placeholder="(00) 00000-0000" required />
+          </div>
+          <div class="input-group">
+            <label for="password">SENHA</label>
+            <div class="password-wrapper">
+              <input type="password" id="password" placeholder="********" required />
+              <span class="toggle-password">
+                <img src="../../statics/img/icons/olho-fechado.png" alt="Ver Senha" />
+              </span>
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="confirm-password">CONFIRMAR SENHA</label>
+            <div class="password-wrapper">
+              <input type="password" id="confirm-password" placeholder="********" required />
+              <span class="toggle-password">
+                <img src="../../statics/img/icons/olho-fechado.png" alt="Ver Senha" />
+              </span>
+            </div>
+          </div>
+          <button type="submit" class="btn-login">CADASTRAR</button>
+          <div class="login__register">Já tem conta? <a href="login.html">Faça login</a></div>
+        </form>
+      </div>
+    </main>
+    <!-- Fechamento do Main do cadastro -->
+
+    <gritta-footer></gritta-footer>
+  </body>
+</html>

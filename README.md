@@ -1,59 +1,67 @@
-# GR!TTA | Premium Streetwear E-commerce
+# GR!TTA | High-End Streetwear E-commerce
 
-A **GR!TTA** é uma plataforma de e-commerce de alta performance focada na estética streetwear oversized. O sistema foi desenvolvido utilizando uma arquitetura moderna de **Microsserviços**, garantindo escalabilidade, segurança e independência entre os módulos de negócio.
+![Status](https://img.shields.io/badge/Status-Desenvolvimento-orange)
+![Python](https://img.shields.io/badge/Python-3.8+-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+A **GR!TTA** é uma plataforma de e-commerce de alta performance focada na estética _streetwear oversized_. O ecossistema foi projetado sob uma arquitetura de **Microsserviços**, priorizando escalabilidade horizontal, resiliência e independência de deploy para cada domínio de negócio.
 
 ## Arquitetura do Sistema
 
-O projeto é composto por sete microsserviços independentes que se comunicam via APIs RESTful:
+O sistema é orquestrado através de sete microsserviços especializados que se comunicam via protocolos HTTP/REST:
 
-1.  **Auth Service (Porta 5005)**: Gerencia o controle de acesso, registro de usuários, hash de senhas com `bcrypt` e emissão de `Access Tokens` (JWT) e `Refresh Tokens`.
-2.  **User Service (Porta 5001)**: Responsável pela gestão de dados cadastrais, favoritos (Wishlist) e endereços (integrado com a API ViaCEP).
-3.  **Order Service (Porta 5002)**: O "coração" do fluxo de compra. Gerencia itens no carrinho (com persistência em banco), cálculo de frete e histórico de pedidos.
-4.  **Catalog Service (Porta 5003)**: Serve a vitrine dinâmica de produtos, filtragem por categorias e detalhes técnicos dos itens.
-5.  **Inventory Service (Porta 5004)**: Controle rigoroso de estoque por SKU e baixa automatizada.
-6.  **Payment Service (Porta 5006)**: Interface de pagamentos externa (Stripe/Pix).
-7.  **Notification Service (Porta 5007)**: Gerenciamento de e-mails transacionais.
+- **Auth Service (Port: 5005)**: Autoridade central de segurança. Gerencia sessões via `JWT` (Access/Refresh Tokens) e proteção de dados com `Bcrypt`.
+- **User Service (Port: 5001)**: Gestão de perfis, endereços (integração ViaCEP) e listas de desejos.
+- **Order Service (Port: 5002)**: Core do checkout. Orquestra a criação de pedidos, lógica de carrinho persistente e integração com estoque/pagamento.
+- **Catalog Service (Port: 5003)**: Engine de busca e exibição. Gerencia produtos, categorias e metadados técnicos.
+- **Inventory Service (Port: 5004)**: Controle transacional de estoque por SKU, garantindo integridade durante picos de venda.
+- **Payment Service (Port: 5006)**: Gateway de integração para processamento de transações financeiras.
+- **Notification Service (Port: 5007)**: Serviço de mensageria para e-mails transacionais e status de pedido.
+
+## Diferenciais Técnicos
+
+- **Comunicação Inter-serviços**: Implementação de lógica de rollback manual para transações distribuídas (Saga Pattern simplificado) no fluxo de checkout.
+- **Segurança Stateless**: Autenticação baseada em tokens JWT, eliminando a necessidade de sessões no servidor e facilitando a escalabilidade.
+- **Frontend Modular**: Interface construída em Vanilla JS com manipulação assíncrona do DOM, garantindo performance excepcional sem o overhead de frameworks pesados.
 
 ## Tecnologias Utilizadas
 
 ### **Backend (Python & Flask)**
 
-- **Flask & Flask-CORS**: Framework ágil para criação de APIs seguras.
-- **PyJWT**: Implementação de JSON Web Tokens para autenticação stateless.
-- **Bcrypt**: Criptografia de nível militar para armazenamento de senhas.
-- **MySQL Connector**: Interface robusta para persistência de dados.
+- **Flask**: Micro-framework para construção de APIs RESTful.
+- **PyJWT**: Segurança e integridade na troca de informações.
+- **Bcrypt**: Hashing seguro de credenciais.
+- **MySQL Connector**: Comunicação otimizada com a camada de persistência.
+- **Requests**: Orquestração de chamadas entre serviços.
 
-### **Frontend (Vanilla Stack)**
+### **Frontend (Modern Vanilla)**
 
-- **JavaScript (ES6+)**: Lógica reativa, manipulação dinâmica do DOM e integração assíncrona (Fetch API).
-- **CSS3 Moderno**: Efeitos de _Glassmorphism_, transições suaves, variáveis CSS e layouts responsivos (Grid/Flexbox).
-- **HTML5**: Estrutura semântica focada em SEO e acessibilidade.
+- **ES6+ JavaScript**: Lógica assíncrona e modular.
+- **Modern CSS**: Grid Layout, Flexbox e variáveis CSS para temas.
+- **Glassmorphism UI**: Estética premium com desfoque de fundo e transparências.
 
 ### **Banco de Dados (MySQL)**
 
-- Modelagem relacional normalizada.
-- Integridade referencial via chaves estrangeiras (FKs).
-- Gestão de tokens de expiração para segurança de sessão.
+- Modelagem Relacional (3NF).
+- Integridade referencial estrita.
 
 ## Estrutura do Projeto
 
 ```text
 GRITTA/
-├── services/               # Microsserviços Python
-│   ├── auth_service/       # Autenticação e Segurança
-│   ├── user_service/       # Perfil e Favoritos
-│   ├── order_service/      # Carrinho e Pedidos
-│   ├── catalog_service/    # Vitrine e Produtos
-│   ├── inventory_service/  # Gestão de Estoque e SKUs
-│   ├── payment_service/    # Processamento de Pagamentos
-│   └── notification_service/ # Disparo de E-mails Transacionais
-├── statics/                # Ativos Estáticos
-│   ├── css/                # Folhas de estilo modulares
-│   ├── img/                # Assets e Galeria de Produtos
-│   └── js/                 # Lógica de negócio Frontend
-├── templates/              # Views (HTML) do sistema
-├── db_gritta.sql           # Schema completo do Banco de Dados
-└── run_all.bat             # Orquestrador de inicialização
+├── services/                # Backend Microservices
+│   ├── auth_service/        # Identity Provider
+│   ├── user_service/        # User Data & Wishlists
+│   ├── order_service/       # Order Management
+│   ├── catalog_service/     # Product Discovery
+│   ├── inventory_service/   # Stock Control
+│   ├── payment_service/     # Finance Processing
+│   └── notification_service/ # Mailer System
+├── statics/                 # Frontend Assets (CSS, JS, Images)
+├── templates/               # UI Layer (HTML)
+├── db_gritta.sql            # Database Schema
+├── requirements.txt         # Project Dependencies
+└── run_all_services.bat     # Service Orchestrator
 ```
 
 ## Instalação e Configuração

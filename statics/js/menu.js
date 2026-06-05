@@ -65,12 +65,19 @@ function initMenuSystem() {
         });
     }
 
-    const toggle = document.querySelector('.navbar-toggle');
+    const toggle  = document.querySelector('.navbar-toggle');
     const navMenu = document.querySelector('.menu');
     if (toggle && navMenu) {
         toggle.addEventListener('click', () => {
             toggle.classList.toggle('active');
             navMenu.classList.toggle('active');
+        });
+        // Fecha o menu ao clicar em qualquer link dentro dele
+        navMenu.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                toggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
         });
     }
 

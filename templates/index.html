@@ -5,42 +5,128 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="../statics/img/icons/loja-icon.png" />
-    <link rel="stylesheet" type="text/css" href="../statics/css/reset.css" />
-    <link rel="stylesheet" type="text/css" href="../statics/css/global.css" />
-    <link rel="stylesheet" type="text/css" href="../statics/css/index.css" />
-    <link rel="stylesheet" type="text/css" href="../statics/css/menu.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../statics/css/reset.css" />
+    <link rel="stylesheet" href="../statics/css/global.css" />
+    <link rel="stylesheet" href="../statics/css/menu.css" />
+    <link rel="stylesheet" href="../statics/css/index.css" />
     <script src="../statics/js/components.js" defer></script>
     <script src="../statics/js/config.js" defer></script>
     <script src="../statics/js/menu.js" defer></script>
     <script src="../statics/js/index.js" defer></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
   </head>
 
   <body>
     <gritta-header></gritta-header>
 
-    <!-- Inicio do Banner da loja -->
-    <main>
-      <div class="banner">
-        <div class="banner-conteudo">
-          <h2>A MELHOR LOJA DE ROUPAS</h2>
-          <p>Nova Coleção de Inverno</p>
-          <a href="./pages/drop.html" class="btn-comprar">VER DROP</a>
+    <!-- ══ HERO ══ -->
+    <section class="hero" id="top">
+      <div class="hero-grid-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">✦ Drop Inverno 2026 — Disponível Agora</div>
+        <h1 class="hero-title">O INVERNO<br/>NÃO <em>PERDOA.</em><br/>VOCÊ TAMBÉM<br/>NÃO.</h1>
+        <p class="hero-sub">Moletons, jaquetas e calças feitas pro frio que não pede licença. Oversized, bruto, sem concessão.</p>
+        <div class="hero-actions">
+          <a href="./pages/drop.html" class="btn-comprar btn-hero-primary"><span>VER DROP 01 →</span></a>
+          <a href="./pages/categoria.html?tipo=moletons" class="btn-comprar btn-hero-ghost">CATEGORIAS</a>
         </div>
       </div>
-    </main>
-    <!-- Fechamento do Banner da loja -->
-
-    <!-- Inicio dos card da vitrine -->
-    <section class="destaques">
-      <h2 class="secao-titulo">Destaques</h2>
-      <div class="vitrine">
-        <!-- O JavaScript vai preencher com a vitrine dos produtos destaques -->
+      <div class="hero-scroll">
+        <div class="hero-scroll-line"></div>
+        <span>Scroll</span>
       </div>
     </section>
-    <!-- Fechamento dos card da vitrine -->
+
+    <!-- ══ MARQUEE ══ -->
+    <div class="marquee-strip">
+      <div class="marquee-inner" id="marquee-inner"></div>
+    </div>
+
+    <!-- ══ VITRINE ══ -->
+    <section class="destaques" id="vitrine">
+      <div class="vitrine-header reveal">
+        <div>
+          <span class="section-label">✦ Destaques da Semana</span>
+          <h2 class="secao-titulo">NOSSA VITRINE</h2>
+        </div>
+        <div class="filter-chips" id="filter-chips">
+          <button class="chip active" data-cat="todos">TODOS</button>
+          <button class="chip" data-cat="camisas">CAMISAS</button>
+          <button class="chip" data-cat="moletons">MOLETONS</button>
+          <button class="chip" data-cat="calcas">CALÇAS</button>
+          <button class="chip" data-cat="acessorios">ACESSÓRIOS</button>
+        </div>
+      </div>
+
+      <!-- Banner de conexão offline -->
+      <div class="db-banner reveal" id="db-banner">
+        <div class="db-banner-dot"></div>
+        <span>SEM CONEXÃO COM O BANCO DE DADOS — EXIBINDO PRODUTOS DE EXEMPLO</span>
+      </div>
+
+      <div class="vitrine reveal d1" id="vitrine-container">
+        <!-- Produtos injetados pelo index.js -->
+      </div>
+    </section>
+
+    <!-- ══ DROP / COUNTDOWN ══ -->
+    <section id="drop" style="padding: 0 0 80px">
+      <div class="drop-section reveal">
+        <div>
+          <span class="section-label">✦ Lançamento Exclusivo</span>
+          <h2 class="drop-title">INVERNO<br/><em>26</em> CHEGA<br/>EM BREVE</h2>
+          <p class="drop-text">A próxima coleção vai redefinir o streetwear nacional. Peças limitadas, design bruto, conforto extremo.</p>
+          <div class="countdown">
+            <div class="cd-block"><span class="cd-num" id="cd-d">14</span><span class="cd-label">Dias</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-block"><span class="cd-num" id="cd-h">00</span><span class="cd-label">Horas</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-block"><span class="cd-num" id="cd-m">00</span><span class="cd-label">Min</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-block"><span class="cd-num" id="cd-s">00</span><span class="cd-label">Seg</span></div>
+          </div>
+          <button class="btn-vip" id="btn-vip" onclick="showToast('LISTA VIP ATIVADA ✦','success')"><span>ENTRAR NA LISTA VIP</span></button>
+        </div>
+        <div class="drop-visual">
+          <div class="drop-visual-text">GR!TTA<br/>W26</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ CATEGORIAS ══ -->
+    <section class="categorias" id="categorias">
+      <span class="section-label reveal">✦ Explore por Categoria</span>
+      <h2 class="secao-titulo reveal d1">ENCONTRE<br/>SEU ESTILO</h2>
+      <div class="cat-grid reveal d2">
+        <a href="./pages/categoria.html?tipo=moletons" class="cat-card">
+          <div class="cat-bg cat-bg-1"></div><div class="cat-overlay"></div>
+          <div class="cat-label-wrap"><span class="cat-eyebrow">Mais Vendido</span><div class="cat-name">MOLETONS</div></div>
+          <span class="cat-arrow">→</span>
+        </a>
+        <a href="./pages/categoria.html?tipo=camisas" class="cat-card">
+          <div class="cat-bg cat-bg-2"></div><div class="cat-overlay"></div>
+          <div class="cat-label-wrap"><span class="cat-eyebrow">Novo Drop</span><div class="cat-name">CAMISAS</div></div>
+          <span class="cat-arrow">→</span>
+        </a>
+        <a href="./pages/categoria.html?tipo=calcas" class="cat-card">
+          <div class="cat-bg cat-bg-3"></div><div class="cat-overlay"></div>
+          <div class="cat-label-wrap"><span class="cat-eyebrow">Oversized</span><div class="cat-name">CALÇAS</div></div>
+          <span class="cat-arrow">→</span>
+        </a>
+        <a href="./pages/categoria.html?tipo=tenis" class="cat-card">
+          <div class="cat-bg cat-bg-4"></div><div class="cat-overlay"></div>
+          <div class="cat-label-wrap"><span class="cat-eyebrow">Drops Limitados</span><div class="cat-name">TÊNIS</div></div>
+          <span class="cat-arrow">→</span>
+        </a>
+        <a href="./pages/categoria.html?tipo=acessorios" class="cat-card">
+          <div class="cat-bg cat-bg-5"></div><div class="cat-overlay"></div>
+          <div class="cat-label-wrap"><span class="cat-eyebrow">Completa o Look</span><div class="cat-name">ACESSÓRIOS</div></div>
+          <span class="cat-arrow">→</span>
+        </a>
+      </div>
+    </section>
 
     <gritta-footer></gritta-footer>
   </body>

@@ -1,1 +1,125 @@
-/* teste */
+/* ══ TÊNIS ══ */
+.tenis-main {
+  padding: calc(var(--nav-h) + 60px) 5% 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 70vh;
+}
+
+.tenis-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.tenis-titulo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  letter-spacing: 6px;
+  color: var(--text);
+  line-height: 0.9;
+  margin-bottom: 20px;
+}
+
+.tenis-subtitulo {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.tenis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+.tenis-card {
+  background: #fff;
+  cursor: none;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
+}
+
+.tenis-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,.4);
+}
+
+.tenis-card-imagem {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  overflow: hidden;
+}
+
+.tenis-card-imagem img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.6s ease;
+}
+
+.tenis-card:hover .tenis-card-imagem img {
+  transform: scale(1.1);
+}
+
+.tenis-card-info {
+  padding: 20px;
+}
+
+.tenis-card-info h3 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.4rem;
+  color: #111;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.tenis-card-preco {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  color: #888;
+  font-size: 1rem;
+}
+
+.tenis-vazio {
+  text-align: center;
+  padding: 100px 0;
+  color: var(--muted);
+}
+
+/* Filtros */
+.filtros-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.filtro-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 8px 20px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: none;
+  transition: all 0.3s;
+}
+
+.filtro-btn:hover,
+.filtro-btn.active {
+  background: var(--text);
+  color: #111;
+  border-color: var(--text);
+}

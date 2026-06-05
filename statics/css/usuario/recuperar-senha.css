@@ -1,11 +1,42 @@
-/* Estilos específicos para a recuperação de senha */
+/* ══ RECUPERAR SENHA ══
+   Herda o layout de login.css.
+   Este arquivo apenas adiciona o fundo e pequenas
+   customizações específicas da página. */
 
 .login-main {
-  background-image: linear-gradient(rgba(22, 37, 48, 0.8), rgba(22, 37, 48, 0.8)), url("../../img/banners/banner_principal.png");
-  background-size: cover;
-  background-position: center;
+  background:
+    linear-gradient(rgba(15,28,37,.65), rgba(15,28,37,.85)),
+    url("../../img/banners/banner_inverno.jpg") center/cover no-repeat fixed;
 }
 
 .login-titulo {
   text-transform: uppercase;
+}
+
+/* Texto explicativo abaixo do título */
+.recuperar-desc {
+  font-family: "Montserrat", sans-serif;
+  font-size: .82rem;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.7;
+  margin-bottom: 28px;
+  margin-top: -20px;
+}
+
+/* Link de voltar */
+.recuperar-voltar {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  font-family: "Montserrat", sans-serif;
+  font-size: .78rem;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color .25s;
+}
+
+.recuperar-voltar:hover {
+  color: var(--accent);
 }

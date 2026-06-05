@@ -1,21 +1,21 @@
-/* ============================================================
-   MODAIS PREMIUM - GR!TTA STREETWEAR
-   ============================================================ */
+/* ══ MODAIS DE PERFIL — GR!TTA STREETWEAR ══ */
 
+/* ─── Overlay ─── */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
+  background: rgba(0,0,0,.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 2000;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity .35s ease;
 }
 
 .modal-overlay.active {
@@ -23,34 +23,35 @@
   opacity: 1;
 }
 
+/* ─── Container do modal ─── */
 .modal-content {
-  background-color: rgba(255, 255, 255, 0.98);
-  padding: 50px 40px;
-  border-radius: 24px;
+  background: #fff;
+  border-top: 3px solid var(--accent);
+  padding: 48px 40px;
   width: 95%;
   max-width: 550px;
-  transform: translateY(30px) scale(0.98);
-  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  transform: translateY(28px) scale(.98);
+  transition: transform .4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 32px 72px rgba(0,0,0,.45);
 }
 
 .modal-overlay.active .modal-content {
   transform: translateY(0) scale(1);
 }
 
+/* ─── Cabeçalho ─── */
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 35px;
-  border-bottom: 2px solid #f0f0f0;
-  padding-bottom: 15px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 16px;
 }
 
 .modal-header h3 {
   font-family: "Bebas Neue", sans-serif;
-  font-size: 2.8rem;
+  font-size: 2.6rem;
   color: #111;
   letter-spacing: 2px;
   margin: 0;
@@ -58,53 +59,98 @@
 }
 
 .btn-close {
-  background: #f5f5f5;
+  background: #f0f0f0;
   border: none;
-  font-size: 1.8rem;
-  cursor: pointer;
+  font-size: 1.3rem;
+  cursor: none;
   color: #111;
   width: 40px;
   height: 40px;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: background .25s, transform .3s;
+  flex-shrink: 0;
 }
 
 .btn-close:hover {
-  background: #000;
+  background: #111;
   color: #fff;
   transform: rotate(90deg);
 }
 
+/* ─── Campos do formulário ─── */
 .input-group {
   margin-bottom: 20px;
 }
 
-.input-group input {
-  width: 100%;
-  padding: 18px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+.input-group label {
+  display: block;
   font-family: "Montserrat", sans-serif;
-  font-size: 1rem;
-  background: #fafafa;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
+  font-weight: 700;
+  font-size: .65rem;
+  letter-spacing: 2px;
+  color: #888;
+  text-transform: uppercase;
+  margin-bottom: 8px;
 }
 
-.input-group input:focus {
-  border-color: #000;
+.input-group input,
+.input-group select,
+.input-group textarea {
+  width: 100%;
+  padding: 16px 18px;
+  border: 1px solid #e0e0e0;
+  font-family: "Montserrat", sans-serif;
+  font-size: .92rem;
+  background: #fafafa;
+  color: #111;
+  transition: border-color .25s, background .25s, box-shadow .25s;
+  box-sizing: border-box;
+  appearance: none;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+  border-color: var(--accent);
   background: #fff;
-  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 0 3px rgba(42,171,176,.1);
   outline: none;
 }
 
+.input-group input::placeholder,
+.input-group textarea::placeholder {
+  color: #bbb;
+}
+
+/* Grid de dois campos lado a lado */
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 480px) {
+  .input-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mensagem de erro inline */
+.field-error {
+  font-family: "Montserrat", sans-serif;
+  font-size: .7rem;
+  color: var(--danger);
+  margin-top: 5px;
+  display: block;
+}
+
+/* ─── Ações do modal ─── */
 .modal-actions {
   display: flex;
-  gap: 15px;
-  margin-top: 40px;
+  gap: 14px;
+  margin-top: 36px;
 }
 
 .btn-secundario {
@@ -112,47 +158,93 @@
   background: #f0f0f0;
   color: #555;
   border: none;
-  padding: 20px;
+  padding: 18px;
   font-family: "Bebas Neue", sans-serif;
-  font-size: 1.3rem;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.3s;
+  font-size: 1.2rem;
+  letter-spacing: 1.5px;
+  cursor: none;
+  transition: background .25s, color .25s;
+  text-transform: uppercase;
 }
 
 .btn-secundario:hover {
-  background: #e0e0e0;
+  background: #ddd;
   color: #111;
 }
 
+/* Botão primário dentro de modal-actions */
 .modal-actions .btn-login {
   flex: 2;
-  background-color: #000;
+  background: #111;
   color: #fff;
   border: none;
-  padding: 20px;
+  padding: 18px;
   font-family: "Bebas Neue", sans-serif;
-  font-size: 1.3rem;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.3s;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  cursor: none;
+  transition: background .25s, letter-spacing .25s;
   margin-top: 0;
+  text-transform: uppercase;
 }
 
-#form-endereco .btn-login {
+.modal-actions .btn-login:hover {
+  background: #333;
+  letter-spacing: 3px;
+}
+
+/* Botão primário de largura total (ex: form de endereço) */
+#form-endereco .btn-login,
+.modal-content > form > .btn-login {
   width: 100%;
-  background-color: #000;
+  display: block;
+  background: #111;
   color: #fff;
   border: none;
   padding: 20px;
   font-family: "Bebas Neue", sans-serif;
   font-size: 1.3rem;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.3s;
-  margin-top: 20px;
+  letter-spacing: 2px;
+  cursor: none;
+  transition: background .25s, letter-spacing .25s;
+  margin-top: 24px;
+  text-transform: uppercase;
+  text-align: center;
 }
 
-.btn-login:hover {
-  background-color: #333;
+#form-endereco .btn-login:hover,
+.modal-content > form > .btn-login:hover {
+  background: #333;
+  letter-spacing: 3px;
+}
+
+/* Fallback geral para .btn-login dentro de modais */
+.modal-content .btn-login:not(.modal-actions .btn-login):not(#form-endereco .btn-login) {
+  background: #111;
+  color: #fff;
+}
+
+.modal-content .btn-login:hover {
+  background: #333;
+}
+
+/* ─── Mensagem de sucesso/erro no topo do modal ─── */
+.modal-message {
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  font-family: "Montserrat", sans-serif;
+  font-size: .8rem;
+  letter-spacing: .5px;
+}
+
+.modal-message.success {
+  background: rgba(26,158,90,.1);
+  color: var(--success);
+  border-left: 3px solid var(--success);
+}
+
+.modal-message.error {
+  background: rgba(232,69,69,.09);
+  color: var(--danger);
+  border-left: 3px solid var(--danger);
 }

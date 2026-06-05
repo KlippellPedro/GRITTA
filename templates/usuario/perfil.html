@@ -1,36 +1,42 @@
 <!doctype html>
 <html lang="pt-br">
   <head>
-    <title>GR!TTA | Perfil</title>
+    <title>GR!TTA | Minha Conta</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="../../statics/img/icons/loja-icon.png" />
-    <link rel="stylesheet" type="text/css" href="../../statics/css/reset.css" />
-    <link rel="stylesheet" type="text/css" href="../../statics/css/global.css" />
-    <link rel="stylesheet" type="text/css" href="../../statics/css/menu.css" />
-    <link rel="stylesheet" type="text/css" href="../../statics/css/usuario/perfil.css" />
-    <link rel="stylesheet" type="text/css" href="../../statics/css/usuario/perfil-modais.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../statics/css/reset.css" />
+    <link rel="stylesheet" href="../../statics/css/global.css" />
+    <link rel="stylesheet" href="../../statics/css/menu.css" />
+    <link rel="stylesheet" href="../../statics/css/usuario/perfil.css" />
+    <link rel="stylesheet" href="../../statics/css/usuario/perfil-modais.css" />
     <script src="../../statics/js/components.js" defer></script>
     <script src="../../statics/js/config.js" defer></script>
     <script src="../../statics/js/menu.js" defer></script>
     <script src="../../statics/js/usuario/perfil.js" defer></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
   </head>
-
   <body>
     <gritta-header></gritta-header>
 
     <main class="perfil-main">
       <div class="perfil-container">
+
+        <!-- Cabeçalho da página -->
         <div class="perfil-header">
-          <h2 class="perfil-titulo">MINHA CONTA</h2>
+          <div>
+            <p class="perfil-eyebrow">✦ Área do Cliente</p>
+            <h2 class="perfil-titulo">MINHA CONTA</h2>
+          </div>
           <button id="btn-logout" class="btn-logout-link">Sair da conta</button>
         </div>
 
+        <!-- Grid principal -->
         <div class="perfil-grid">
-          <!-- Card de Informações Pessoais -->
+
+          <!-- Dados Pessoais -->
           <section class="perfil-section">
             <h3>DADOS PESSOAIS</h3>
             <div class="info-card">
@@ -44,62 +50,70 @@
               </div>
               <div class="info-group">
                 <label>TELEFONE</label>
-                <p id="user-telefone">Carregando...</p>
+                <p id="user-telefone">—</p>
               </div>
               <div class="info-group">
                 <label>CPF</label>
-                <p id="user-cpf">Carregando...</p>
+                <p id="user-cpf">—</p>
               </div>
               <button class="btn-editar" id="btn-abrir-modal">EDITAR DADOS</button>
             </div>
           </section>
 
-          <!-- Seção de Endereços -->
+          <!-- Endereços -->
           <section class="perfil-section">
             <h3>MEUS ENDEREÇOS</h3>
             <div id="lista-enderecos" class="enderecos-grid">
-              <!-- Injetado pelo JS -->
+              <!-- Injetado pelo perfil.js -->
             </div>
-            <button class="btn-editar" id="btn-novo-endereco" style="margin-top: 20px">ADICIONAR NOVO ENDEREÇO</button>
+            <button class="btn-editar" id="btn-novo-endereco" style="margin-top:20px">
+              + ADICIONAR ENDEREÇO
+            </button>
           </section>
 
-          <!-- Espaço para Endereços ou Pedidos (Futuro) -->
+          <!-- Sidebar: acesso rápido -->
           <aside class="perfil-sidebar">
             <div class="sidebar-box">
-              <h3>MEUS PEDIDOS</h3>
-              <p class="empty-msg">Você ainda não realizou pedidos.</p>
-              <a href="../index.html" class="btn-shop">IR PARA A LOJA</a>
+              <h3>ACESSO RÁPIDO</h3>
+              <a href="pedidos.html" class="btn-editar" style="display:block;margin-bottom:12px;text-align:center;text-decoration:none">
+                📦 MEUS PEDIDOS
+              </a>
+              <a href="favoritos.html" class="btn-editar" style="display:block;text-align:center;text-decoration:none">
+                🤍 FAVORITOS
+              </a>
             </div>
           </aside>
+
         </div>
       </div>
     </main>
 
-    <!-- Modal de Edição -->
+    <!-- Modal: Editar Dados -->
     <div id="modal-perfil" class="modal-overlay">
       <div class="modal-content">
         <div class="modal-header">
-          <h3>EDITAR MEUS DADOS</h3>
+          <h3>EDITAR DADOS</h3>
           <button id="btn-fechar-modal" class="btn-close">&times;</button>
         </div>
         <form id="form-editar-perfil">
+          <div id="modal-message" class="modal-message"></div>
           <div class="input-group">
             <label for="edit-nome">NOME COMPLETO</label>
             <input type="text" id="edit-nome" required />
           </div>
           <div class="input-group">
             <label for="edit-telefone">TELEFONE</label>
-            <input type="text" id="edit-telefone" required />
+            <input type="text" id="edit-telefone" placeholder="(00) 00000-0000" />
           </div>
           <div class="modal-actions">
             <button type="button" id="btn-cancelar" class="btn-secundario">CANCELAR</button>
-            <button type="submit" class="btn-login">SALVAR ALTERAÇÕES</button>
+            <button type="submit" class="btn-login">SALVAR</button>
           </div>
         </form>
       </div>
     </div>
 
-    <!-- Modal de Novo Endereço -->
+    <!-- Modal: Novo Endereço -->
     <div id="modal-endereco" class="modal-overlay">
       <div class="modal-content">
         <div class="modal-header">
@@ -109,33 +123,35 @@
         <form id="form-endereco">
           <div class="input-group">
             <label for="addr-cep">CEP</label>
-            <input type="text" id="addr-cep" placeholder="00000-000" required />
+            <input type="text" id="addr-cep" placeholder="00000-000" required maxlength="9" />
           </div>
           <div class="input-group">
-            <label for="addr-rua">RUA</label>
+            <label for="addr-rua">LOGRADOURO</label>
             <input type="text" id="addr-rua" required />
           </div>
-          <div style="display: flex; gap: 10px">
-            <div class="input-group" style="flex: 1">
+          <div style="display:flex;gap:12px">
+            <div class="input-group" style="flex:1">
               <label for="addr-numero">NÚMERO</label>
               <input type="text" id="addr-numero" required />
             </div>
-            <div class="input-group" style="flex: 1">
+            <div class="input-group" style="flex:2">
               <label for="addr-bairro">BAIRRO</label>
               <input type="text" id="addr-bairro" required />
             </div>
           </div>
-          <div style="display: flex; gap: 10px">
-            <div class="input-group" style="flex: 2">
+          <div style="display:flex;gap:12px">
+            <div class="input-group" style="flex:2">
               <label for="addr-cidade">CIDADE</label>
               <input type="text" id="addr-cidade" required />
             </div>
-            <div class="input-group" style="flex: 1">
+            <div class="input-group" style="flex:1">
               <label for="addr-estado">UF</label>
               <input type="text" id="addr-estado" maxlength="2" required />
             </div>
           </div>
-          <button type="submit" class="btn-login" style="width: 100%; margin-top: 20px">SALVAR ENDEREÇO</button>
+          <button type="submit" class="btn-login" style="width:100%;margin-top:20px">
+            SALVAR ENDEREÇO
+          </button>
         </form>
       </div>
     </div>

@@ -1,43 +1,60 @@
+/* ══ CADASTRO ══ */
 .cadastro-main {
-  min-height: calc(100vh - 200px);
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 5%;
-  background-size: cover;
-  background-position: center;
+  padding: calc(var(--nav-h) + 40px) 5% 60px;
+  background:
+    linear-gradient(rgba(15,28,37,.65), rgba(15,28,37,.85)),
+    url("../../img/banners/banner_inverno.jpg") center/cover no-repeat fixed;
 }
 
 .cadastro-container {
-  background-color: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  border-radius: 20px;
+  background: rgba(22,37,48,.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
   width: 100%;
-  max-width: 550px; /* Um pouco mais largo para acomodar campos lado a lado se necessário */
-  padding: 50px 40px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  max-width: 560px;
+  padding: 52px 44px;
+  box-shadow: 0 24px 64px rgba(0,0,0,.55);
+}
+
+/* Eyebrow + Título */
+.cadastro-eyebrow {
+  font-family: "Montserrat", sans-serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--accent);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 8px;
 }
 
 .cadastro-titulo {
   font-family: "Bebas Neue", sans-serif;
-  font-size: 2.5rem;
-  letter-spacing: 2px;
+  font-size: 2.8rem;
+  letter-spacing: 3px;
   text-align: center;
-  margin-bottom: 30px;
-  color: #111;
+  margin-bottom: 36px;
+  color: var(--text);
+  line-height: 1;
 }
 
+/* Formulário */
 .cadastro-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
 }
 
 .input-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  gap: 16px;
 }
 
 @media (max-width: 600px) {
@@ -55,54 +72,94 @@
 .input-group label {
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 1px;
-  color: #444;
+  font-size: .65rem;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
 }
 
 .input-group input {
-  padding: 15px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.5);
+  padding: 15px 16px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--border);
+  color: var(--text);
   font-family: "Montserrat", sans-serif;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
+  font-size: .88rem;
+  transition: border-color .25s, background .25s;
+}
+
+.input-group input::placeholder {
+  color: var(--muted);
+  opacity: .7;
 }
 
 .input-group input:focus {
   outline: none;
-  border-color: #000;
-  background: #fff;
+  border-color: var(--accent);
+  background: rgba(42,171,176,.05);
 }
 
+/* Mensagens de feedback */
+.message-area {
+  margin-bottom: 18px;
+  padding: 12px 16px;
+  text-align: center;
+  font-size: .8rem;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: .5px;
+}
+
+.message-area.success {
+  background: rgba(26,158,90,.12);
+  color: var(--success);
+  border-left: 3px solid var(--success);
+}
+
+.message-area.error {
+  background: rgba(232,69,69,.1);
+  color: var(--danger);
+  border-left: 3px solid var(--danger);
+}
+
+/* Botão principal */
 .btn-cadastro {
-  background-color: #000;
+  background: #111;
   color: #fff;
   padding: 18px;
   border: none;
   font-family: "Bebas Neue", sans-serif;
   font-size: 1.3rem;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: background 0.3s;
-  margin-top: 10px;
+  letter-spacing: 3px;
+  cursor: none;
+  transition: background .25s, letter-spacing .25s;
+  margin-top: 8px;
+  text-transform: uppercase;
 }
 
 .btn-cadastro:hover {
-  background-color: #333;
+  background: #333;
+  letter-spacing: 4px;
 }
 
+/* Link de login */
 .cadastro__login {
   text-align: center;
-  margin-top: 10px;
+  margin-top: 24px;
   font-family: "Montserrat", sans-serif;
-  font-size: 0.85rem;
-  color: #444;
+  font-size: .8rem;
+  color: var(--muted);
 }
 
 .cadastro__login a {
-  color: #000;
+  color: var(--text);
   font-weight: 700;
   text-decoration: none;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  padding-bottom: 1px;
+  transition: color .25s, border-color .25s;
+}
+
+.cadastro__login a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }

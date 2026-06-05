@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    if (typeof buildMarquee === 'function') buildMarquee('marquee-inner');
+
     const vitrine = document.getElementById('vitrine-drop');
-    const titulo = document.getElementById('titulo-drop');
+    const titulo  = document.getElementById('titulo-drop');
 
     // Você pode pegar o nome do drop da URL ou mostrar o mais recente por padrão
     const params = new URLSearchParams(window.location.search);

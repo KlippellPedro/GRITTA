@@ -18,11 +18,17 @@ def get_all_products(tipo=None, special=None, drop=None):
     if tipo:
         # Mapeamento para converter o plural da URL para o singular do ENUM no Banco
         mapping = {
-            'camisetas': 'camisa',
-            'moletons': 'moletom',
-            'calcas': 'calca',
-            'tenis': 'tenis',
-            'acessorios': 'acessorio'
+            'camisas':    'camisa',   # aceita plural pt-BR
+            'camisetas':  'camisa',   # aceita plural alternativo
+            'moletons':   'moletom',
+            'calcas':     'calca',
+            'tenis':      'tenis',
+            'acessorios': 'acessorio',
+            # singulares passados diretamente também funcionam
+            'camisa':     'camisa',
+            'moletom':    'moletom',
+            'calca':      'calca',
+            'acessorio':  'acessorio',
         }
         tipo_filtrado = mapping.get(tipo.lower(), tipo)
         query += " AND tipo = %s"

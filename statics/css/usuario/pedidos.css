@@ -1,41 +1,77 @@
+/* ══ PEDIDOS ══ */
 .pedidos-main {
-  padding: 160px 5% 60px;
+  padding: calc(var(--nav-h) + 48px) 5% 80px;
   max-width: 1000px;
   margin: 0 auto;
   min-height: 70vh;
+  background: var(--bg);
+}
+
+/* ─── Cabeçalho ─── */
+.pedidos-eyebrow {
+  font-family: "Montserrat", sans-serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--accent);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 8px;
 }
 
 .pedidos-titulo {
   font-family: "Bebas Neue", sans-serif;
-  font-size: 3rem;
-  color: #fff;
-  letter-spacing: 3px;
-  margin-bottom: 40px;
+  font-size: clamp(2.8rem, 6vw, 4rem);
+  color: var(--text);
+  letter-spacing: 4px;
+  margin-bottom: 48px;
   text-align: center;
+  line-height: 1;
 }
 
+/* ─── Card de pedido ─── */
 .pedido-card {
-  background-color: #fff;
-  padding: 25px;
+  background: #fff;
+  border: 1px solid #e8e8e8;
   margin-bottom: 20px;
-  border-radius: 4px;
+  cursor: none;
+  transition: box-shadow .25s, transform .25s;
+  overflow: hidden;
+}
+
+/* Faixa de status no topo do card */
+.pedido-card-faixa {
+  height: 4px;
+  width: 100%;
+  background: #ddd; /* fallback, sobrescrito pelo JS via classe */
+}
+
+.pedido-card-faixa.pendente   { background: #f59e0b; }
+.pedido-card-faixa.enviado    { background: var(--accent); }
+.pedido-card-faixa.entregue   { background: var(--success); }
+.pedido-card-faixa.cancelado  { background: var(--danger); }
+
+/* Conteúdo interno do card */
+.pedido-card-body {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 20px;
   align-items: center;
-  cursor: pointer;
-  transition: transform 0.2s;
+  padding: 24px 28px;
 }
 
 .pedido-card:hover {
-  transform: scale(1.02);
+  box-shadow: 0 8px 32px rgba(0,0,0,.12);
+  transform: translateY(-3px);
 }
 
+/* Labels e valores */
 .pedido-info h4 {
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
-  font-size: 0.75rem;
-  color: #888;
+  font-size: .63rem;
+  letter-spacing: 2px;
+  color: #999;
   margin-bottom: 5px;
   text-transform: uppercase;
 }
@@ -43,38 +79,68 @@
 .pedido-info p {
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: .95rem;
   color: #111;
 }
 
+/* ─── Status badges ─── */
 .status-badge {
-  padding: 8px 15px;
-  border-radius: 20px;
-  font-size: 0.75rem;
+  display: inline-block;
+  padding: 6px 14px;
+  font-family: "Montserrat", sans-serif;
+  font-size: .68rem;
   font-weight: 900;
   text-transform: uppercase;
+  letter-spacing: 1.5px;
   text-align: center;
-  background-color: #eee;
 }
 
-.status-pago {
-  background-color: #d4edda;
-  color: #155724;
-}
+/* Classes adicionadas dinamicamente pelo JS */
+.status-badge.pendente,
 .status-aguardando {
-  background-color: #fff3cd;
-  color: #856404;
+  background: rgba(245,158,11,.12);
+  color: #b45309;
 }
 
-/* Estilos do Modal (Reutilizando padrão do perfil) */
+.status-badge.enviado,
+.status-pago {
+  background: rgba(42,171,176,.12);
+  color: var(--accent);
+}
+
+.status-badge.entregue {
+  background: rgba(26,158,90,.12);
+  color: var(--success);
+}
+
+.status-badge.cancelado {
+  background: rgba(232,69,69,.1);
+  color: var(--danger);
+}
+
+/* ─── Estado vazio ─── */
+.pedidos-vazio {
+  text-align: center;
+  padding: 100px 0;
+}
+
+.pedidos-vazio p {
+  font-family: "Montserrat", sans-serif;
+  margin-bottom: 28px;
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+/* ─── Modal de detalhe do pedido ─── */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
+  background: rgba(0,0,0,.8);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   display: none;
   align-items: center;
   justify-content: center;
@@ -86,58 +152,80 @@
 }
 
 .modal-content {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 4px;
+  background: #fff;
+  border-top: 3px solid var(--accent);
+  padding: 36px 32px;
   width: 90%;
-  max-width: 600px;
-  max-height: 80vh;
+  max-width: 620px;
+  max-height: 82vh;
   overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(0,0,0,.45);
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 10px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #ebebeb;
+  padding-bottom: 16px;
 }
 
 .modal-header h3 {
   font-family: "Bebas Neue", sans-serif;
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: #111;
+  letter-spacing: 2px;
 }
 
 .btn-close {
-  background: none;
+  background: #f5f5f5;
   border: none;
-  font-size: 2rem;
-  cursor: pointer;
+  font-size: 1.4rem;
+  cursor: none;
+  color: #111;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .25s, transform .25s;
+  flex-shrink: 0;
 }
 
+.btn-close:hover {
+  background: #111;
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+/* Itens dentro do modal */
 .item-detalhe {
   display: flex;
-  gap: 15px;
+  gap: 16px;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .item-detalhe img {
   width: 60px;
   height: 80px;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
 .item-info-detalhe h5 {
+  font-family: "Montserrat", sans-serif;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: .88rem;
   margin-bottom: 5px;
   text-transform: uppercase;
+  color: #111;
 }
+
 .item-info-detalhe p {
-  font-size: 0.8rem;
-  color: #666;
+  font-family: "Montserrat", sans-serif;
+  font-size: .78rem;
+  color: #777;
 }

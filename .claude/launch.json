@@ -1,0 +1,53 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Auth Service",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["services/auth_service/run.py"],
+      "port": 5005
+    },
+    {
+      "name": "User Service",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["services/user_service/run.py"],
+      "port": 5001
+    },
+    {
+      "name": "Order Service",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["services/order_service/run.py"],
+      "port": 5002
+    },
+    {
+      "name": "Catalog Service",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["services/catalog_service/run.py"],
+      "port": 5003
+    },
+    {
+      "name": "Inventory Service",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["services/inventory_service/run.py"],
+      "port": 5004
+    },
+    {
+      "name": "Payment Service",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["services/payment_service/run.py"],
+      "port": 5006
+    },
+    {
+      "name": "Notification Service",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["services/notification_service/run.py"],
+      "port": 5007
+    },
+    {
+      "name": "Wishlist Service",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["services/wishlist_service/run.py"],
+      "port": 5008
+    }
+  ]
+}

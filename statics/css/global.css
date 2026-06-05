@@ -1,200 +1,381 @@
-/* Importação global das fontes oficiais da marca */
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap");
+/* ══════════════════════════════════════════════
+   GRITTA — Global CSS  (Design System v2)
+   Paleta: fundo #0f1c25 · surface #162530 · teal #2aabb0
+══════════════════════════════════════════════ */
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;700;900&display=swap");
 
-html,
-body {
-  overflow-x: hidden;
-  width: 100%;
-  box-sizing: border-box;
+/* ── TOKENS ── */
+:root {
+  --bg:        #0f1c25;
+  --surface:   #162530;
+  --surface-2: #1a2e3d;
+  --border:    rgba(255,255,255,0.07);
+  --text:      #f0ece4;
+  --muted:     #6e8fa0;
+  --accent:    #2aabb0;          /* teal highlight */
+  --white:     #ffffff;
+  --danger:    #e84545;
+  --success:   #1a9e5a;
+  --nav-h:     130px;            /* top-bar (~30px) + main-nav (80px) + folga (20px) */
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
+/* ── RESET BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+html { scroll-behavior: smooth; overflow-x: hidden }
 
 body {
   font-family: "Montserrat", sans-serif;
+  background: var(--bg);
+  color: var(--text);
   min-height: 100vh;
-  background-color: #162530;
-  margin: 0;
-  color: #fff; /* Garante que o texto base seja sempre legível sobre o fundo escuro */
+  overflow-x: hidden;
+  cursor: none;
   line-height: 1.6;
 }
 
-/* Estilo padrão para todos os títulos que não possuem definição específica */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: .025;
+  pointer-events: none;
+  z-index: 9997;
+  animation: grain .5s steps(1) infinite;
+}
+@keyframes grain {
+  0%  { transform: translate(0,0) }
+  20% { transform: translate(-2px,3px) }
+  40% { transform: translate(3px,-2px) }
+  60% { transform: translate(-1px,4px) }
+  80% { transform: translate(2px,-1px) }
+  100%{ transform: translate(-3px,2px) }
+}
+
+/* ── CURSOR ── */
+#cursor {
+  position: fixed; width: 10px; height: 10px;
+  background: #fff; border-radius: 50%;
+  pointer-events: none; z-index: 99999;
+  transform: translate(-50%,-50%);
+  mix-blend-mode: difference;
+  transition: width .3s, height .3s;
+}
+#cursor-ring {
+  position: fixed; width: 38px; height: 38px;
+  border: 1.5px solid rgba(255,255,255,.3);
+  border-radius: 50%; pointer-events: none; z-index: 99998;
+  transform: translate(-50%,-50%);
+  transition: width .4s, height .4s, opacity .3s;
+}
+.cursor-hover #cursor  { width: 52px; height: 52px; opacity: .15 }
+.cursor-hover #cursor-ring { opacity: 0 }
+
+/* ── TIPOGRAFIA ── */
+h1, h2, h3, h4, h5, h6 {
   font-family: "Bebas Neue", sans-serif;
   letter-spacing: 1px;
+  line-height: 1;
 }
+input, select, textarea, button { font-family: inherit }
 
-/* Garante que elementos de formulário e botões herdem a tipografia do sistema */
-input,
-select,
-textarea,
-button {
-  font-family: inherit;
-}
-
-/* Estilização global para estados de carregamento ou mensagens de 'vazio' */
-.loading,
-.empty-msg {
-  font-family: "Bebas Neue", sans-serif;
-  font-size: 1.5rem;
-  color: #888;
-  text-align: center;
-  padding: 60px 20px;
-  letter-spacing: 2px;
-  width: 100%;
-}
-
-/* Adiciona espaço no topo para páginas internas não serem cobertas pelo menu fixo */
+/* ── ESPAÇAMENTO DE PÁGINAS INTERNAS ── */
+/* Garante que nenhuma página fique colada sob o header fixo */
 main.login-main,
 main.carrinho-main,
 main.perfil-main,
 main.favoritos-main,
 main.pedidos-main,
-main.categoria-main {
-  padding-top: 160px; /* Apenas o recuo para o menu fixo */
-  min-height: 80vh;
+main.categoria-main,
+main.produto-main,
+main.checkout-main,
+main.sucesso-main,
+main.recuperar-main,
+main.resetar-main,
+main.drop-main {
+  padding-top: calc(var(--nav-h) + 32px);
 }
 
-/* ================= AJUSTE DE CONTRASTE PARA CONTAINERS CLAROS ================= */
-/* Garante que o texto seja legível (escuro) dentro de componentes que usam fundo branco,
-   sobrescrevendo o branco padrão definido no body. */
-.produto-card,
-.item-carrinho,
-.resumo-box,
-.checkout-section,
-.resumo-fixo,
-.info-card,
-.sidebar-box,
-.modal-content,
-.address-card,
-.order-box,
-.pedido-card,
-.login__check {
-  color: #111;
+/* Páginas de categoria que usam <main class="destaques"> */
+main.destaques {
+  padding-top: calc(var(--nav-h) + 40px) !important;
 }
 
-/* ================= SISTEMA DE TOASTS (NOTIFICAÇÕES) ================= */
+/* Texto preto em contexto escuro — garante legibilidade */
+.pedidos-main  p:not(.pedido-info p):not(.item-info-detalhe p),
+.favoritos-main > p,
+.carrinho-main > p {
+  color: var(--muted);
+}
+
+/* ── TOASTS ── */
 .toast-container {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  z-index: 10000;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  position: fixed; bottom: 28px; right: 28px;
+  z-index: 99996; display: flex; flex-direction: column; gap: 10px;
 }
-
 .toast {
-  background-color: #fff;
-  color: #111;
-  padding: 18px 25px;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 700;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  border-left: 6px solid #000;
-  display: flex;
-  align-items: center;
-  min-width: 300px;
-  animation: toastSlideIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  background: #fff; color: #111;
+  padding: 14px 22px;
+  border-left: 3px solid #111;
+  font-size: .68rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  box-shadow: 0 8px 32px rgba(0,0,0,.3);
+  animation: toastIn .4s cubic-bezier(.165,.84,.44,1) forwards;
+  min-width: 260px;
+}
+.toast.error   { border-left-color: var(--danger); color: var(--danger) }
+.toast.success { border-left-color: var(--success); color: var(--success) }
+.toast.hide    { animation: toastOut .4s ease forwards }
+@keyframes toastIn  { from{transform:translateX(110%);opacity:0} to{transform:translateX(0);opacity:1} }
+@keyframes toastOut { to{transform:translateX(110%);opacity:0} }
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0; transform: translateY(22px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0) }
+.d1 { transition-delay: .1s } .d2 { transition-delay: .2s } .d3 { transition-delay: .3s }
+
+/* ── LOADING / EMPTY ── */
+.loading, .empty-msg {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.4rem; color: var(--muted);
+  text-align: center; padding: 60px 20px;
+  letter-spacing: 2px; width: 100%;
 }
 
-.toast.error {
-  border-left-color: #ff4444;
-  color: #ff4444;
-}
-.toast.success {
-  border-left-color: #27ae60;
-  color: #27ae60;
-}
-
-@keyframes toastSlideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-.toast.hide {
-  animation: toastFadeOut 0.4s ease forwards;
-}
-@keyframes toastFadeOut {
-  to {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-}
-
-/* Animação de Erro (Shake) */
-@keyframes shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-5px);
-  }
-  50% {
-    transform: translateX(5px);
-  }
-  75% {
-    transform: translateX(-5px);
-  }
-}
-.error-shake {
-  animation: shake 0.4s ease-in-out;
-}
-
-/* Estilo para variações sem estoque */
-.variation-chip.out-of-stock {
-  opacity: 0.4;
-  cursor: not-allowed;
-  text-decoration: line-through;
-  background-color: #eee;
-  border-color: #ddd;
-  color: #999;
-  pointer-events: none; /* Impede qualquer interação */
-}
-
-/* Estilo para a etiqueta de "ÚLTIMAS PEÇAS" */
+/* ── BADGES DE ESTOQUE ── */
 .badge-ultimas-pecas {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  background-color: rgba(255, 165, 0, 0.9); /* Laranja para chamar atenção */
-  color: #fff;
-  padding: 8px 15px;
+  position: absolute; top: 14px; left: 14px;
+  background: rgba(255,140,0,.9); color: #fff;
+  padding: 4px 12px;
   font-family: "Bebas Neue", sans-serif;
-  font-size: 1rem;
-  letter-spacing: 1px;
-  z-index: 5;
-  pointer-events: none; /* Não deve ser clicável */
+  font-size: .8rem; letter-spacing: 2px; z-index: 5;
+  pointer-events: none;
 }
-/* Estilo para a etiqueta na página de detalhes do produto */
 .badge-ultimas-pecas-detail {
-  background-color: #ff8c00; /* Laranja mais forte */
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 4px;
+  background: #ff8c00; color: #fff;
+  padding: 4px 10px;
   font-family: "Bebas Neue", sans-serif;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-  margin-left: 10px;
+  font-size: .8rem; letter-spacing: 1px;
   display: inline-block;
 }
+
+/* ── PRODUTO CARD (shared across pages) ── */
+.produto-card {
+  background: #fff; position: relative; overflow: hidden;
+  border-radius: 2px; cursor: none;
+  transition: transform .4s cubic-bezier(.165,.84,.44,1),
+              box-shadow .4s ease;
+  max-width: 320px; margin: 0 auto; width: 100%;
+  color: #111;
+}
+.produto-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 48px rgba(0,0,0,.35);
+}
+.produto-imagem {
+  overflow: hidden; position: relative; background: #f5f5f5;
+}
+.produto-imagem img {
+  width: 100%; aspect-ratio: 3/4;
+  object-fit: cover; display: block;
+  transition: transform .6s ease;
+}
+.produto-card:hover .produto-imagem img { transform: scale(1.06) }
+.produto-info { padding: 14px 16px 18px; color: #111 }
+.produto-info h4 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; font-size: .78rem;
+  margin-bottom: 8px; color: #111;
+}
+.preco { font-size: 1rem; color: #333; margin-bottom: 14px }
+.preco strong { font-weight: 900; color: #111 }
+
+/* ── ADD CARRINHO BUTTON ── */
+.add-carrinho {
+  width: 100%; padding: 13px;
+  background: #111; color: #fff; border: none;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1rem; letter-spacing: 2px;
+  cursor: none; transition: background .3s;
+}
+.add-carrinho:hover { background: #333 }
+
+/* ── FAVORITAR ── */
+.btn-favoritar-vitrine {
+  position: absolute; top: 14px; right: 14px; z-index: 5;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(0,0,0,.08);
+  display: flex; align-items: center; justify-content: center;
+  cursor: none; transition: background .25s, transform .25s;
+}
+.btn-favoritar-vitrine img { width: 16px; height: 16px }
+.btn-favoritar-vitrine:hover { transform: scale(1.12); background: #fff }
+.btn-favoritar-vitrine.active { background: var(--danger) }
+.btn-favoritar-vitrine.active img { filter: brightness(0) invert(1) }
+
+/* ── ESGOTADO BADGE ── */
+.badge-esgotado {
+  position: absolute; top: 14px; left: 14px; z-index: 5;
+  background: rgba(232,69,69,.9); color: #fff;
+  padding: 4px 12px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: .8rem; letter-spacing: 2px;
+  pointer-events: none;
+}
+.produto-card.esgotado { opacity: .8 }
+.produto-card.esgotado .produto-imagem { filter: grayscale(.6) }
+
+/* ── VARIATION CHIP (produto detail) ── */
+.variation-chip.out-of-stock {
+  opacity: .4; cursor: not-allowed;
+  text-decoration: line-through;
+  background: #eee; border-color: #ddd;
+  color: #999; pointer-events: none;
+}
+
+/* ── PRODUTO MODAL OVERLAY ── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.92);
+  backdrop-filter: blur(14px);
+  display: none; align-items: center;
+  justify-content: center; z-index: 2000; padding: 20px;
+}
+.modal-overlay.active { display: flex }
+.modal-content {
+  background: #fff; padding: 0;
+  width: 95%; max-width: 1100px;
+  position: relative;
+  animation: modalFadeIn .3s ease-out;
+  overflow: hidden; color: #111;
+}
+.btn-close {
+  position: absolute; top: 15px; right: 20px;
+  background: none; border: none;
+  font-size: 2rem; cursor: none; color: #111; z-index: 10;
+  transition: transform .3s ease;
+}
+.btn-close:hover { transform: rotate(90deg) }
+
+@keyframes modalFadeIn {
+  from { opacity:0; transform:translateY(-20px) }
+  to   { opacity:1; transform:translateY(0) }
+}
+
+/* ── ERROR SHAKE ── */
+@keyframes shake {
+  0%,100% { transform: translateX(0) }
+  25%      { transform: translateX(-5px) }
+  50%      { transform: translateX(5px) }
+  75%      { transform: translateX(-5px) }
+}
+.error-shake { animation: shake .4s ease-in-out }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px }
+::-webkit-scrollbar-track { background: var(--bg) }
+::-webkit-scrollbar-thumb { background: var(--border) }
+::-webkit-scrollbar-thumb:hover { background: var(--muted) }
+
+/* ── SELECTION ── */
+::selection { background: var(--accent); color: #fff }
+
+/* ── FILTER SIDEBAR (categoria) ── */
+.filter-sidebar {
+  position: fixed; top: 0; right: -400px;
+  width: 100%; max-width: 350px; height: 100%;
+  background: #fff; z-index: 3000;
+  transition: right .4s cubic-bezier(.165,.84,.44,1);
+  display: flex; flex-direction: column;
+  box-shadow: -10px 0 40px rgba(0,0,0,.5);
+  color: #111;
+}
+.filter-sidebar.active { right: 0 }
+.sidebar-header {
+  padding: 28px 28px 20px;
+  border-bottom: 1px solid #eee;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.sidebar-header h3 { font-size: 1.8rem; color: #111 }
+.btn-close-sidebar {
+  background: none; border: none;
+  font-size: 2rem; cursor: none; color: #111;
+  transition: transform .3s;
+}
+.btn-close-sidebar:hover { transform: rotate(90deg) }
+.sidebar-content { padding: 32px 28px; display: flex; flex-direction: column; gap: 32px }
+.filter-group { display: flex; flex-direction: column; gap: 12px }
+.filter-group label {
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 1px; color: #999; font-size: .85rem;
+}
+.size-filter-chips { display: flex; flex-wrap: wrap; gap: 8px }
+.size-chip {
+  background: none; border: 1.5px solid #ddd; color: #111;
+  padding: 5px 12px; cursor: none;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700; font-size: .72rem;
+  transition: all .3s;
+}
+.size-chip.active, .size-chip:hover { background: #111; color: #fff; border-color: #111 }
+.btn-apply {
+  margin-top: 12px; background: #111; color: #fff; border: none;
+  padding: 16px; font-family: "Bebas Neue", sans-serif;
+  font-size: 1.1rem; cursor: none; letter-spacing: 1px;
+  transition: background .3s;
+}
+.btn-apply:hover { background: #333 }
+.filter-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.6); backdrop-filter: blur(4px);
+  z-index: 2999; display: none; opacity: 0; transition: opacity .3s;
+}
+.filter-overlay.active { display: block; opacity: 1 }
+.btn-filter-trigger {
+  background: none; border: 1px solid var(--border);
+  color: var(--text); padding: 10px 20px;
+  display: flex; align-items: center; gap: 10px; cursor: none;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1rem; letter-spacing: 1px; transition: all .3s;
+}
+.btn-filter-trigger img { width: 18px; height: 18px; filter: invert(1) }
+.btn-filter-trigger:hover { background: #fff; color: #111 }
+.btn-filter-trigger:hover img { filter: invert(0) }
+
+/* ── ANIMATE POP (badge) ── */
+@keyframes iconPop {
+  0%   { transform: scale(1) }
+  50%  { transform: scale(1.4) }
+  100% { transform: scale(1) }
+}
+.animate-pop { animation: iconPop .4s cubic-bezier(.175,.885,.32,1.275) }
+
+/* ── SKELETON ── */
+.skeleton {
+  background: linear-gradient(90deg,#1d3040 25%,#243a4d 50%,#1d3040 75%);
+  background-size: 200% 100%;
+  animation: skeleton 1.5s ease infinite;
+}
+@keyframes skeleton { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* ── MARQUEE STRIP ── */
+.marquee-strip {
+  background: var(--surface); overflow: hidden;
+  padding: 11px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.marquee-inner { display: flex; animation: marquee 20s linear infinite; width: max-content }
+.marquee-inner:hover { animation-play-state: paused }
+.marquee-item {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: .9rem; letter-spacing: 3px;
+  color: var(--muted); white-space: nowrap; padding: 0 18px;
+}
+.marquee-item::after { content: " · " }
+@keyframes marquee { to { transform: translateX(-50%) } }

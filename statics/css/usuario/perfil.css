@@ -1,161 +1,228 @@
+/* ══ PERFIL ══ */
 .perfil-main {
-  padding: 160px 5% 60px;
+  padding: calc(var(--nav-h) + 48px) 5% 80px;
   max-width: 1200px;
   margin: 0 auto;
   min-height: 70vh;
-  animation: fadeIn 0.5s ease-in;
+  background: var(--bg);
+  animation: fadeInUp .45s ease-out both;
 }
 
+/* ─── Cabeçalho ─── */
 .perfil-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 40px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border);
   padding-bottom: 20px;
+}
+
+.perfil-eyebrow {
+  font-family: "Montserrat", sans-serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 6px;
 }
 
 .perfil-titulo {
   font-family: "Bebas Neue", sans-serif;
-  font-size: 3rem;
-  color: #fff;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  color: var(--text);
   letter-spacing: 3px;
+  line-height: 1;
 }
 
 .btn-logout-link {
   background: none;
   border: none;
-  color: #ff4444;
+  color: var(--danger);
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  cursor: pointer;
+  letter-spacing: 1.5px;
+  cursor: none;
   text-decoration: underline;
-  font-size: 0.8rem;
+  font-size: .75rem;
+  transition: opacity .25s;
+  flex-shrink: 0;
 }
 
+.btn-logout-link:hover {
+  opacity: .7;
+}
+
+/* ─── Grid de conteúdo ─── */
 .perfil-grid {
   display: grid;
-  grid-template-columns: 1fr 350px;
+  grid-template-columns: 1fr 340px;
   gap: 40px;
 }
 
+/* ─── Cards brancos ─── */
 .info-card,
 .sidebar-box {
-  background-color: #fff;
-  padding: 40px;
-  border-radius: 4px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-top: 3px solid var(--accent);
+  padding: 36px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.08);
 }
 
-.perfil-section h3,
+/* Títulos de seção — ficam fora do card branco, sobre fundo escuro */
+.perfil-section h3 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.4rem;
+  color: var(--muted);           /* visível no fundo escuro */
+  margin-bottom: 16px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
 .sidebar-box h3 {
   font-family: "Bebas Neue", sans-serif;
-  font-size: 1.5rem;
-  color: #fff; /* Título fora do card é branco */
+  font-size: 1.4rem;
+  color: #111;
   margin-bottom: 20px;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 12px;
 }
 
-.sidebar-box h3 {
-  color: #111; /* Título dentro do card é escuro */
-}
-
+/* ─── Grupos de informação ─── */
 .info-group {
   margin-bottom: 20px;
-  border-bottom: 1px solid #f0f0f0;
-  padding-bottom: 10px;
+  border-bottom: 1px solid #f5f5f5;
+  padding-bottom: 14px;
+}
+
+.info-group:last-of-type {
+  border-bottom: none;
 }
 
 .info-group label {
   display: block;
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
-  font-size: 0.7rem;
-  color: #888;
+  font-size: .65rem;
+  letter-spacing: 2px;
+  color: #999;
+  text-transform: uppercase;
   margin-bottom: 5px;
 }
 
 .info-group p {
   font-family: "Montserrat", sans-serif;
-  font-size: 1rem;
+  font-size: .95rem;
   color: #111;
   font-weight: 500;
 }
 
+/* ─── Botões ─── */
 .btn-editar,
 .btn-shop {
   display: block;
   width: 100%;
-  background-color: #000;
+  background: #111;
   color: #fff;
   text-align: center;
-  padding: 15px;
+  padding: 16px;
   font-family: "Bebas Neue", sans-serif;
   font-size: 1.2rem;
+  letter-spacing: 2px;
   text-decoration: none;
   border: none;
-  cursor: pointer;
+  cursor: none;
   margin-top: 20px;
-  transition:
-    background 0.3s ease,
-    letter-spacing 0.3s ease;
+  transition: background .25s, letter-spacing .25s;
+  text-transform: uppercase;
 }
 
-.btn-editar:hover {
-  background-color: #333;
-  letter-spacing: 2px;
+.btn-editar:hover,
+.btn-shop:hover {
+  background: #333;
+  letter-spacing: 3px;
 }
 
+/* Mensagem vazia da sidebar */
 .empty-msg {
-  color: #666;
-  margin-bottom: 20px;
-  font-size: 0.9rem;
+  font-family: "Montserrat", sans-serif;
+  color: #888;
+  margin-bottom: 16px;
+  font-size: .88rem;
+  line-height: 1.6;
 }
 
+/* ─── Grid de endereços ─── */
+.enderecos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.address-card {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-left: 3px solid var(--accent);
+  padding: 20px;
+  position: relative;
+  transition: box-shadow .25s;
+}
+
+.address-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,.08);
+}
+
+.address-card p {
+  font-family: "Montserrat", sans-serif;
+  font-size: .83rem;
+  color: #333;
+  line-height: 1.55;
+}
+
+.btn-del-addr {
+  color: var(--danger);
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: .68rem;
+  letter-spacing: 1px;
+  cursor: none;
+  background: none;
+  border: none;
+  margin-top: 12px;
+  text-transform: uppercase;
+  text-decoration: underline;
+  transition: opacity .2s;
+}
+
+.btn-del-addr:hover {
+  opacity: .7;
+}
+
+/* ─── Responsivo ─── */
 @media (max-width: 900px) {
   .perfil-grid {
     grid-template-columns: 1fr;
   }
+
+  .perfil-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
 }
 
-@keyframes fadeIn {
+/* ─── Animação ─── */
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.enderecos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.address-card {
-  background: #f9f9f9;
-  padding: 20px;
-  border: 1px solid #eee;
-  border-radius: 4px;
-  position: relative;
-}
-
-.address-card p {
-  font-size: 0.85rem;
-  color: #333;
-  line-height: 1.4;
-}
-.btn-del-addr {
-  color: #ff4444;
-  font-weight: 700;
-  font-size: 0.7rem;
-  cursor: pointer;
-  background: none;
-  border: none;
-  margin-top: 10px;
 }

@@ -3,6 +3,8 @@ let filtroTamanho = 'all';
 let filtroEstoque = 'all';
 
 document.addEventListener('DOMContentLoaded', () => {
+    if (typeof buildMarquee === 'function') buildMarquee('marquee-inner');
+
     const params = new URLSearchParams(window.location.search);
     const tipo = params.get('tipo');
 
@@ -11,17 +13,28 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Atualiza o título da página
     const tituloMap = {
-        'camisetas': 'CAMISETAS',
-        'moletons': 'MOLETONS',
-        'calcas': 'CALÇAS',
-        'tenis': 'TÊNIS',
+        'camisas':    'CAMISAS',
+        'camisetas':  'CAMISETAS',
+        'moletons':   'MOLETONS',
+        'calcas':     'CALÇAS',
+        'tenis':      'TÊNIS',
         'acessorios': 'ACESSÓRIOS'
+    };
+    const labelMap = {
+        'camisas':    '✦ Streetwear',
+        'camisetas':  '✦ Streetwear',
+        'moletons':   '✦ Inverno 2026',
+        'calcas':     '✦ Oversized',
+        'tenis':      '✦ Drops Limitados',
+        'acessorios': '✦ Complete o Look'
     };
 
     document.title = `GR!TTA | ${tituloMap[tipo] || 'Loja'}`;
-    document.getElementById('titulo-categoria').textContent = tituloMap[tipo] || 'PRODUTOS';
+    const tituloEl = document.getElementById('titulo-categoria');
+    const labelEl  = document.getElementById('label-categoria');
+    if (tituloEl) tituloEl.textContent = tituloMap[tipo] || 'PRODUTOS';
+    if (labelEl)  labelEl.textContent  = labelMap[tipo]  || '✦ Coleção';
 
     carregarProdutosDaCategoria(tipo);
     configurarListeners();

@@ -1,0 +1,108 @@
+/* ══ DROP PAGE ══ */
+.drop-main {
+  padding: calc(var(--nav-h) + 60px) 5% 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 70vh;
+}
+
+.drop-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.drop-titulo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  letter-spacing: 6px;
+  color: var(--text);
+  line-height: 0.9;
+  margin-bottom: 20px;
+}
+
+.drop-subtitulo {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.drop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.drop-card {
+  background: #fff;
+  cursor: none;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
+}
+
+.drop-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,.4);
+}
+
+.drop-card-imagem {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  overflow: hidden;
+}
+
+.drop-card-imagem img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.6s ease;
+}
+
+.drop-card:hover .drop-card-imagem img {
+  transform: scale(1.1);
+}
+
+.drop-card-info {
+  padding: 20px;
+}
+
+.drop-card-info h3 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.4rem;
+  color: #111;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.drop-card-preco {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  color: #888;
+  font-size: 1rem;
+}
+
+.drop-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: var(--accent);
+  color: #fff;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  padding: 4px 10px;
+}
+
+.drop-vazio {
+  text-align: center;
+  padding: 100px 0;
+  color: var(--muted);
+}

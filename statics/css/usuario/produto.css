@@ -1,130 +1,197 @@
+/* ══ PRODUTO ══ */
 .produto-main {
   max-width: 1300px;
   margin: 0 auto;
-  padding: 160px 5% 80px;
+  padding: calc(var(--nav-h) + 48px) 5% 80px;
   min-height: 100vh;
+  background: var(--bg);
 }
 
+/* ─── Grid principal ─── */
 .produto-grid {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
-  gap: 60px;
+  gap: 64px;
   align-items: start;
 }
 
-/* Galeria e Moldura da Imagem */
+/* ─── Galeria (sticky) ─── */
 .produto-galeria {
   position: sticky;
-  top: 160px;
+  top: calc(var(--nav-h) + 20px);
 }
 
 .main-image-container {
-  background-color: #f0f0f0;
-  padding: 80px; /* Aumentado para dar mais "ar" ao produto */
+  background: #f5f5f5;
+  padding: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0; /* Estilo industrial reto */
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.5s ease;
+  transition: box-shadow .4s;
+  border: 1px solid #ebebeb;
+}
+
+.main-image-container:hover {
+  box-shadow: 0 20px 60px rgba(0,0,0,.1);
 }
 
 .main-image-container img {
   max-width: 100%;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1)); /* Sombra suave na peça */
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,.12));
+  transition: transform .5s ease;
 }
 
-/* Detalhes do Produto */
+.main-image-container:hover img {
+  transform: scale(1.03);
+}
+
+/* Miniaturas da galeria */
+.galeria-thumbs {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.galeria-thumb {
+  width: 72px;
+  height: 90px;
+  object-fit: cover;
+  background: #f5f5f5;
+  border: 2px solid transparent;
+  cursor: none;
+  transition: border-color .25s, transform .25s;
+  padding: 6px;
+}
+
+.galeria-thumb:hover,
+.galeria-thumb.active {
+  border-color: #111;
+}
+
+/* ─── Detalhes do produto ─── */
 .produto-detalhes {
-  color: #fff; /* Texto branco sobre o fundo escuro do global */
+  color: var(--text);
+}
+
+/* Eyebrow de categoria */
+.produto-categoria {
+  font-family: "Montserrat", sans-serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
 }
 
 .produto-detalhes h1 {
   font-family: "Bebas Neue", sans-serif;
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  line-height: 0.9;
-  margin-bottom: 15px;
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  line-height: .95;
+  margin-bottom: 16px;
   letter-spacing: 2px;
+  color: var(--text);
 }
 
 .product-price {
   font-family: "Montserrat", sans-serif;
   font-size: 2rem;
   font-weight: 900;
-  margin-bottom: 40px;
-  color: #fff;
+  margin-bottom: 36px;
+  color: var(--text);
+}
+
+.product-price .preco-parcelado {
+  display: block;
+  font-size: .82rem;
+  font-weight: 400;
+  color: var(--muted);
+  margin-top: 4px;
 }
 
 .product-description {
-  font-size: 0.9rem;
-  line-height: 1.8;
-  color: #ccc;
-  margin-bottom: 50px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  max-width: 450px;
+  font-family: "Montserrat", sans-serif;
+  font-size: .88rem;
+  line-height: 1.85;
+  color: var(--muted);
+  margin-bottom: 44px;
+  letter-spacing: .5px;
+  max-width: 440px;
 }
 
-/* Grupos de Seleção (Tamanho, Cor, Qtd) */
+/* ─── Grupos de seleção (tamanho, cor, qtd) ─── */
 .selection-group {
-  margin-bottom: 35px;
+  margin-bottom: 32px;
 }
 
 .selection-group label {
   display: block;
-  font-weight: 900;
-  font-size: 0.7rem;
-  margin-bottom: 15px;
-  letter-spacing: 2px;
-  color: #666;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: .65rem;
+  margin-bottom: 14px;
+  letter-spacing: 2.5px;
+  color: var(--muted);
+  text-transform: uppercase;
 }
 
-/* Novos Seletores de Variação (Chips) */
+/* Chips de variação */
 .variation-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 10px;
 }
 
 .variation-chip {
   background: transparent;
-  border: 1px solid #444;
-  color: #fff;
-  padding: 15px 10px;
-  cursor: pointer;
+  border: 1px solid rgba(255,255,255,.18);
+  color: var(--text);
+  padding: 14px 8px;
+  cursor: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: all 0.3s ease;
+  transition: border-color .25s, background .25s;
 }
 
 .variation-chip span {
+  font-family: "Montserrat", sans-serif;
   font-weight: 900;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
+
 .variation-chip small {
-  font-size: 0.6rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: .58rem;
   text-transform: uppercase;
-  color: #888;
+  color: var(--muted);
   margin-top: 4px;
+  letter-spacing: 1px;
 }
 
 .variation-chip:hover {
-  border-color: #fff;
+  border-color: rgba(255,255,255,.6);
 }
 
 .variation-chip.active {
-  background: #fff;
-  color: #000;
-  border-color: #fff;
+  background: var(--text);
+  color: #111;
+  border-color: var(--text);
 }
 
+.variation-chip.active small {
+  color: #555;
+}
+
+/* Seletor de quantidade */
 .qty-selector {
   display: flex;
   align-items: center;
-  border: 2px solid #fff;
+  border: 1px solid rgba(255,255,255,.2);
   width: fit-content;
   background: transparent;
 }
@@ -132,16 +199,16 @@
 .qty-selector button {
   background: none;
   border: none;
-  padding: 12px 25px;
-  font-size: 1.2rem;
-  cursor: pointer;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  cursor: none;
   font-weight: 700;
-  color: #fff;
-  transition: background 0.3s;
+  color: var(--text);
+  transition: background .25s;
 }
 
 .qty-selector button:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,.1);
 }
 
 .qty-selector span {
@@ -150,47 +217,88 @@
   font-weight: 900;
   min-width: 40px;
   text-align: center;
+  color: var(--text);
+  border-left: 1px solid rgba(255,255,255,.15);
+  border-right: 1px solid rgba(255,255,255,.15);
 }
 
+/* ─── Botão de adicionar ao carrinho ─── */
 .btn-add-cart {
   width: 100%;
-  background-color: #fff;
+  background: #fff;
   color: #111;
   border: none;
-  padding: 25px;
+  padding: 24px;
   font-family: "Bebas Neue", sans-serif;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   letter-spacing: 4px;
-  cursor: pointer;
+  cursor: none;
   margin-top: 20px;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  text-transform: uppercase;
+  transition: background .3s, color .3s, transform .3s, box-shadow .3s;
 }
 
 .btn-add-cart:hover:not(:disabled) {
-  background-color: #111;
+  background: #111;
   color: #fff;
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-  outline: 2px solid #fff;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,.4);
+  outline: 2px solid rgba(255,255,255,.3);
 }
 
 .btn-add-cart:disabled {
-  background-color: #333;
-  color: #666;
+  background: rgba(255,255,255,.1);
+  color: rgba(255,255,255,.3);
   cursor: not-allowed;
 }
 
 .esgotado {
-  color: #ff4444;
-  font-weight: 900;
-  letter-spacing: 1px;
+  font-family: "Montserrat", sans-serif;
+  color: var(--danger);
+  font-weight: 700;
+  font-size: .8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 10px;
+  display: block;
 }
 
-/* Seção de Relacionados */
+/* Ação de favoritar */
+.btn-favoritar-produto {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid rgba(255,255,255,.18);
+  color: var(--muted);
+  padding: 14px 20px;
+  font-family: "Montserrat", sans-serif;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: none;
+  margin-top: 12px;
+  width: 100%;
+  justify-content: center;
+  transition: border-color .25s, color .25s;
+}
+
+.btn-favoritar-produto:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.btn-favoritar-produto.active {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* ─── Seção de relacionados ─── */
 .related-section {
-  padding: 120px 5%;
-  background-color: #162530;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 100px 5%;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
 }
 
 .related-container {
@@ -198,37 +306,48 @@
   margin: 0 auto;
 }
 
+.related-eyebrow {
+  font-family: "Montserrat", sans-serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--accent);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
 .related-title {
   font-family: "Bebas Neue", sans-serif;
-  font-size: clamp(2rem, 4vw, 3rem);
-  color: #fff;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  color: var(--text);
   letter-spacing: 4px;
-  margin-bottom: 60px;
+  margin-bottom: 56px;
   text-align: center;
+  line-height: 1;
 }
 
 .related-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
-  max-width: 1300px;
-  margin: 0 auto;
+  gap: 28px;
 }
 
 .related-card {
   background: #fff;
-  padding: 0;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  border-radius: 0;
+  cursor: none;
+  transition: transform .4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow .4s;
+  border-top: 3px solid transparent;
 }
+
 .related-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 20px 48px rgba(0,0,0,.25);
+  border-top-color: var(--accent);
 }
 
 .related-image-wrapper {
-  background-color: #f5f5f5;
+  background: #f5f5f5;
   padding: 20px;
   aspect-ratio: 3/4;
   display: flex;
@@ -241,16 +360,15 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: transform 0.6s ease;
-  margin-bottom: 0;
+  transition: transform .6s ease;
 }
 
 .related-card:hover img {
-  transform: scale(1.1);
+  transform: scale(1.08);
 }
 
 .related-info {
-  padding: 20px;
+  padding: 18px 20px;
   text-align: center;
 }
 
@@ -258,7 +376,7 @@
   font-family: "Bebas Neue", sans-serif;
   font-size: 1.2rem;
   color: #111;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   margin-bottom: 5px;
   text-transform: uppercase;
 }
@@ -266,10 +384,11 @@
 .related-price {
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
-  color: #666;
-  font-size: 0.9rem;
+  color: #777;
+  font-size: .88rem;
 }
 
+/* ─── Responsivo ─── */
 @media (max-width: 1024px) {
   .produto-grid {
     grid-template-columns: 1fr;
@@ -282,5 +401,15 @@
 
   .main-image-container {
     padding: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-image-container {
+    padding: 24px;
+  }
+
+  .variation-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   }
 }

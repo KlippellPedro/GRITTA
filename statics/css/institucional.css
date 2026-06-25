@@ -1,0 +1,121 @@
+/* ══════════════════════════════════════════════
+   GRITTA — Páginas Institucionais (Design System v2)
+══════════════════════════════════════════════ */
+.inst-main {
+  padding: calc(var(--nav-h) + 40px) 5% 90px;
+  max-width: 920px; margin: 0 auto; min-height: 70vh;
+}
+.inst-hero { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border) }
+.inst-hero .eyebrow {
+  font-size: .6rem; font-weight: 700; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 14px;
+}
+.inst-hero h1 {
+  font-family: "Bebas Neue", sans-serif; font-size: clamp(2.6rem, 6vw, 4.5rem);
+  letter-spacing: 1px; line-height: .95; color: var(--text); margin-bottom: 14px;
+}
+.inst-hero .lead { font-size: .92rem; color: var(--muted); line-height: 1.7; max-width: 640px }
+
+.inst-content { font-size: .9rem; line-height: 1.8; color: rgba(240,236,228,.85) }
+.inst-content h2 {
+  font-family: "Bebas Neue", sans-serif; font-size: 1.7rem; letter-spacing: 1px;
+  color: var(--text); margin: 42px 0 16px;
+}
+.inst-content h2:first-child { margin-top: 0 }
+.inst-content p { margin-bottom: 16px }
+.inst-content ul, .inst-content ol { margin: 0 0 20px 22px; display: flex; flex-direction: column; gap: 8px }
+.inst-content strong { color: var(--text) }
+.inst-content a { color: var(--accent); text-decoration: none }
+.inst-content a:hover { text-decoration: underline }
+
+/* Callout em destaque */
+.inst-callout {
+  background: var(--surface); border-left: 3px solid var(--accent);
+  padding: 20px 24px; margin: 0 0 36px; font-size: .95rem; color: var(--text); line-height: 1.6;
+}
+.inst-callout strong { color: var(--accent) }
+
+/* FAQ — accordion nativo (<details>) */
+.faq-group { margin-bottom: 38px }
+.faq-item { border-bottom: 1px solid var(--border) }
+.faq-item summary {
+  list-style: none; cursor: none; padding: 18px 0;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  font-weight: 700; font-size: .86rem; color: var(--text); letter-spacing: .3px;
+}
+.faq-item summary::-webkit-details-marker { display: none }
+.faq-item summary::after {
+  content: "+"; font-size: 1.5rem; color: var(--accent); font-weight: 400;
+  transition: transform .25s ease; flex-shrink: 0;
+}
+.faq-item[open] summary::after { transform: rotate(45deg) }
+.faq-item .faq-a { padding: 0 0 20px; color: var(--muted); font-size: .85rem; line-height: 1.7 }
+
+/* Tabela de tamanhos */
+.size-table { width: 100%; border-collapse: collapse; margin: 0 0 30px; font-size: .82rem }
+.size-table caption {
+  text-align: left; font-family: "Bebas Neue", sans-serif; font-size: 1.4rem;
+  letter-spacing: 1px; color: var(--text); margin-bottom: 12px; caption-side: top;
+}
+.size-table th, .size-table td { border: 1px solid var(--border); padding: 11px 12px; text-align: center }
+.size-table thead th {
+  background: var(--surface); color: var(--accent); font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 1px; font-weight: 400; font-size: 1.05rem;
+}
+.size-table tbody tr:nth-child(even) { background: rgba(255,255,255,.02) }
+.size-table td:first-child, .size-table tbody th { background: var(--surface); color: var(--text); font-weight: 700 }
+
+/* Passos numerados */
+.steps { counter-reset: step; list-style: none; margin: 0 0 34px !important; padding: 0 }
+.steps li { position: relative; padding-left: 54px; margin-bottom: 22px; min-height: 38px }
+.steps li::before {
+  counter-increment: step; content: counter(step);
+  position: absolute; left: 0; top: 0; width: 38px; height: 38px; border-radius: 50%;
+  background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center;
+  font-family: "Bebas Neue", sans-serif; font-size: 1.25rem;
+}
+
+/* Contato */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; margin-top: 8px }
+.contact-channels { display: flex; flex-direction: column; gap: 18px }
+.channel { background: var(--surface); border: 1px solid var(--border); padding: 20px 22px }
+.channel h3 { font-family: "Bebas Neue", sans-serif; font-size: 1.2rem; letter-spacing: 1px; color: var(--text); margin-bottom: 6px }
+.channel p, .channel a { color: var(--muted); font-size: .85rem; text-decoration: none; line-height: 1.6 }
+.channel a:hover { color: var(--accent) }
+.contact-form { display: flex; flex-direction: column; gap: 14px }
+.contact-form label {
+  font-size: .62rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: -6px;
+}
+.contact-form input, .contact-form select, .contact-form textarea {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 13px 14px; font-family: "Montserrat", sans-serif; font-size: .85rem;
+  outline: none; transition: border-color .3s;
+}
+.contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { border-color: var(--accent) }
+.contact-form textarea { resize: vertical; min-height: 120px }
+.contact-form button {
+  background: var(--text); color: var(--bg); border: none; padding: 15px;
+  font-family: "Bebas Neue", sans-serif; font-size: 1.1rem; letter-spacing: 1.5px;
+  cursor: none; transition: background .3s, color .3s;
+}
+.contact-form button:hover { background: var(--accent); color: #fff }
+
+/* CTA final */
+.inst-cta {
+  margin-top: 48px; padding: 36px; text-align: center;
+  background: var(--surface); border: 1px solid var(--border);
+}
+.inst-cta h3 { font-family: "Bebas Neue", sans-serif; font-size: 1.8rem; letter-spacing: 1px; color: var(--text); margin-bottom: 14px }
+.inst-cta .btn-cta {
+  display: inline-block; margin-top: 6px; padding: 14px 32px; background: var(--accent); color: #fff;
+  font-family: "Bebas Neue", sans-serif; font-size: 1.05rem; letter-spacing: 1.5px; text-decoration: none;
+  transition: transform .2s, background .3s;
+}
+.inst-cta .btn-cta:hover { transform: translateY(-2px); background: #2398a0 }
+
+@media (max-width: 700px) {
+  .contact-grid { grid-template-columns: 1fr }
+  .size-table { font-size: .74rem }
+  .size-table th, .size-table td { padding: 8px 6px }
+}

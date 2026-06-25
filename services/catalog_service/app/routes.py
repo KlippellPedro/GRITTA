@@ -1,10 +1,14 @@
 from flask import Blueprint, request, jsonify
 from .service import get_all_products, get_product_by_slug, get_related_products
-from .storefront import get_estado, list_drops, set_estado
+from .storefront import (
+    get_estado, list_drops, set_estado,
+    ler_drop, salvar_drop, excluir_drop
+)
 from .auth import admin_required
 from .admin_service import (
     listar_produtos, obter_produto, criar_produto,
-    atualizar_produto, desativar_produto, salvar_upload
+    atualizar_produto, desativar_produto, salvar_upload,
+    atribuir_drop, ids_do_drop
 )
 
 main = Blueprint('main', __name__)
@@ -50,6 +54,44 @@ def storefront_get():
 def storefront_list():
     """Admin: lista os drops/configs disponíveis."""
     return jsonify(list_drops()), 200
+
+
+@main.route('/storefront/drops/<drop_id>', methods=['GET'])
+@admin_required
+def storefront_drop_get(drop_id):
+    """Admin: carrega a config de um drop + quais peças estão nele (para editar)."""
+    config = ler_drop(drop_id)
+    if config is None:
+        return jsonify({"error": "Drop não encontrado"}), 404
+    return jsonify({"config": config, "produto_ids": ids_do_drop(config.get('drop_nome'))}), 200
+
+
+@main.route('/storefront/drops', methods=['POST'])
+@admin_required
+def storefront_drop_save():
+    """Admin: grava drops/<id>.json e atribui as peças selecionadas ao drop."""
+    body = request.get_json(silent=True) or {}
+    config = body.get('config') or {}
+    drop_id, err = salvar_drop(config)
+    if err:
+        return jsonify({"error": err}), 400
+    # Atribuição de peças depende do MySQL; se falhar, o drop já foi salvo
+    try:
+        atribuir_drop(config.get('drop_nome'), body.get('produto_ids') or [])
+    except Exception as e:
+        return jsonify({"success": True, "id": drop_id,
+                        "aviso": "Drop salvo, mas falhou ao atribuir peças: {}".format(e)}), 200
+    return jsonify({"success": True, "id": drop_id}), 201
+
+
+@main.route('/storefront/drops/<drop_id>', methods=['DELETE'])
+@admin_required
+def storefront_drop_delete(drop_id):
+    """Admin: exclui um drop (bloqueia 'normal' e o drop ativo)."""
+    ok, err = excluir_drop(drop_id)
+    if err:
+        return jsonify({"error": err}), 400
+    return jsonify({"success": True}), 200
 
 
 @main.route('/storefront', methods=['PUT'])

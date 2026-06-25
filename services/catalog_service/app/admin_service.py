@@ -250,6 +250,52 @@ def desativar_produto(pid):
     return ok
 
 
+def ids_do_drop(drop_nome):
+    """IDs das peças que estão num drop (pelo drop_nome)."""
+    drop_nome = (drop_nome or '').strip()
+    if not drop_nome:
+        return []
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT id FROM produtos WHERE drop_nome=%s", (drop_nome,))
+    ids = [r[0] for r in cur.fetchall()]
+    cur.close()
+    conn.close()
+    return ids
+
+
+def atribuir_drop(drop_nome, produto_ids):
+    """Sincroniza as peças de um drop: marca as selecionadas com o drop_nome
+    e tira o drop_nome das que saíram. Tudo parametrizado."""
+    drop_nome = (drop_nome or '').strip()
+    if not drop_nome:
+        return
+    ids = []
+    for x in (produto_ids or []):
+        try:
+            ids.append(int(x))
+        except (TypeError, ValueError):
+            pass
+    conn = get_connection()
+    cur = conn.cursor()
+    try:
+        if ids:
+            ph = ','.join(['%s'] * len(ids))
+            cur.execute(
+                "UPDATE produtos SET drop_nome=NULL WHERE drop_nome=%s AND id NOT IN (" + ph + ")",
+                [drop_nome] + ids
+            )
+            cur.execute(
+                "UPDATE produtos SET drop_nome=%s WHERE id IN (" + ph + ")",
+                [drop_nome] + ids
+            )
+        else:
+            cur.execute("UPDATE produtos SET drop_nome=NULL WHERE drop_nome=%s", (drop_nome,))
+    finally:
+        cur.close()
+        conn.close()
+
+
 # ─────────────────────────── upload ───────────────────────────
 def salvar_upload(file_storage):
     nome_original = file_storage.filename or ''

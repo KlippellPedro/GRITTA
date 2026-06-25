@@ -36,8 +36,10 @@ async function init () {
     setupTabs();
     document.getElementById('btn-save').addEventListener('click', salvarEstado);
     document.getElementById('btn-nova-peca').addEventListener('click', () => abrirForm(null));
+    document.getElementById('btn-novo-drop').addEventListener('click', () => abrirDropForm(null));
     setupForm();
-    await Promise.all([carregarEstado(), carregarPecas()]);
+    setupDropForm();
+    await Promise.all([carregarEstado(), carregarPecas(), carregarDrops()]);
 }
 
 function setupTabs () {
@@ -181,7 +183,8 @@ async function enviarImagem (slot, file) {
 
 function setSlot (slot, caminho) {
     const drop = slot.querySelector('.drop');
-    const label = slot.dataset.slot === '0' ? '+ Foto principal' : '+ 2ª foto (hover)';
+    const t = slot.dataset.slot;
+    const label = t === '0' ? '+ Foto principal' : t === '1' ? '+ 2ª foto (hover)' : '+ Banner do drop';
     if (caminho) {
         slot.dataset.caminho = caminho;
         drop.innerHTML = `<img src="${ASSETS + caminho}" alt="" onerror="this.parentNode.innerHTML='<span>${label}</span>'" />`;
@@ -288,6 +291,7 @@ async function salvarPeca (e) {
         const data = await res.json();
         if (res.ok) {
             fecharForm();
+            _produtosCache = null;   // força o seletor de drops a recarregar
             await carregarPecas();
             msg('pecas-msg', id ? 'Peça atualizada ✦' : 'Peça cadastrada ✦', 'ok');
             setTimeout(() => msg('pecas-msg', '', ''), 3000);
@@ -303,6 +307,178 @@ async function desativarPeca (id, nome) {
         if (res.ok) { await carregarPecas(); msg('pecas-msg', 'Peça desativada.', 'ok'); setTimeout(() => msg('pecas-msg', '', ''), 3000); }
         else { const d = await res.json(); msg('pecas-msg', d.error || 'Erro ao desativar.', 'err'); }
     } catch (e) { msg('pecas-msg', 'Erro de conexão.', 'err'); }
+}
+
+/* ══════════════════════════════════════
+   ABA 3 — DROPS (construtor)
+══════════════════════════════════════ */
+let _produtosCache = null;
+
+async function carregarDrops () {
+    const cont = document.getElementById('drops-lista');
+    try {
+        const res = await fetch(CONFIG.API_STOREFRONT_URL + '/drops', { headers: authHeaders() });
+        if (res.status === 401 || res.status === 403)
+            return cont.innerHTML = '<p class="loading">Sessão de admin expirada.</p>';
+        const lista = await res.json();
+        cont.innerHTML = (lista || []).map(d => `
+          <div class="drop-card-row">
+            <div><div class="nm">${escapeHtml(d.nome)}</div><div class="id">${escapeHtml(d.id)}.json</div></div>
+            <div class="row-actions">
+              <button class="mini" data-edit-drop="${escapeAttr(d.id)}">Editar</button>
+              ${d.id === 'normal' ? '' : `<button class="mini del" data-del-drop="${escapeAttr(d.id)}" data-nome="${escapeAttr(d.nome)}">Excluir</button>`}
+            </div>
+          </div>`).join('');
+        cont.querySelectorAll('[data-edit-drop]').forEach(b => b.addEventListener('click', () => abrirDropForm(b.dataset.editDrop)));
+        cont.querySelectorAll('[data-del-drop]').forEach(b => b.addEventListener('click', () => excluirDrop(b.dataset.delDrop, b.dataset.nome)));
+    } catch (e) {
+        cont.innerHTML = '<p class="loading">Erro ao carregar drops (Catalog Service rodando?).</p>';
+    }
+}
+
+function setupDropForm () {
+    document.getElementById('cancel-drop').addEventListener('click', () => document.getElementById('drop-modal').classList.remove('open'));
+    document.getElementById('drop-modal').addEventListener('click', e => { if (e.target.id === 'drop-modal') document.getElementById('drop-modal').classList.remove('open'); });
+    document.getElementById('drop-form').addEventListener('submit', salvarDrop);
+}
+
+async function carregarProdutosPicker (selecionados) {
+    const cont = document.getElementById('d-pecas');
+    const sel = new Set((selecionados || []).map(Number));
+    try {
+        if (!_produtosCache) {
+            const res = await fetch(`${API}/admin/produtos`, { headers: authHeaders() });
+            _produtosCache = await res.json();
+        }
+        const ativos = (_produtosCache || []).filter(p => p.ativo);
+        cont.innerHTML = ativos.length ? ativos.map(p => `
+          <label>
+            <input type="checkbox" value="${p.id}" ${sel.has(Number(p.id)) ? 'checked' : ''} />
+            <img src="${p.imagem ? ASSETS + p.imagem : ASSETS + 'img/placeholder.png'}" alt="" onerror="this.style.opacity=.2"/>
+            <span class="pp-nome">${escapeHtml(p.nome)}</span>
+            <span class="pp-tipo">${p.tipo}</span>
+          </label>`).join('') : '<p class="loading" style="padding:16px">Cadastre peças primeiro (aba Peças).</p>';
+    } catch (e) { cont.innerHTML = '<p class="loading" style="padding:16px">Erro ao carregar as peças.</p>'; }
+}
+
+function dSet (id, v) { const el = document.getElementById(id); if (el) el.value = (v == null ? '' : v); }
+function dChk (id, v) { const el = document.getElementById(id); if (el) el.checked = !!v; }
+function dLinhas (id) { return document.getElementById(id).value.split('\n').map(l => l.trim()).filter(Boolean); }
+
+async function abrirDropForm (id) {
+    document.getElementById('drop-form').reset();
+    setSlot(document.getElementById('d-bannerslot'), '');
+    document.getElementById('d-accent').value = '#2aabb0';
+    msg('drop-form-msg', '', '');
+    const idInput = document.getElementById('d-id');
+
+    if (!id) {
+        document.getElementById('drop-modal-title').textContent = 'Novo drop';
+        idInput.disabled = false;
+        await carregarProdutosPicker([]);
+    } else {
+        document.getElementById('drop-modal-title').textContent = 'Editar drop';
+        idInput.disabled = true;   // id = nome do arquivo, não muda
+        try {
+            const res = await fetch(CONFIG.API_STOREFRONT_URL + '/drops/' + encodeURIComponent(id), { headers: authHeaders() });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Erro');
+            preencherDropForm(data.config || {});
+            await carregarProdutosPicker(data.produto_ids || []);
+        } catch (e) { msg('drop-form-msg', 'Erro ao carregar o drop.', 'err'); }
+    }
+    document.getElementById('drop-modal').classList.add('open');
+}
+
+function preencherDropForm (c) {
+    dSet('d-id', c.id); dSet('d-nome', c.nome); dSet('d-dropnome', c.drop_nome);
+    dSet('d-topbar', c.topbar); dChk('d-snow', c.snow);
+    if (c.accent) document.getElementById('d-accent').value = c.accent;
+    if (c.banner) setSlot(document.getElementById('d-bannerslot'), c.banner);
+    dSet('d-marquee', Array.isArray(c.marquee) ? c.marquee.join(', ') : '');
+    const h = c.hero || {};
+    dSet('d-h-eyebrow', h.eyebrow); dSet('d-h-meta', h.meta_label);
+    dSet('d-h-headline', Array.isArray(h.headline) ? h.headline.join('\n') : '');
+    dSet('d-h-sub', h.sub); dSet('d-h-cta1', h.cta_primary); dSet('d-h-cta2', h.cta_secondary);
+    const s = c.drop_section || {};
+    dChk('d-s-hidden', s.hidden); dSet('d-s-label', s.label);
+    dSet('d-s-titulo', Array.isArray(s.titulo) ? s.titulo.join('\n') : '');
+    dSet('d-s-texto', s.texto); dSet('d-s-visual', s.visual_text);
+    dSet('d-s-count', s.countdown ? String(s.countdown).slice(0, 16) : '');
+    const p = c.drop_page || {};
+    dSet('d-p-label', p.label); dSet('d-p-titulo', p.titulo); dSet('d-p-sub', p.subtitulo);
+}
+
+function coletarDropConfig () {
+    const banner = document.getElementById('d-bannerslot').dataset.caminho || '';
+    const countRaw = document.getElementById('d-s-count').value;
+    const config = {
+        id: document.getElementById('d-id').value.trim(),
+        nome: document.getElementById('d-nome').value.trim(),
+        drop_nome: document.getElementById('d-dropnome').value.trim() || null,
+        accent: document.getElementById('d-accent').value,
+        snow: document.getElementById('d-snow').checked,
+        topbar: document.getElementById('d-topbar').value.trim(),
+        marquee: document.getElementById('d-marquee').value.split(',').map(s => s.trim()).filter(Boolean),
+        hero: {
+            eyebrow: document.getElementById('d-h-eyebrow').value.trim(),
+            meta_index: '',
+            meta_label: document.getElementById('d-h-meta').value.trim(),
+            headline: dLinhas('d-h-headline'),
+            sub: document.getElementById('d-h-sub').value.trim(),
+            banner: banner,
+            cta_primary: document.getElementById('d-h-cta1').value.trim(),
+            cta_secondary: document.getElementById('d-h-cta2').value.trim()
+        },
+        drop_section: {
+            hidden: document.getElementById('d-s-hidden').checked,
+            label: document.getElementById('d-s-label').value.trim(),
+            titulo: dLinhas('d-s-titulo'),
+            texto: document.getElementById('d-s-texto').value.trim(),
+            visual_text: document.getElementById('d-s-visual').value.trim(),
+            banner: banner,
+            countdown: countRaw ? countRaw + ':00' : ''
+        },
+        drop_page: {
+            label: document.getElementById('d-p-label').value.trim(),
+            titulo: document.getElementById('d-p-titulo').value.trim(),
+            subtitulo: document.getElementById('d-p-sub').value.trim(),
+            banner: banner
+        }
+    };
+    const produto_ids = [...document.querySelectorAll('#d-pecas input:checked')].map(i => parseInt(i.value, 10));
+    return { config, produto_ids };
+}
+
+async function salvarDrop (e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-drop');
+    btn.disabled = true; msg('drop-form-msg', 'Salvando…', '');
+    try {
+        const res = await fetch(CONFIG.API_STOREFRONT_URL + '/drops', {
+            method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify(coletarDropConfig())
+        });
+        const data = await res.json();
+        if (res.ok) {
+            document.getElementById('drop-modal').classList.remove('open');
+            await carregarDrops();
+            await carregarEstado();   // a aba Estado passa a listar o novo drop
+            msg('drops-msg', data.aviso || 'Drop salvo ✦', data.aviso ? 'err' : 'ok');
+            setTimeout(() => msg('drops-msg', '', ''), 4000);
+        } else { msg('drop-form-msg', data.error || 'Erro ao salvar.', 'err'); btn.disabled = false; }
+    } catch (err) { msg('drop-form-msg', 'Erro de conexão ao salvar.', 'err'); btn.disabled = false; }
+    finally { btn.disabled = false; }
+}
+
+async function excluirDrop (id, nome) {
+    if (!confirm(`Excluir o drop "${nome}"? O arquivo ${id}.json será apagado.`)) return;
+    try {
+        const res = await fetch(CONFIG.API_STOREFRONT_URL + '/drops/' + encodeURIComponent(id), { method: 'DELETE', headers: authHeaders() });
+        const data = await res.json();
+        if (res.ok) { await carregarDrops(); await carregarEstado(); msg('drops-msg', 'Drop excluído.', 'ok'); setTimeout(() => msg('drops-msg', '', ''), 3000); }
+        else msg('drops-msg', data.error || 'Erro ao excluir.', 'err');
+    } catch (e) { msg('drops-msg', 'Erro de conexão.', 'err'); }
 }
 
 /* ── utils ── */

@@ -87,3 +87,46 @@ def set_estado(ativo):
     with open(ESTADO_PATH, 'w', encoding='utf-8') as f:
         json.dump(estado, f, ensure_ascii=False, indent=2)
     return estado, None
+
+
+def ler_drop(drop_id):
+    """Carrega a config completa de um drop específico (para edição no admin)."""
+    return _load_drop(drop_id)
+
+
+def salvar_drop(config):
+    """Grava drops/<id>.json. Valida id (sem path traversal) e nome."""
+    if not isinstance(config, dict):
+        return None, "Configuração inválida."
+    drop_id = _safe_id(config.get('id'))
+    if not drop_id:
+        return None, "ID do drop inválido (use só letras, números, - e _)."
+    if drop_id.startswith('_'):
+        return None, "ID reservado."
+    if not (config.get('nome') or '').strip():
+        return None, "Nome do drop é obrigatório."
+    path = os.path.join(DROPS_DIR, drop_id + '.json')
+    try:
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump(config, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        return None, "Erro ao gravar o drop: {}".format(e)
+    return drop_id, None
+
+
+def excluir_drop(drop_id):
+    """Apaga drops/<id>.json. Bloqueia 'normal' e o drop ativo."""
+    drop_id = _safe_id(drop_id)
+    if not drop_id or drop_id == 'normal':
+        return False, "Esse drop não pode ser excluído."
+    try:
+        estado = _read_json(ESTADO_PATH)
+    except Exception:
+        estado = {}
+    if estado.get('ativo') == drop_id:
+        return False, "Esse drop está ativo. Troque o estado da loja antes de excluir."
+    path = os.path.join(DROPS_DIR, drop_id + '.json')
+    if not os.path.isfile(path):
+        return False, "Drop não encontrado."
+    os.remove(path)
+    return True, None

@@ -1,2 +1,20 @@
-# Serve para não subir a .env para o github 
+# Ambiente / segredos
 .env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# Logs
+*.log
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini

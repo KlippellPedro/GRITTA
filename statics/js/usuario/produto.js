@@ -35,9 +35,22 @@ async function carregarDadosProduto(slug) {
     }
 }
 
+function salvarRecente (p) {
+    try {
+        const KEY = 'gritta_recentes';
+        const item = { id: p.id, nome: p.nome, imagem: p.imagem, preco_base: p.preco_base, slug: p.slug || p.id };
+        let lista = JSON.parse(localStorage.getItem(KEY) || '[]');
+        lista = lista.filter(x => x.id !== item.id);   // dedup
+        lista.unshift(item);                            // mais recente primeiro
+        localStorage.setItem(KEY, JSON.stringify(lista.slice(0, 8)));
+    } catch (e) {}
+}
+
 function renderizarPagina(produto) {
     document.getElementById('loading-product').style.display = 'none';
     document.getElementById('product-content').style.display = 'grid';
+
+    salvarRecente(produto);   // registra para "Vistos Recentemente"
 
     // Calcula o estoque total para a etiqueta de "ÚLTIMAS PEÇAS"
     let totalEstoqueProduto = 0;
@@ -176,6 +189,8 @@ async function adicionarAoCarrinho(produto) {
             btn.style.backgroundColor = "#27ae60";
 
             if (window.atualizarContadorCarrinho) window.atualizarContadorCarrinho(quantidade, true);
+            if (window.showToast) window.showToast("ADICIONADO À SACOLA ✦", "success");
+            if (window.openMiniCart) window.openMiniCart();   // abre a gaveta lateral
 
             setTimeout(() => {
                 btn.textContent = originalText;

@@ -4,12 +4,24 @@
   max-width: 1400px;
   margin: 0 auto;
   min-height: 70vh;
+  position: relative;          /* ancora a camada de neve */
+  overflow: hidden;
 }
+/* conteúdo acima da neve */
+.drop-main > *:not(.snow-layer) { position: relative; z-index: 2 }
 
 .drop-header {
   text-align: center;
   margin-bottom: 60px;
+  position: relative;
+  padding: 90px 24px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(8,16,24,.62), rgba(8,16,24,.84)),
+    url("../../img/banners/banner_winter_is_comming.png") center 32%/cover no-repeat;
 }
+.drop-header > * { position: relative; z-index: 2 }
 
 .drop-titulo {
   font-family: "Bebas Neue", sans-serif;

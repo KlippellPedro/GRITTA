@@ -23,19 +23,31 @@
 
     <!-- ══ HERO ══ -->
     <section class="hero" id="top">
+      <div class="hero-photo" aria-hidden="true"><div class="hero-photo-img"></div></div>
       <div class="hero-grid-overlay"></div>
-      <div class="hero-content">
-        <div class="hero-eyebrow">✦ Drop Inverno 2026 — Disponível Agora</div>
-        <h1 class="hero-title">O INVERNO<br/>NÃO <em>PERDOA.</em><br/>VOCÊ TAMBÉM<br/>NÃO.</h1>
-        <p class="hero-sub">Moletons, jaquetas e calças feitas pro frio que não pede licença. Oversized, bruto, sem concessão.</p>
+      <div class="hero-inner">
+        <div class="hero-meta">
+          <span class="hero-index">01 / 04</span>
+          <span class="hero-meta-label">Drop 01 — Inverno '26 · Tá na rua</span>
+        </div>
+        <p class="hero-eyebrow">Winter is Coming</p>
+        <h1 class="hero-title">
+          <span class="line"><span class="word" style="--i: 0">O</span> <span class="word" style="--i: 1">NORTE</span></span>
+          <span class="line"><span class="word" style="--i: 2">SE</span> <span class="word accent" style="--i: 3">LEMBRA.</span></span>
+          <span class="line"
+            ><span class="word" style="--i: 4">A</span> <span class="word" style="--i: 5">GR!TTA</span>
+            <span class="word" style="--i: 6">TAMBÉM.</span></span
+          >
+        </h1>
+        <p class="hero-sub">Moletom pesado, jaqueta que encara vento. Caimento largo, costura firme. Pro frio que não avisa.</p>
         <div class="hero-actions">
-          <a href="./pages/drop.html" class="btn-comprar btn-hero-primary"><span>VER DROP 01 →</span></a>
-          <a href="./pages/categoria.html?tipo=moletons" class="btn-comprar btn-hero-ghost">CATEGORIAS</a>
+          <a href="./pages/drop.html" class="btn-hero-primary"><span>VER O DROP →</span></a>
+          <a href="#categorias" class="btn-hero-ghost"><span>CATEGORIAS</span></a>
         </div>
       </div>
       <div class="hero-scroll">
         <div class="hero-scroll-line"></div>
-        <span>Scroll</span>
+        <span>GR!TTA</span>
       </div>
     </section>
 
@@ -60,6 +72,17 @@
         </div>
       </div>
 
+      <!-- ══ BUSCA ══ -->
+      <form class="vitrine-search reveal" id="busca-form" role="search" autocomplete="off">
+        <svg class="vs-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+          <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <input type="search" id="busca-input" name="q" placeholder="Buscar peça — moletom, cargo, oversized…" aria-label="Buscar produtos" />
+        <button type="button" class="vs-clear" id="busca-clear" aria-label="Limpar busca" hidden>✕</button>
+      </form>
+      <p class="busca-info" id="busca-info" hidden></p>
+
       <!-- Banner de conexão offline -->
       <div class="db-banner reveal" id="db-banner">
         <div class="db-banner-dot"></div>
@@ -73,11 +96,14 @@
 
     <!-- ══ DROP / COUNTDOWN ══ -->
     <section id="drop" style="padding: 0 0 80px">
-      <div class="drop-section reveal">
+      <div class="drop-section reveal" data-snow="28">
         <div>
-          <span class="section-label">✦ Lançamento Exclusivo</span>
-          <h2 class="drop-title">INVERNO<br/><em>26</em> CHEGA<br/>EM BREVE</h2>
-          <p class="drop-text">A próxima coleção vai redefinir o streetwear nacional. Peças limitadas, design bruto, conforto extremo.</p>
+          <span class="section-label">✦ A Noite Mais Longa</span>
+          <h2 class="drop-title">WINTER IS<br /><em>COMING</em></h2>
+          <p class="drop-text">
+            Quando o frio aperta, só os preparados resistem. A coleção mais brutal do ano chega em contagem regressiva — peças limitadas pra encarar a
+            noite mais longa.
+          </p>
           <div class="countdown">
             <div class="cd-block"><span class="cd-num" id="cd-d">14</span><span class="cd-label">Dias</span></div>
             <span class="cd-sep">:</span>
@@ -87,10 +113,10 @@
             <span class="cd-sep">:</span>
             <div class="cd-block"><span class="cd-num" id="cd-s">00</span><span class="cd-label">Seg</span></div>
           </div>
-          <button class="btn-vip" id="btn-vip" onclick="showToast('LISTA VIP ATIVADA ✦','success')"><span>ENTRAR NA LISTA VIP</span></button>
+          <button class="btn-vip" id="btn-vip" onclick="showToast('LISTA VIP ATIVADA ✦', 'success')"><span>ENTRAR NA LISTA VIP</span></button>
         </div>
         <div class="drop-visual">
-          <div class="drop-visual-text">GR!TTA<br/>W26</div>
+          <div class="drop-visual-text">WINTER<br />'26</div>
         </div>
       </div>
     </section>
@@ -98,34 +124,65 @@
     <!-- ══ CATEGORIAS ══ -->
     <section class="categorias" id="categorias">
       <span class="section-label reveal">✦ Explore por Categoria</span>
-      <h2 class="secao-titulo reveal d1">ENCONTRE<br/>SEU ESTILO</h2>
+      <h2 class="secao-titulo reveal d1">ENCONTRE<br />SEU ESTILO</h2>
       <div class="cat-grid reveal d2">
         <a href="./pages/categoria.html?tipo=moletons" class="cat-card">
-          <div class="cat-bg cat-bg-1"></div><div class="cat-overlay"></div>
-          <div class="cat-label-wrap"><span class="cat-eyebrow">Mais Vendido</span><div class="cat-name">MOLETONS</div></div>
+          <div class="cat-bg cat-bg-1"></div>
+          <div class="cat-overlay"></div>
+          <div class="cat-label-wrap">
+            <span class="cat-eyebrow">Mais Vendido</span>
+            <div class="cat-name">MOLETONS</div>
+          </div>
           <span class="cat-arrow">→</span>
         </a>
         <a href="./pages/categoria.html?tipo=camisas" class="cat-card">
-          <div class="cat-bg cat-bg-2"></div><div class="cat-overlay"></div>
-          <div class="cat-label-wrap"><span class="cat-eyebrow">Novo Drop</span><div class="cat-name">CAMISAS</div></div>
+          <div class="cat-bg cat-bg-2"></div>
+          <div class="cat-overlay"></div>
+          <div class="cat-label-wrap">
+            <span class="cat-eyebrow">Novo Drop</span>
+            <div class="cat-name">CAMISAS</div>
+          </div>
           <span class="cat-arrow">→</span>
         </a>
         <a href="./pages/categoria.html?tipo=calcas" class="cat-card">
-          <div class="cat-bg cat-bg-3"></div><div class="cat-overlay"></div>
-          <div class="cat-label-wrap"><span class="cat-eyebrow">Oversized</span><div class="cat-name">CALÇAS</div></div>
+          <div class="cat-bg cat-bg-3"></div>
+          <div class="cat-overlay"></div>
+          <div class="cat-label-wrap">
+            <span class="cat-eyebrow">Oversized</span>
+            <div class="cat-name">CALÇAS</div>
+          </div>
           <span class="cat-arrow">→</span>
         </a>
         <a href="./pages/categoria.html?tipo=tenis" class="cat-card">
-          <div class="cat-bg cat-bg-4"></div><div class="cat-overlay"></div>
-          <div class="cat-label-wrap"><span class="cat-eyebrow">Drops Limitados</span><div class="cat-name">TÊNIS</div></div>
+          <div class="cat-bg cat-bg-4"></div>
+          <div class="cat-overlay"></div>
+          <div class="cat-label-wrap">
+            <span class="cat-eyebrow">Drops Limitados</span>
+            <div class="cat-name">TÊNIS</div>
+          </div>
           <span class="cat-arrow">→</span>
         </a>
         <a href="./pages/categoria.html?tipo=acessorios" class="cat-card">
-          <div class="cat-bg cat-bg-5"></div><div class="cat-overlay"></div>
-          <div class="cat-label-wrap"><span class="cat-eyebrow">Completa o Look</span><div class="cat-name">ACESSÓRIOS</div></div>
+          <div class="cat-bg cat-bg-5"></div>
+          <div class="cat-overlay"></div>
+          <div class="cat-label-wrap">
+            <span class="cat-eyebrow">Completa o Look</span>
+            <div class="cat-name">ACESSÓRIOS</div>
+          </div>
           <span class="cat-arrow">→</span>
         </a>
       </div>
+    </section>
+
+    <!-- ══ RECÉM-VISTOS ══ -->
+    <section class="recentes" id="recentes" hidden>
+      <div class="vitrine-header reveal">
+        <div>
+          <span class="section-label">✦ De Olho</span>
+          <h2 class="secao-titulo">VISTOS RECENTEMENTE</h2>
+        </div>
+      </div>
+      <div class="vitrine reveal" id="recentes-container"></div>
     </section>
 
     <gritta-footer></gritta-footer>

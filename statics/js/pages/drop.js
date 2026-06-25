@@ -4,15 +4,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const vitrine = document.getElementById('vitrine-drop');
     const titulo  = document.getElementById('titulo-drop');
 
-    // Você pode pegar o nome do drop da URL ou mostrar o mais recente por padrão
+    // Título exibido (tema) é desacoplado do valor de busca na API.
     const params = new URLSearchParams(window.location.search);
-    const dropAlvo = params.get('nome') || 'Coleção de Inverno'; // Valor padrão
+    const dropFetch   = params.get('drop') || params.get('nome') || 'Coleção de Inverno'; // valor real no banco
+    const dropDisplay = params.get('nome') || 'Winter is Coming';                          // o que aparece na tela
 
-    titulo.textContent = dropAlvo.toUpperCase();
+    titulo.textContent = dropDisplay.toUpperCase();
 
     try {
-        // Exemplo de chamada filtrando pela nova coluna
-        const response = await fetch(`${CONFIG.API_CATALOG_URL}?drop=${encodeURIComponent(dropAlvo)}`);
+        // Filtra pela coluna `drop` mantendo o valor padrão do banco
+        const response = await fetch(`${CONFIG.API_CATALOG_URL}?drop=${encodeURIComponent(dropFetch)}`);
         const produtos = await response.json();
 
         if (produtos.length === 0) {
@@ -38,7 +39,7 @@ function renderizarProdutos(lista, container) {
         }
 
         return `
-        <div class="produto-card" onclick="window.location.href='../usuario/produto.html?slug=${p.slug || p.id}'">
+        <div class="produto-card" onclick="window.grittaGo('../usuario/produto.html?slug=${p.slug || p.id}')">
             <div class="produto-imagem">
                 ${ultimasPecasHTML}
                 <img src="${imagemUrl}" alt="${p.nome}">

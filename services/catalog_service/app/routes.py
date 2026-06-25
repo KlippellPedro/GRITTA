@@ -2,6 +2,10 @@ from flask import Blueprint, request, jsonify
 from .service import get_all_products, get_product_by_slug, get_related_products
 from .storefront import get_estado, list_drops, set_estado
 from .auth import admin_required
+from .admin_service import (
+    listar_produtos, obter_produto, criar_produto,
+    atualizar_produto, desativar_produto, salvar_upload
+)
 
 main = Blueprint('main', __name__)
 
@@ -57,3 +61,59 @@ def storefront_set():
     if err:
         return jsonify({"error": err}), 400
     return jsonify(estado), 200
+
+
+# ─────────────────────────────────────────────
+#  ADMIN — CRUD de peças (tudo protegido)
+# ─────────────────────────────────────────────
+@main.route('/admin/produtos', methods=['GET'])
+@admin_required
+def admin_listar():
+    return jsonify(listar_produtos()), 200
+
+
+@main.route('/admin/produtos/<int:pid>', methods=['GET'])
+@admin_required
+def admin_obter(pid):
+    produto = obter_produto(pid)
+    if not produto:
+        return jsonify({"error": "Peça não encontrada"}), 404
+    return jsonify(produto), 200
+
+
+@main.route('/admin/produtos', methods=['POST'])
+@admin_required
+def admin_criar():
+    pid, err = criar_produto(request.get_json(silent=True) or {})
+    if err:
+        return jsonify({"error": err}), 400
+    return jsonify({"success": True, "id": pid}), 201
+
+
+@main.route('/admin/produtos/<int:pid>', methods=['PUT'])
+@admin_required
+def admin_atualizar(pid):
+    ok, err = atualizar_produto(pid, request.get_json(silent=True) or {})
+    if err:
+        return jsonify({"error": err}), 400
+    return jsonify({"success": True}), 200
+
+
+@main.route('/admin/produtos/<int:pid>', methods=['DELETE'])
+@admin_required
+def admin_desativar(pid):
+    if not desativar_produto(pid):
+        return jsonify({"error": "Peça não encontrada"}), 404
+    return jsonify({"success": True}), 200
+
+
+@main.route('/admin/upload', methods=['POST'])
+@admin_required
+def admin_upload():
+    arquivo = request.files.get('file')
+    if not arquivo:
+        return jsonify({"error": "Nenhum arquivo enviado."}), 400
+    caminho, err = salvar_upload(arquivo)
+    if err:
+        return jsonify({"error": err}), 400
+    return jsonify({"success": True, "caminho": caminho}), 201

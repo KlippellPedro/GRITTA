@@ -12,6 +12,7 @@ if not SECRET_KEY:
     raise ValueError("ERRO CRÍTICO: SECRET_KEY ausente.")
 
 app.config['SECRET_KEY'] = SECRET_KEY
+app.config['MAX_CONTENT_LENGTH'] = 6 * 1024 * 1024  # teto de 6 MB por request (uploads)
 app.register_blueprint(main)
 CORS(app, resources={r"/*": {"origins": "*"}})
 

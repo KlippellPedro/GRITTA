@@ -15,30 +15,32 @@
         --accent:#2aabb0; --danger:#e84545; --success:#1a9e5a;
       }
       *{box-sizing:border-box;margin:0;padding:0}
-      body{
-        font-family:"Montserrat",sans-serif; background:var(--bg); color:var(--text);
-        min-height:100vh; padding:40px 20px; line-height:1.6;
-      }
-      .wrap{max-width:760px;margin:0 auto}
-      .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:12px}
+      body{font-family:"Montserrat",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:40px 20px;line-height:1.6}
+      .wrap{max-width:980px;margin:0 auto}
+      .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
       .brand{font-family:"Bebas Neue",sans-serif;font-size:2rem;letter-spacing:2px}
       .brand span{color:var(--accent)}
       .back{color:var(--muted);text-decoration:none;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;font-weight:700}
       .back:hover{color:var(--text)}
-      h1{font-family:"Bebas Neue",sans-serif;font-size:2.6rem;letter-spacing:1px;margin-bottom:4px}
-      .sub{color:var(--muted);font-size:.82rem;margin-bottom:32px}
-      .status{
-        background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);
-        padding:16px 20px;margin-bottom:28px;font-size:.85rem;
-      }
-      .status b{font-family:"Bebas Neue",sans-serif;font-size:1.2rem;letter-spacing:1px;color:var(--accent)}
+      h1{font-family:"Bebas Neue",sans-serif;font-size:2.4rem;letter-spacing:1px;margin-bottom:4px}
+      .sub{color:var(--muted);font-size:.82rem;margin-bottom:28px}
       .label{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:block}
-      .options{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
-      .opt{
-        background:var(--surface);border:1px solid var(--border);
-        padding:18px 20px;cursor:pointer;display:flex;align-items:center;gap:16px;
-        transition:border-color .25s, background .25s; user-select:none;
-      }
+      .msg{margin-top:16px;font-size:.8rem;font-weight:700;letter-spacing:1px;min-height:20px}
+      .msg.ok{color:var(--success)} .msg.err{color:var(--danger)}
+
+      /* Abas */
+      .tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:28px}
+      .tab{background:none;border:none;color:var(--muted);font-family:"Bebas Neue",sans-serif;font-size:1.2rem;letter-spacing:1px;
+           padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+      .tab:hover{color:var(--text)}
+      .tab.active{color:var(--text);border-bottom-color:var(--accent)}
+      .tabpane[hidden]{display:none}
+
+      /* Estado da loja */
+      .status{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);padding:16px 20px;margin-bottom:24px;font-size:.85rem}
+      .status b{font-family:"Bebas Neue",sans-serif;font-size:1.2rem;letter-spacing:1px;color:var(--accent)}
+      .options{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+      .opt{background:var(--surface);border:1px solid var(--border);padding:18px 20px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:border-color .25s,background .25s;user-select:none}
       .opt:hover{border-color:var(--muted)}
       .opt.sel{border-color:var(--accent);background:var(--surface-2)}
       .opt .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);flex-shrink:0;transition:all .2s}
@@ -46,27 +48,78 @@
       .opt .info{flex:1}
       .opt .nome{font-family:"Bebas Neue",sans-serif;font-size:1.3rem;letter-spacing:1px}
       .opt .tag{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700}
-      .opt .badge{
-        font-size:.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-        color:var(--success);border:1px solid var(--success);padding:3px 8px;
-      }
-      .save{
-        width:100%;padding:16px;background:var(--text);color:var(--bg);border:none;
-        font-family:"Bebas Neue",sans-serif;font-size:1.2rem;letter-spacing:2px;cursor:pointer;
-        transition:background .25s;
-      }
-      .save:hover{background:var(--accent)}
-      .save:disabled{opacity:.4;cursor:not-allowed}
-      .msg{margin-top:18px;font-size:.8rem;font-weight:700;letter-spacing:1px;min-height:20px}
-      .msg.ok{color:var(--success)} .msg.err{color:var(--danger)}
-      .denied{
-        background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--danger);
-        padding:32px;text-align:center;
-      }
+      .opt .badge{font-size:.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--success);border:1px solid var(--success);padding:3px 8px}
+
+      /* Botões */
+      .btn{font-family:"Bebas Neue",sans-serif;font-size:1.1rem;letter-spacing:1.5px;border:none;cursor:pointer;padding:13px 22px;transition:background .25s,color .25s}
+      .btn-primary{background:var(--accent);color:#fff}
+      .btn-primary:hover{background:#2398a0}
+      .btn-light{background:var(--text);color:var(--bg)}
+      .btn-light:hover{background:var(--accent);color:#fff}
+      .btn-ghost{background:none;color:var(--muted);border:1px solid var(--border)}
+      .btn-ghost:hover{color:var(--text);border-color:var(--muted)}
+      .btn:disabled{opacity:.4;cursor:not-allowed}
+      .save{width:100%}
+
+      /* Peças — tabela */
+      .pecas-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+      .pecas-head h2{font-family:"Bebas Neue",sans-serif;font-size:1.8rem;letter-spacing:1px}
+      table.pecas{width:100%;border-collapse:collapse;font-size:.8rem}
+      table.pecas th,table.pecas td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--border)}
+      table.pecas th{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700}
+      table.pecas tbody tr:hover{background:var(--surface)}
+      table.pecas img{width:42px;height:54px;object-fit:cover;background:var(--surface-2);display:block}
+      .pill{font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border:1px solid var(--border)}
+      .pill.on{color:var(--success);border-color:rgba(26,158,90,.4)}
+      .pill.off{color:var(--muted)}
+      .pill.special{color:var(--accent);border-color:rgba(42,171,176,.4)}
+      .row-actions{display:flex;gap:8px}
+      .mini{background:none;border:1px solid var(--border);color:var(--muted);font-size:.62rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;padding:6px 10px;cursor:pointer;transition:all .2s}
+      .mini:hover{color:var(--text);border-color:var(--muted)}
+      .mini.del:hover{color:var(--danger);border-color:rgba(232,69,69,.4)}
+
+      /* Modal de formulário */
+      .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(5px);display:none;align-items:flex-start;justify-content:center;padding:30px 16px;z-index:100;overflow-y:auto}
+      .modal-bg.open{display:flex}
+      .modal{background:var(--surface);border:1px solid var(--border);width:100%;max-width:620px;padding:32px}
+      .modal h3{font-family:"Bebas Neue",sans-serif;font-size:1.8rem;letter-spacing:1px;margin-bottom:22px}
+      .field{margin-bottom:16px}
+      .field label{display:block;font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+      .field input,.field select,.field textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:11px 12px;font-family:"Montserrat",sans-serif;font-size:.85rem;outline:none;transition:border-color .2s}
+      .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+      .field textarea{resize:vertical;min-height:70px}
+      .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+      .check{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--text);cursor:pointer}
+      .check input{width:auto;accent-color:var(--accent)}
+
+      /* Upload de imagens */
+      .imgs{display:flex;gap:14px;flex-wrap:wrap}
+      .imgslot{width:120px}
+      .imgslot .drop{aspect-ratio:3/4;border:1px dashed var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;transition:border-color .2s}
+      .imgslot .drop:hover{border-color:var(--accent)}
+      .imgslot .drop img{width:100%;height:100%;object-fit:cover}
+      .imgslot .drop span{font-size:.62rem;color:var(--muted);text-align:center;padding:8px}
+      .imgslot .cap{font-size:.58rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:center;margin-top:6px}
+      .imgslot.up .drop{border-color:var(--accent)}
+
+      /* Variações */
+      .vars{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+      .varrow{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center}
+      .varrow input{margin:0}
+      .varrow .rm{background:none;border:1px solid var(--border);color:var(--muted);width:34px;height:34px;cursor:pointer;font-size:1.1rem;line-height:1}
+      .varrow .rm:hover{color:var(--danger);border-color:rgba(232,69,69,.4)}
+      .addvar{background:none;border:1px dashed var(--border);color:var(--muted);padding:9px;width:100%;cursor:pointer;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;transition:all .2s}
+      .addvar:hover{color:var(--text);border-color:var(--muted)}
+      .modal-actions{display:flex;gap:12px;margin-top:26px}
+      .modal-actions .btn{flex:1}
+
+      .denied{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--danger);padding:32px;text-align:center}
       .denied h2{font-family:"Bebas Neue",sans-serif;font-size:2rem;color:var(--danger);margin-bottom:10px;letter-spacing:1px}
       .denied a{color:var(--accent);font-weight:700}
       .hint{color:var(--muted);font-size:.72rem;margin-top:24px;line-height:1.7}
       .hint code{background:var(--surface-2);padding:2px 6px;border-radius:2px;color:var(--text)}
+      .loading{color:var(--muted);text-align:center;padding:40px;font-family:"Bebas Neue",sans-serif;letter-spacing:1px}
+      @media(max-width:560px){.grid2{grid-template-columns:1fr}table.pecas .hide-sm{display:none}}
     </style>
   </head>
   <body>
@@ -76,30 +129,110 @@
         <a class="back" href="../index.html">← Voltar à loja</a>
       </div>
 
-      <!-- Conteúdo (preenchido pelo JS conforme permissão) -->
       <div id="painel" style="display:none">
-        <h1>Estado da Loja</h1>
-        <p class="sub">Ative a loja normal ou um drop. Troca as imagens e personalizações sem mexer no código.</p>
+        <div class="tabs">
+          <button class="tab active" data-tab="estado">Estado da Loja</button>
+          <button class="tab" data-tab="pecas">Peças</button>
+        </div>
 
-        <div class="status" id="status">Carregando estado atual…</div>
+        <!-- ── Aba: Estado da Loja ── -->
+        <section id="tab-estado" class="tabpane">
+          <h1>Estado da Loja</h1>
+          <p class="sub">Ative a loja normal ou um drop. Troca imagens e personalizações sem mexer no código.</p>
+          <div class="status" id="status">Carregando estado atual…</div>
+          <span class="label">Selecione o modo</span>
+          <div class="options" id="options"></div>
+          <button class="btn btn-light save" id="btn-save" disabled>Salvar e aplicar</button>
+          <div class="msg" id="msg"></div>
+          <p class="hint">Cada drop é um arquivo em <code>/drops/&lt;id&gt;.json</code>. A criação de drops pela tela chega na próxima fase.</p>
+        </section>
 
-        <span class="label">Selecione o modo</span>
-        <div class="options" id="options"></div>
-
-        <button class="save" id="btn-save" disabled>Salvar e aplicar</button>
-        <div class="msg" id="msg"></div>
-
-        <p class="hint">
-          Cada drop é um arquivo em <code>/drops/&lt;id&gt;.json</code>. Para criar um novo drop,
-          duplique <code>winter-is-coming.json</code>, ajuste os textos/imagens e ele aparece aqui automaticamente.
-        </p>
+        <!-- ── Aba: Peças ── -->
+        <section id="tab-pecas" class="tabpane" hidden>
+          <div class="pecas-head">
+            <h1>Peças</h1>
+            <button class="btn btn-primary" id="btn-nova-peca">+ Nova peça</button>
+          </div>
+          <p class="sub">Cadastre, edite e gerencie as roupas da loja.</p>
+          <div id="pecas-lista"><p class="loading">Carregando peças…</p></div>
+          <div class="msg" id="pecas-msg"></div>
+        </section>
       </div>
 
-      <!-- Acesso negado -->
       <div id="denied" class="denied" style="display:none">
         <h2>Acesso restrito</h2>
         <p id="denied-msg">Esta área é só para administradores.</p>
         <p style="margin-top:16px"><a href="../usuario/login.html">Fazer login</a></p>
+      </div>
+    </div>
+
+    <!-- ── Modal: formulário de peça ── -->
+    <div class="modal-bg" id="peca-modal">
+      <div class="modal">
+        <h3 id="peca-modal-title">Nova peça</h3>
+        <form id="peca-form">
+          <input type="hidden" id="f-id" />
+          <div class="field">
+            <label for="f-nome">Nome</label>
+            <input type="text" id="f-nome" required maxlength="150" />
+          </div>
+          <div class="field">
+            <label for="f-desc">Descrição</label>
+            <textarea id="f-desc"></textarea>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label for="f-preco">Preço (R$)</label>
+              <input type="number" id="f-preco" step="0.01" min="0" required />
+            </div>
+            <div class="field">
+              <label for="f-tipo">Tipo</label>
+              <select id="f-tipo">
+                <option value="camisa">Camisa</option>
+                <option value="moletom">Moletom</option>
+                <option value="calca">Calça</option>
+                <option value="tenis">Tênis</option>
+                <option value="acessorio">Acessório</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label for="f-drop">Drop / Coleção (opcional)</label>
+              <input type="text" id="f-drop" placeholder="Ex.: Coleção Inverno" />
+            </div>
+            <div class="field" style="display:flex;align-items:flex-end;gap:20px">
+              <label class="check"><input type="checkbox" id="f-special" /> Destaque na home</label>
+              <label class="check" id="wrap-ativo" hidden><input type="checkbox" id="f-ativo" checked /> Ativo</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Imagens</label>
+            <div class="imgs">
+              <div class="imgslot" data-slot="0">
+                <div class="drop"><span>+ Foto principal</span><input type="file" accept="image/*" hidden /></div>
+                <div class="cap">Principal</div>
+              </div>
+              <div class="imgslot" data-slot="1">
+                <div class="drop"><span>+ 2ª foto (hover)</span><input type="file" accept="image/*" hidden /></div>
+                <div class="cap">2ª foto</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Tamanhos &amp; estoque</label>
+            <div class="vars" id="vars"></div>
+            <button type="button" class="addvar" id="add-var">+ Adicionar tamanho</button>
+          </div>
+
+          <div class="msg" id="form-msg"></div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-ghost" id="cancel-peca">Cancelar</button>
+            <button type="submit" class="btn btn-light" id="submit-peca">Salvar peça</button>
+          </div>
+        </form>
       </div>
     </div>
 

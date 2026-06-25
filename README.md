@@ -14,16 +14,16 @@ A **GR!TTA** é uma plataforma de e-commerce de alta performance focada na esté
 
 O sistema é orquestrado através de oito microsserviços especializados que se comunicam via HTTP/REST:
 
-| Serviço | Porta | Responsabilidade |
-|---|---|---|
-| **Auth Service** | 5005 | Autoridade central de segurança — JWT (Access/Refresh Tokens), Bcrypt |
-| **User Service** | 5001 | Perfis de usuário, endereços (ViaCEP), lista de favoritos |
-| **Order Service** | 5002 | Core do checkout — carrinho persistente, Saga Pattern de rollback |
-| **Catalog Service** | 5003 | Engine de catálogo — produtos, categorias, filtros por tipo |
-| **Inventory Service** | 5004 | Controle transacional de estoque por SKU |
-| **Payment Service** | 5006 | Gateway de integração para transações financeiras |
-| **Notification Service** | 5007 | E-mails transacionais e atualizações de status do pedido |
-| **Wishlist Service** | 5008 | Gerenciamento de lista de desejos desacoplada |
+| Serviço                  | Porta | Responsabilidade                                                      |
+| ------------------------ | ----- | --------------------------------------------------------------------- |
+| **Auth Service**         | 5005  | Autoridade central de segurança — JWT (Access/Refresh Tokens), Bcrypt |
+| **User Service**         | 5001  | Perfis de usuário, endereços (ViaCEP), lista de favoritos             |
+| **Order Service**        | 5002  | Core do checkout — carrinho persistente, Saga Pattern de rollback     |
+| **Catalog Service**      | 5003  | Engine de catálogo — produtos, categorias, filtros por tipo           |
+| **Inventory Service**    | 5004  | Controle transacional de estoque por SKU                              |
+| **Payment Service**      | 5006  | Gateway de integração para transações financeiras                     |
+| **Notification Service** | 5007  | E-mails transacionais e atualizações de status do pedido              |
+| **Wishlist Service**     | 5008  | Gerenciamento de lista de desejos desacoplada                         |
 
 ---
 
@@ -32,18 +32,15 @@ O sistema é orquestrado através de oito microsserviços especializados que se 
 O frontend passou por um redesign completo em 2026, implementando um **Design System** consistente em todas as páginas:
 
 ### Paleta de Cores
+
 ```css
---bg:        #0f1c25   /* Fundo global escuro */
---surface:   #162530   /* Cor primária da marca — superfícies */
---surface-2: #1a2e3d   /* Superfície secundária */
---accent:    #2aabb0   /* Teal — highlights, links, CTAs */
---text:      #f0ece4   /* Texto principal */
---muted:     #6e8fa0   /* Texto secundário */
---danger:    #e84545   /* Erros e alertas */
---success:   #1a9e5a   /* Confirmações */
+--bg: #0f1c25 /* Fundo global escuro */ --surface: #162530 /* Cor primária da marca — superfícies */ --surface-2: #1a2e3d /* Superfície secundária */
+  --accent: #2aabb0 /* Teal — highlights, links, CTAs */ --text: #f0ece4 /* Texto principal */ --muted: #6e8fa0 /* Texto secundário */
+  --danger: #e84545 /* Erros e alertas */ --success: #1a9e5a /* Confirmações */;
 ```
 
 ### Funcionalidades Únicas do Frontend
+
 - **Cursor personalizado** — dot + ring animado com `mix-blend-mode: difference`
 - **Grain overlay animado** — textura analógica de 32ms para estética premium
 - **Marquee infinito** — ticker com pause-on-hover
@@ -53,6 +50,7 @@ O frontend passou por um redesign completo em 2026, implementando um **Design Sy
 - **Parallax no hero** — grid de fundo com deslocamento suave
 
 ### Web Components
+
 Header e footer são injetados via **Custom Elements** (`<gritta-header>`, `<gritta-footer>`), centralizando toda manutenção em `components.js`. O cursor também é injetado globalmente pelo componente.
 
 ---
@@ -61,13 +59,13 @@ Header e footer são injetados via **Custom Elements** (`<gritta-header>`, `<gri
 
 O banco conta com **50 produtos ativos** distribuídos em 5 categorias:
 
-| Categoria | Qtd | Tamanhos | Preço médio |
-|---|---|---|---|
-| Camisas | 10 | PP → XGG | R$ 99–130 |
-| Moletons | 9 | P → GG | R$ 280–400 |
-| Calças | 10 | 36 → 44 | R$ 200–250 |
-| Tênis | 10 | 38 → 43 | R$ 350–450 |
-| Acessórios | 11 | ÚNICO | R$ 50–150 |
+| Categoria  | Qtd | Tamanhos | Preço médio |
+| ---------- | --- | -------- | ----------- |
+| Camisas    | 10  | PP → XGG | R$ 99–130   |
+| Moletons   | 9   | P → GG   | R$ 280–400  |
+| Calças     | 10  | 36 → 44  | R$ 200–250  |
+| Tênis      | 10  | 38 → 43  | R$ 350–450  |
+| Acessórios | 11  | ÚNICO    | R$ 50–150   |
 
 Todas as imagens dos produtos são `.webp` ou `.jpg` armazenadas localmente em `statics/img/roupas/`.
 
@@ -76,6 +74,7 @@ Todas as imagens dos produtos são `.webp` ou `.jpg` armazenadas localmente em `
 ## Tecnologias Utilizadas
 
 ### Backend (Python & Flask)
+
 - **Flask** — Micro-framework para APIs RESTful
 - **PyJWT** — Segurança e integridade na troca de tokens
 - **Bcrypt** — Hashing seguro de credenciais
@@ -83,12 +82,14 @@ Todas as imagens dos produtos são `.webp` ou `.jpg` armazenadas localmente em `
 - **Requests** — Orquestração de chamadas inter-serviços
 
 ### Frontend (Vanilla JS Moderno)
+
 - **ES6+ JavaScript** — Lógica assíncrona, módulos, Web Components
 - **CSS3 Moderno** — Grid, Flexbox, Custom Properties, animações
 - **Dark Theme Industrial** — Glassmorphism escuro em formulários, cards brancos em conteúdo
 - **Bebas Neue + Montserrat** — Tipografia com personalidade
 
 ### Banco de Dados (MySQL)
+
 - Modelagem relacional em 3NF
 - Integridade referencial estrita com Foreign Keys
 - Estoque por SKU via tabela `variacoes`
@@ -161,24 +162,29 @@ GRITTA/
 ## Instalação e Configuração
 
 ### 1. Pré-requisitos
+
 - Python 3.8+
 - MySQL 8.0+ (ou XAMPP/MariaDB)
 - Navegador moderno
 - Live Server (VS Code) ou equivalente para servir os arquivos HTML
 
 ### 2. Dependências Python
+
 ```bash
 pip install flask flask-cors mysql-connector-python PyJWT bcrypt python-dotenv requests
 ```
 
 ### 3. Banco de Dados
+
 Importe o schema no MySQL e, em seguida, os produtos iniciais:
+
 ```bash
 mysql -u root -p < gritta_db.sql
 mysql -u root -p gritta_db < gritta_novos_produtos.sql
 ```
 
 Configure os arquivos `.env` dentro de cada `services/*/`:
+
 ```env
 DB_HOST=127.0.0.1
 DB_USER=root
@@ -188,6 +194,7 @@ SECRET_KEY=gritta_melhor_loja
 ```
 
 ### 4. Executar
+
 ```bash
 # Sobe todos os microsserviços simultaneamente
 run_all_services.bat
@@ -201,6 +208,7 @@ templates/index.html
 ## Funcionalidades Implementadas
 
 ### Core
+
 - [x] Autenticação JWT com refresh automático de token
 - [x] Carrinho persistente por usuário (banco de dados)
 - [x] Filtro de produtos por categoria no frontend e na API
@@ -211,6 +219,7 @@ templates/index.html
 - [x] Histórico de pedidos com modal de detalhes e imagens
 
 ### Frontend & UX
+
 - [x] Design System v2 — paleta escura, tipografia, tokens CSS
 - [x] Cursor personalizado com efeito magnético
 - [x] Hero de inverno com parallax e countdown ao vivo
@@ -221,40 +230,11 @@ templates/index.html
 - [x] Redesign completo das páginas de usuário (login, perfil, carrinho, pedidos…)
 
 ### Segurança
+
 - [x] JWT em todas as rotas protegidas
 - [x] Endereços vinculados a pedidos não podem ser excluídos
 - [x] Refresh tokens com expiração de 30 dias
 - [x] Validação de preço no checkout (anti-tampering)
-
----
-
-## Configuração do Claude Code
-
-O projeto inclui `.claude/launch.json` com todos os 8 microsserviços configurados para inicialização via Claude Code:
-
-```json
-{
-  "version": "0.0.1",
-  "configurations": [
-    { "name": "Auth Service",         "runtimeExecutable": "python", "runtimeArgs": ["services/auth_service/run.py"],         "port": 5005 },
-    { "name": "User Service",         "runtimeExecutable": "python", "runtimeArgs": ["services/user_service/run.py"],         "port": 5001 },
-    { "name": "Order Service",        "runtimeExecutable": "python", "runtimeArgs": ["services/order_service/run.py"],        "port": 5002 },
-    { "name": "Catalog Service",      "runtimeExecutable": "python", "runtimeArgs": ["services/catalog_service/run.py"],      "port": 5003 },
-    { "name": "Inventory Service",    "runtimeExecutable": "python", "runtimeArgs": ["services/inventory_service/run.py"],    "port": 5004 },
-    { "name": "Payment Service",      "runtimeExecutable": "python", "runtimeArgs": ["services/payment_service/run.py"],      "port": 5006 },
-    { "name": "Notification Service", "runtimeExecutable": "python", "runtimeArgs": ["services/notification_service/run.py"], "port": 5007 },
-    { "name": "Wishlist Service",     "runtimeExecutable": "python", "runtimeArgs": ["services/wishlist_service/run.py"],     "port": 5008 }
-  ]
-}
-```
-
-> ⚠️ O `wishlist_service` usa `PORT=5008` via `.env` para evitar conflito com o `inventory_service` (5004).
-
----
-
-## Créditos de Imagens
-
-Todas as imagens de produtos e banners são provenientes do [Unsplash](https://unsplash.com) sob licença gratuita para uso comercial.
 
 ---
 

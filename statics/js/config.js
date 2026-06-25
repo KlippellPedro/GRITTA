@@ -8,5 +8,9 @@ window.CONFIG = {
     API_FAVORITOS_URL: `${BASE_IP}:5001/api/favoritos`,
     API_ORDER_URL: `${BASE_IP}:5002/api`,
     API_CATALOG_URL: `${BASE_IP}:5003/products`,
-    API_AUTH_URL: `${BASE_IP}:5005/api/auth`
+    API_STOREFRONT_URL: `${BASE_IP}:5003/storefront`,
+    API_AUTH_URL: `${BASE_IP}:5005/api/auth`,
+
+    // Valor mínimo para frete grátis (usado no mini-cart e textos)
+    FRETE_GRATIS: 399.90
 };

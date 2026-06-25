@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <title>GR!TTA | Painel Admin</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../statics/img/icons/loja-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet" />
+    <style>
+      :root{
+        --bg:#0f1c25; --surface:#162530; --surface-2:#1a2e3d;
+        --border:rgba(255,255,255,.08); --text:#f0ece4; --muted:#6e8fa0;
+        --accent:#2aabb0; --danger:#e84545; --success:#1a9e5a;
+      }
+      *{box-sizing:border-box;margin:0;padding:0}
+      body{
+        font-family:"Montserrat",sans-serif; background:var(--bg); color:var(--text);
+        min-height:100vh; padding:40px 20px; line-height:1.6;
+      }
+      .wrap{max-width:760px;margin:0 auto}
+      .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:12px}
+      .brand{font-family:"Bebas Neue",sans-serif;font-size:2rem;letter-spacing:2px}
+      .brand span{color:var(--accent)}
+      .back{color:var(--muted);text-decoration:none;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;font-weight:700}
+      .back:hover{color:var(--text)}
+      h1{font-family:"Bebas Neue",sans-serif;font-size:2.6rem;letter-spacing:1px;margin-bottom:4px}
+      .sub{color:var(--muted);font-size:.82rem;margin-bottom:32px}
+      .status{
+        background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);
+        padding:16px 20px;margin-bottom:28px;font-size:.85rem;
+      }
+      .status b{font-family:"Bebas Neue",sans-serif;font-size:1.2rem;letter-spacing:1px;color:var(--accent)}
+      .label{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:block}
+      .options{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+      .opt{
+        background:var(--surface);border:1px solid var(--border);
+        padding:18px 20px;cursor:pointer;display:flex;align-items:center;gap:16px;
+        transition:border-color .25s, background .25s; user-select:none;
+      }
+      .opt:hover{border-color:var(--muted)}
+      .opt.sel{border-color:var(--accent);background:var(--surface-2)}
+      .opt .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);flex-shrink:0;transition:all .2s}
+      .opt.sel .dot{border-color:var(--accent);background:var(--accent);box-shadow:0 0 0 4px rgba(42,171,176,.15) inset}
+      .opt .info{flex:1}
+      .opt .nome{font-family:"Bebas Neue",sans-serif;font-size:1.3rem;letter-spacing:1px}
+      .opt .tag{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700}
+      .opt .badge{
+        font-size:.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+        color:var(--success);border:1px solid var(--success);padding:3px 8px;
+      }
+      .save{
+        width:100%;padding:16px;background:var(--text);color:var(--bg);border:none;
+        font-family:"Bebas Neue",sans-serif;font-size:1.2rem;letter-spacing:2px;cursor:pointer;
+        transition:background .25s;
+      }
+      .save:hover{background:var(--accent)}
+      .save:disabled{opacity:.4;cursor:not-allowed}
+      .msg{margin-top:18px;font-size:.8rem;font-weight:700;letter-spacing:1px;min-height:20px}
+      .msg.ok{color:var(--success)} .msg.err{color:var(--danger)}
+      .denied{
+        background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--danger);
+        padding:32px;text-align:center;
+      }
+      .denied h2{font-family:"Bebas Neue",sans-serif;font-size:2rem;color:var(--danger);margin-bottom:10px;letter-spacing:1px}
+      .denied a{color:var(--accent);font-weight:700}
+      .hint{color:var(--muted);font-size:.72rem;margin-top:24px;line-height:1.7}
+      .hint code{background:var(--surface-2);padding:2px 6px;border-radius:2px;color:var(--text)}
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="top">
+        <div class="brand">GR<span>!</span>TTA · Painel</div>
+        <a class="back" href="../index.html">← Voltar à loja</a>
+      </div>
+
+      <!-- Conteúdo (preenchido pelo JS conforme permissão) -->
+      <div id="painel" style="display:none">
+        <h1>Estado da Loja</h1>
+        <p class="sub">Ative a loja normal ou um drop. Troca as imagens e personalizações sem mexer no código.</p>
+
+        <div class="status" id="status">Carregando estado atual…</div>
+
+        <span class="label">Selecione o modo</span>
+        <div class="options" id="options"></div>
+
+        <button class="save" id="btn-save" disabled>Salvar e aplicar</button>
+        <div class="msg" id="msg"></div>
+
+        <p class="hint">
+          Cada drop é um arquivo em <code>/drops/&lt;id&gt;.json</code>. Para criar um novo drop,
+          duplique <code>winter-is-coming.json</code>, ajuste os textos/imagens e ele aparece aqui automaticamente.
+        </p>
+      </div>
+
+      <!-- Acesso negado -->
+      <div id="denied" class="denied" style="display:none">
+        <h2>Acesso restrito</h2>
+        <p id="denied-msg">Esta área é só para administradores.</p>
+        <p style="margin-top:16px"><a href="../usuario/login.html">Fazer login</a></p>
+      </div>
+    </div>
+
+    <script src="../../statics/js/config.js" defer></script>
+    <script src="../../statics/js/admin/painel.js" defer></script>
+  </body>
+</html>

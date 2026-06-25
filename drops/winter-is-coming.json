@@ -1,0 +1,34 @@
+{
+  "id": "winter-is-coming",
+  "nome": "Winter is Coming",
+  "drop_nome": "Coleção de Inverno",
+  "accent": "#2aabb0",
+  "snow": true,
+  "topbar": "O FRIO TÁ VINDO — DROP 01",
+  "marquee": ["GR!TTA", "OVERSIZED", "STREETWEAR", "FRETE GRÁTIS", "DROP 01", "WINTER IS COMING", "SEM CONCESSÃO", "O FRIO NÃO PERDOA"],
+  "hero": {
+    "eyebrow": "Winter is Coming",
+    "meta_index": "01 / 04",
+    "meta_label": "Drop 01 — Inverno '26 · Tá na rua",
+    "headline": ["O NORTE", "SE {LEMBRA.}", "A GR!TTA TAMBÉM."],
+    "sub": "Moletom pesado, jaqueta que encara vento. Caimento largo, costura firme. Pro frio que não avisa.",
+    "banner": "img/banners/banner_inverno.jpg",
+    "cta_primary": "VER O DROP →",
+    "cta_secondary": "CATEGORIAS"
+  },
+  "drop_section": {
+    "hidden": false,
+    "label": "A Noite Mais Longa",
+    "titulo": ["WINTER IS", "{COMING}"],
+    "texto": "Quando o frio aperta, só os preparados resistem. A coleção mais brutal do ano chega em contagem regressiva — peças limitadas pra encarar a noite mais longa.",
+    "visual_text": "WINTER\n'26",
+    "banner": "img/banners/banner_winter_is_comming.png",
+    "countdown": "2026-07-21T23:59:59"
+  },
+  "drop_page": {
+    "label": "Winter is Coming",
+    "titulo": "WINTER IS COMING",
+    "subtitulo": "A coleção que chega com o frio — edição limitada pra noite mais longa",
+    "banner": "img/banners/banner_winter_is_comming.png"
+  }
+}

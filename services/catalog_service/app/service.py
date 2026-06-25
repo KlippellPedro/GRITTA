@@ -1,18 +1,28 @@
 from .database import get_connection
 
-def get_all_products(tipo=None, special=None, drop=None):
+def get_all_products(tipo=None, special=None, drop=None, q=None):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
 
     # Iniciamos a query básica
     query = """
-        SELECT p.*, i.caminho_imagem as imagem, SUM(v.estoque) as total_estoque,
-               GROUP_CONCAT(DISTINCT v.tamanho) as tamanhos_disponiveis
-        FROM produtos p 
-        LEFT JOIN imagens_produto i ON p.id = i.produto_id AND i.ordem_exibicao = 0 
-        LEFT JOIN variacoes v ON p.id = v.produto_id 
+        SELECT p.*, i.caminho_imagem as imagem, i2.caminho_imagem as imagem_2,
+               SUM(v.estoque) as total_estoque,
+               GROUP_CONCAT(DISTINCT v.tamanho) as tamanhos_disponiveis,
+               GROUP_CONCAT(CONCAT(v.id, ':', v.tamanho, ':', v.estoque)) as variacoes
+        FROM produtos p
+        LEFT JOIN imagens_produto i  ON p.id = i.produto_id  AND i.ordem_exibicao  = 0
+        LEFT JOIN imagens_produto i2 ON p.id = i2.produto_id AND i2.ordem_exibicao = 1
+        LEFT JOIN variacoes v ON p.id = v.produto_id
         WHERE p.ativo = 1"""
     params = []
+
+    # Busca por texto (?q=...) — casa por nome
+    if q:
+        termo = q.strip()
+        if termo:
+            query += " AND p.nome LIKE %s"
+            params.append(f"%{termo}%")
 
     # Se o frontend mandou ?tipo=camisa
     if tipo:

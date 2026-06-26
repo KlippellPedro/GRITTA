@@ -24,8 +24,6 @@ async function carregarCarrinho() {
             return;
         }
 
-        console.log("LOG CARRINHO:", data); // Verifique este log no console (F12)
-
         if (response.ok) {
             renderizarItens(data.itens);
             atualizarResumo(data.total_venda);

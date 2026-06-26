@@ -84,7 +84,7 @@ function initMenuSystem() {
     const btnLogout = document.getElementById('dropdown-logout');
     if (btnLogout) {
         btnLogout.addEventListener('click', () => {
-            window.logoutUser();
+            window.logoutUser(true);   // logout manual → sempre vai pro login
         });
     }
 }
@@ -266,17 +266,25 @@ window.showToast = function (message, type = 'success') {
     }, 4000);
 };
 
-// Função global para deslogar e limpar o sistema de forma limpa
-window.logoutUser = function () {
+// Função global para deslogar e limpar o sistema.
+// explicito=true  → logout manual (botão SAIR): sempre redireciona pro login.
+// explicito=false → sessão expirou: só redireciona se a página EXIGE login;
+//                   em página pública, limpa em silêncio e fica na página.
+window.logoutUser = function (explicito) {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('user_tipo');
     localStorage.removeItem('user_id');
 
-    // Detecta a profundidade do diretório atual para redirecionar corretamente
-    if (window.location.pathname.includes('/pages/') || window.location.pathname.includes('/usuario/')) {
-        window.location.href = '../usuario/login.html';
+    const path = window.location.pathname;
+    const PROTEGIDAS = ['carrinho.html', 'checkout.html', 'perfil.html', 'pedidos.html', 'favoritos.html'];
+    const ehProtegida = PROTEGIDAS.some(p => path.endsWith(p));
+
+    if (explicito || ehProtegida) {
+        const prefix = (path.includes('/pages/') || path.includes('/usuario/')) ? '../' : '';
+        window.location.href = prefix + 'usuario/login.html';
     } else {
-        window.location.href = 'usuario/login.html';
+        // Página pública: não chuta o visitante. Zera os badges do menu.
+        document.querySelectorAll('.fav-badge, .cart-badge').forEach(b => { b.style.display = 'none'; });
     }
 };

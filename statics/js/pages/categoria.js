@@ -126,16 +126,21 @@ async function carregarProdutosDaCategoria(tipo) {
     }
 }
 
+function escapeHtml (s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+
 function renderizarProdutos(lista, container) {
     container.innerHTML = lista.map(p => {
         const imagemUrl = window.resolveStaticPath(p.imagem);
+        const nomeSafe  = escapeHtml(p.nome);
         return `
-            <div class="produto-card" onclick="window.location.href='../usuario/produto.html?slug=${p.slug || p.id}'">
+            <div class="produto-card" onclick="window.grittaGo ? window.grittaGo('../usuario/produto.html?slug=${p.slug || p.id}') : window.location.href='../usuario/produto.html?slug=${p.slug || p.id}'">
                 <div class="produto-imagem">
-                    <img src="${imagemUrl}" alt="${p.nome}">
+                    <img src="${imagemUrl}" alt="${nomeSafe}">
                 </div>
                 <div class="produto-info">
-                    <h4>${p.nome}</h4>
+                    <h4>${nomeSafe}</h4>
                     <p class="preco">${Number(p.preco_base).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
                     <button class="add-carrinho">VER PEÇA</button>
                 </div>

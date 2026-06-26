@@ -304,7 +304,7 @@ async function desativarPeca (id, nome) {
     if (!confirm(`Desativar "${nome}"? Ela some da loja mas continua no banco (dá pra reativar editando).`)) return;
     try {
         const res = await fetch(`${API}/admin/produtos/${id}`, { method: 'DELETE', headers: authHeaders() });
-        if (res.ok) { await carregarPecas(); msg('pecas-msg', 'Peça desativada.', 'ok'); setTimeout(() => msg('pecas-msg', '', ''), 3000); }
+        if (res.ok) { _produtosCache = null; await carregarPecas(); msg('pecas-msg', 'Peça desativada.', 'ok'); setTimeout(() => msg('pecas-msg', '', ''), 3000); }
         else { const d = await res.json(); msg('pecas-msg', d.error || 'Erro ao desativar.', 'err'); }
     } catch (e) { msg('pecas-msg', 'Erro de conexão.', 'err'); }
 }

@@ -11,9 +11,17 @@ Regras de segurança de dados:
 import os
 import re
 import uuid
+import logging
 import unicodedata
 from werkzeug.utils import secure_filename
 from .database import get_connection
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+if not logger.handlers:
+    _h = logging.StreamHandler()
+    _h.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+    logger.addHandler(_h)
 
 TIPOS_VALIDOS = {'moletom', 'calca', 'acessorio', 'camisa', 'tenis'}
 ALLOWED_EXT = {'.webp', '.jpg', '.jpeg', '.png'}
@@ -166,7 +174,8 @@ def criar_produto(data):
         return pid, None
     except Exception as e:
         conn.rollback()
-        return None, "Erro ao criar a peça: {}".format(e)
+        logger.error("Erro ao criar peça: %s", e)
+        return None, "Não foi possível criar a peça. Verifique os dados e tente de novo."
     finally:
         cur.close()
         conn.close()
@@ -233,7 +242,8 @@ def atualizar_produto(pid, data):
         return True, None
     except Exception as e:
         conn.rollback()
-        return False, "Erro ao atualizar a peça: {}".format(e)
+        logger.error("Erro ao atualizar peça %s: %s", pid, e)
+        return False, "Não foi possível atualizar a peça. Verifique os dados e tente de novo."
     finally:
         cur.close()
         conn.close()

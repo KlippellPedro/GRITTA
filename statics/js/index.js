@@ -80,15 +80,16 @@ function initRecentes () {
     cont.innerHTML = lista.map(p => {
         const img      = window.resolveStaticPath(p.imagem);
         const slug     = p.slug || p.id;
+        const nomeR    = escapeHtml(p.nome);
         const precoFmt = Number(p.preco_base).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         return `
         <div class="produto-card" onclick="window.grittaGo('usuario/produto.html?slug=${slug}')" style="cursor:none">
             <div class="produto-imagem">
-                <img class="img-primary" src="${img}" alt="${p.nome}" loading="lazy"
+                <img class="img-primary" src="${img}" alt="${nomeR}" loading="lazy"
                      onerror="this.style.padding='40px';this.style.objectFit='contain'"/>
             </div>
             <div class="produto-info">
-                <h4>${p.nome}</h4>
+                <h4>${nomeR}</h4>
                 <p class="preco"><strong>${precoFmt}</strong></p>
                 <button class="add-carrinho">VER PEÇA</button>
             </div>
@@ -375,6 +376,7 @@ function renderizarProdutos (lista, container, favMap = {}) {
         const precoFmt   = preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         const parcelaFmt = (preco / 12).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         const imagem2Url = produto.imagem_2 ? window.resolveStaticPath(produto.imagem_2) : null;
+        const nomeSafe   = escapeHtml(produto.nome);
         if (imagem2Url) card.classList.add('has-2nd');
 
         // Quick-add: chips de tamanho revelados no hover
@@ -406,13 +408,13 @@ function renderizarProdutos (lista, container, favMap = {}) {
                         title="Favoritar">
                     <img src="../statics/img/icons/coracao.png" alt="Favoritar" />
                 </button>
-                <img class="img-primary" src="${imagemUrl}" alt="${produto.nome}" loading="lazy"
+                <img class="img-primary" src="${imagemUrl}" alt="${nomeSafe}" loading="lazy"
                      onerror="this.style.padding='40px';this.style.objectFit='contain';this.style.background='#f5f5f5'"/>
                 ${imagem2Url ? `<img class="img-secondary" src="${imagem2Url}" alt="" loading="lazy" />` : ''}
                 ${quickAddHTML}
             </div>
             <div class="produto-info" onclick="window.grittaGo('usuario/produto.html?slug=${slug}')" style="cursor:none">
-                <h4>${produto.nome}</h4>
+                <h4>${nomeSafe}</h4>
                 <p class="preco"><strong>${precoFmt}</strong></p>
                 <p class="parcelas">ou 12x de ${parcelaFmt}</p>
                 <button class="add-carrinho" onclick="event.stopPropagation(); window.grittaGo('usuario/produto.html?slug=${slug}')">

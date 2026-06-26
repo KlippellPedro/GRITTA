@@ -87,7 +87,7 @@ async function carregarDadosCheckout() {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        if (response.status === 401) {
+        if (resCart.status === 401) {
             window.logoutUser();
             return;
         }

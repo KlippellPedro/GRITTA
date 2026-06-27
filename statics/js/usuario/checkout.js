@@ -3,6 +3,8 @@ const API_ORDER_URL = CONFIG.API_ORDER_URL;
 
 let subtotalCheckout = 0;
 let cupomAplicado = null;   // { codigo, desconto, total }
+let enderecosCheckout = [];
+let freteAtual = { valor: 0, prazo: 0, calculado: false };
 
 function fmtBRL(v) {
     return Number(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -10,17 +12,55 @@ function fmtBRL(v) {
 
 function renderTotais() {
     const desconto = cupomAplicado ? cupomAplicado.desconto : 0;
-    const total = Math.max(0, subtotalCheckout - desconto);
+    const frete = freteAtual.calculado ? freteAtual.valor : 0;
+    const total = Math.max(0, subtotalCheckout - desconto + frete);
     document.getElementById('checkout-subtotal-valor').textContent = fmtBRL(subtotalCheckout);
     document.getElementById('checkout-total-valor').textContent = fmtBRL(total);
-    const linha = document.getElementById('linha-desconto');
+
+    const linhaDesc = document.getElementById('linha-desconto');
     if (cupomAplicado) {
         document.getElementById('cupom-aplicado-cod').textContent = cupomAplicado.codigo;
         document.getElementById('checkout-desconto-valor').textContent = '- ' + fmtBRL(desconto);
-        linha.style.display = 'flex';
+        linhaDesc.style.display = 'flex';
     } else {
-        linha.style.display = 'none';
+        linhaDesc.style.display = 'none';
     }
+
+    const freteVal = document.getElementById('checkout-frete-valor');
+    const fretePrazo = document.getElementById('frete-prazo');
+    if (freteAtual.calculado) {
+        freteVal.textContent = freteAtual.valor === 0 ? 'GRÁTIS' : fmtBRL(freteAtual.valor);
+        fretePrazo.textContent = freteAtual.prazo ? `(${freteAtual.prazo} dias úteis)` : '';
+    } else {
+        freteVal.textContent = '—';
+        fretePrazo.textContent = '';
+    }
+}
+
+async function calcularFreteCheckout(cep) {
+    if (!cep) { freteAtual = { valor: 0, prazo: 0, calculado: false }; renderTotais(); return; }
+    const token = localStorage.getItem('auth_token');
+    try {
+        const res = await fetch(`${API_ORDER_URL}/frete`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ cep, subtotal: subtotalCheckout })
+        });
+        const data = await res.json();
+        freteAtual = res.ok
+            ? { valor: data.frete, prazo: data.prazo_dias, calculado: true }
+            : { valor: 0, prazo: 0, calculado: false };
+    } catch (e) {
+        freteAtual = { valor: 0, prazo: 0, calculado: false };
+    }
+    renderTotais();
+}
+
+function freteDoEnderecoSelecionado() {
+    const sel = document.querySelector('input[name="endereco_id"]:checked');
+    if (!sel) return;
+    const addr = enderecosCheckout.find(a => String(a.id) === sel.value);
+    if (addr) calcularFreteCheckout(addr.cep);
 }
 
 async function aplicarCupom() {
@@ -167,6 +207,7 @@ async function carregarDadosCheckout() {
 
         subtotalCheckout = Number(carrinho.total_venda || 0);
         renderTotais();
+        freteDoEnderecoSelecionado();   // frete do endereço padrão (após o subtotal carregar)
     } catch (error) {
         console.error("Erro ao carregar checkout:", error);
     }
@@ -188,8 +229,9 @@ function renderizarItensCheckout(itens) {
 }
 
 function renderizarEnderecos(lista) {
+    enderecosCheckout = lista || [];
     const container = document.getElementById('lista-enderecos-checkout');
-    if (lista.length === 0) {
+    if (!lista || lista.length === 0) {
         container.innerHTML = "<p>Nenhum endereço cadastrado. <a href='perfil.html'>Cadastre um aqui</a>.</p>";
         return;
     }
@@ -203,6 +245,10 @@ function renderizarEnderecos(lista) {
             </div>
         </label>
     `).join('');
+
+    // Recalcula o frete sempre que o endereço selecionado muda
+    container.querySelectorAll('input[name="endereco_id"]').forEach(r =>
+        r.addEventListener('change', freteDoEnderecoSelecionado));
 }
 
 async function finalizarCompra() {

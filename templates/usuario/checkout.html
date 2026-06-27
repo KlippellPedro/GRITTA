@@ -34,6 +34,8 @@
       .cupom-feedback.err { color: #e84545; }
       .total-linha.total-sub { color: #777; font-size: .9rem; }
       .total-linha.total-desc { color: #1a9e5a; font-size: .9rem; }
+      .total-linha.total-frete { color: #555; font-size: .9rem; }
+      .total-linha.total-frete small { color: #999; font-size: .78rem; }
       .total-linha.total-final { font-weight: 700; font-size: 1.15rem; margin-top: 6px; }
     </style>
   </head>
@@ -101,6 +103,10 @@
               <div class="total-linha total-desc" id="linha-desconto" style="display: none">
                 <span>Cupom <strong id="cupom-aplicado-cod"></strong></span>
                 <span id="checkout-desconto-valor">- R$ 0,00</span>
+              </div>
+              <div class="total-linha total-frete">
+                <span>Frete <small id="frete-prazo"></small></span>
+                <span id="checkout-frete-valor">—</span>
               </div>
               <div class="total-linha total-final">
                 <span>Total</span>

@@ -7,6 +7,7 @@ from .service import (get_user_cart, add_to_cart, update_cart_item, remove_from_
                      get_cart_item_details)
 from .cupom_service import (listar_cupons, criar_cupom, definir_ativo, excluir_cupom,
                             validar_cupom, registrar_uso)
+from .frete_service import calcular_frete, get_endereco_cep
 from .auth import token_required, admin_required
 from .utils import send_notification_async
 
@@ -97,7 +98,19 @@ def checkout():
         total_venda = res_cupom["total"]
         logger.info(f"Cupom {cupom_codigo} aplicado: -R$ {desconto:.2f} (total: R$ {total_venda:.2f})")
 
-    # 4. Processar o Pagamento (com o total já com o desconto do cupom)
+    # 3.1. Frete: recalculado no servidor pelo CEP do endereço escolhido (nunca confia no front).
+    #       O frete grátis usa o subtotal (antes do desconto).
+    cep_entrega = get_endereco_cep(endereco_id, user_id)
+    frete = 0.0
+    if cep_entrega:
+        res_frete, _ = calcular_frete(cep_entrega, carrinho['total_venda'])
+        if res_frete:
+            frete = res_frete['frete']
+    total_venda = round(total_venda + frete, 2)
+    if frete:
+        logger.info(f"Frete aplicado (CEP {cep_entrega}): R$ {frete:.2f}")
+
+    # 4. Processar o Pagamento (com desconto e frete já no total)
     res_pagamento = requests.post(PAYMENT_URL, json={
         "valor": total_venda,
         "metodo": data.get("metodo", "pix")
@@ -292,3 +305,17 @@ def route_validar_cupom():
     """Cliente: confere o cupom e devolve o desconto (sem consumir o uso)."""
     data = request.get_json() or {}
     return jsonify(validar_cupom(data.get("codigo"), data.get("subtotal", 0))), 200
+
+
+# ══════════════════════════════════════
+#  FRETE (cálculo por CEP)
+# ══════════════════════════════════════
+@main.route("/frete", methods=["POST"])
+@token_required
+def route_calcular_frete():
+    """Cliente: calcula o frete a partir do CEP e do subtotal (preview no checkout)."""
+    data = request.get_json() or {}
+    res, err = calcular_frete(data.get("cep"), data.get("subtotal", 0))
+    if err:
+        return jsonify({"error": err}), 400
+    return jsonify(res), 200

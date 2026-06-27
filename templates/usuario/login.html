@@ -16,6 +16,8 @@
     <script src="../../statics/js/config.js" defer></script>
     <script src="../../statics/js/menu.js" defer></script>
     <script src="../../statics/js/usuario/login.js" defer></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="../../statics/js/usuario/google-auth.js" defer></script>
   </head>
   <body>
     <gritta-header></gritta-header>
@@ -52,6 +54,9 @@
           </div>
 
           <button type="submit" class="btn-login">ENTRAR NA CONTA</button>
+
+          <div class="login-divider"><span>ou</span></div>
+          <div id="google-btn" class="google-btn-slot"></div>
 
           <div class="login__register">
             Ainda não tem conta? <a href="cadastro.html">Cadastre-se grátis</a>

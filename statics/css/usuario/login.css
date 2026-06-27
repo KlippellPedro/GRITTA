@@ -214,3 +214,17 @@
   height: 1px;
   background: var(--border);
 }
+.login-divider { margin: 22px 0 16px; }
+
+/* Botão "Entrar com Google" */
+.google-btn-slot {
+  display: flex;
+  justify-content: center;
+  min-height: 44px;
+}
+.g-hint {
+  font-size: .68rem;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.5;
+}

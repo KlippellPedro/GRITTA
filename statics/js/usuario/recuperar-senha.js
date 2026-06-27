@@ -27,10 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Mesmo se o e-mail não existir, o backend retorna 200 por segurança (evitar enumeração)
                 if (response.ok) {
-                    recoverMessage.textContent = data.message;
+                    sessionStorage.setItem('reset_email', email);
+                    recoverMessage.textContent = 'Código enviado! Confira seu e-mail. Redirecionando…';
                     recoverMessage.classList.add('success');
-                    recoverForm.querySelector('button').disabled = true;
-                    recoverForm.querySelector('button').style.opacity = '0.5';
+                    const btn = recoverForm.querySelector('button');
+                    btn.disabled = true; btn.style.opacity = '0.5';
+                    setTimeout(() => { window.location.href = 'resetar-senha.html'; }, 1800);
                 } else {
                     recoverMessage.textContent = data.message || 'Erro ao processar solicitação.';
                     recoverMessage.classList.add('error');

@@ -13,6 +13,20 @@
   text-transform: uppercase;
 }
 
+.reset-hint {
+  font-size: .76rem; color: var(--muted); line-height: 1.6;
+  margin-bottom: 18px; text-align: center;
+}
+#codigo {
+  letter-spacing: 8px; text-align: center;
+  font-family: "Bebas Neue", sans-serif; font-size: 1.6rem;
+}
+.reset-resend {
+  text-align: center; margin-top: 14px; font-size: .72rem;
+}
+.reset-resend a { color: var(--accent); text-decoration: none; }
+.reset-resend a:hover { text-decoration: underline; }
+
 /* Indicador de força da senha */
 .senha-forca {
   margin-top: 6px;

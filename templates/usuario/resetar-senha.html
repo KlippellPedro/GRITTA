@@ -27,6 +27,17 @@
         <h2 class="login-titulo">NOVA SENHA</h2>
         <form id="resetForm" class="login-form">
           <div id="reset-message" class="message-area"></div>
+          <p class="reset-hint">Enviamos um código de 6 dígitos pro seu e-mail. Digite ele aqui com a nova senha (vale por 15 min).</p>
+
+          <div class="input-group">
+            <label for="email">E-MAIL</label>
+            <input type="email" id="email" placeholder="seu@email.com" required />
+          </div>
+
+          <div class="input-group">
+            <label for="codigo">CÓDIGO (6 DÍGITOS)</label>
+            <input type="text" id="codigo" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code" required />
+          </div>
 
           <div class="input-group">
             <label for="password">NOVA SENHA</label>
@@ -39,6 +50,7 @@
           </div>
 
           <button type="submit" class="btn-login">REDEFINIR SENHA</button>
+          <p class="reset-resend"><a href="recuperar-senha.html">Não recebeu? Reenviar código</a></p>
         </form>
       </div>
     </main>

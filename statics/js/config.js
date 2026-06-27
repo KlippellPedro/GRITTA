@@ -12,5 +12,9 @@ window.CONFIG = {
     API_AUTH_URL: `${BASE_IP}:5005/api/auth`,
 
     // Valor mínimo para frete grátis (usado no mini-cart e textos)
-    FRETE_GRATIS: 399.90
+    FRETE_GRATIS: 399.90,
+
+    // Login com Google — cole aqui o Client ID OAuth do Google Cloud Console
+    // (mesmo valor deve estar como GOOGLE_CLIENT_ID no .env do auth_service)
+    GOOGLE_CLIENT_ID: ""
 };

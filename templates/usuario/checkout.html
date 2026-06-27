@@ -14,6 +14,28 @@
     <script src="../../statics/js/menu.js" defer></script>
     <script src="../../statics/js/usuario/checkout.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+    <style>
+      .cupom-box { margin: 18px 0; }
+      .cupom-row { display: flex; gap: 8px; }
+      .cupom-row input {
+        flex: 1; padding: 11px 12px; border: 1px solid #ddd; border-radius: 4px;
+        font-family: "Montserrat", sans-serif; font-size: .82rem; text-transform: uppercase; letter-spacing: 1px;
+      }
+      .cupom-row input:focus { outline: none; border-color: #2aabb0; }
+      .cupom-row input:disabled { background: #f3f3f3; color: #1a9e5a; font-weight: 700; }
+      .cupom-row button {
+        background: #111; color: #fff; border: none; padding: 0 20px; cursor: pointer;
+        font-family: "Bebas Neue", sans-serif; font-size: 1.05rem; letter-spacing: 1px; border-radius: 4px;
+        transition: background .2s;
+      }
+      .cupom-row button:hover { background: #2aabb0; }
+      .cupom-feedback { font-size: .74rem; margin: 8px 2px 0; min-height: 16px; line-height: 1.4; }
+      .cupom-feedback.ok { color: #1a9e5a; }
+      .cupom-feedback.err { color: #e84545; }
+      .total-linha.total-sub { color: #777; font-size: .9rem; }
+      .total-linha.total-desc { color: #1a9e5a; font-size: .9rem; }
+      .total-linha.total-final { font-weight: 700; font-size: 1.15rem; margin-top: 6px; }
+    </style>
   </head>
   <body>
     <gritta-header></gritta-header>
@@ -64,8 +86,23 @@
             <div id="itens-checkout" class="lista-itens-checkout">
               <!-- Injetado pelo JS -->
             </div>
+            <div class="cupom-box">
+              <div class="cupom-row">
+                <input type="text" id="cupom-input" placeholder="Cupom de desconto" maxlength="50" autocomplete="off" />
+                <button type="button" id="btn-aplicar-cupom">APLICAR</button>
+              </div>
+              <p id="cupom-feedback" class="cupom-feedback"></p>
+            </div>
             <div class="total-container">
-              <div class="total-linha">
+              <div class="total-linha total-sub">
+                <span>Subtotal</span>
+                <span id="checkout-subtotal-valor">R$ 0,00</span>
+              </div>
+              <div class="total-linha total-desc" id="linha-desconto" style="display: none">
+                <span>Cupom <strong id="cupom-aplicado-cod"></strong></span>
+                <span id="checkout-desconto-valor">- R$ 0,00</span>
+              </div>
+              <div class="total-linha total-final">
                 <span>Total</span>
                 <span id="checkout-total-valor">R$ 0,00</span>
               </div>

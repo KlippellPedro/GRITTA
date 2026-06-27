@@ -163,6 +163,7 @@
           <button class="tab active" data-tab="estado">Estado da Loja</button>
           <button class="tab" data-tab="pecas">Peças</button>
           <button class="tab" data-tab="drops">Drops</button>
+          <button class="tab" data-tab="cupons">Cupons</button>
         </div>
 
         <!-- ── Aba: Estado da Loja ── -->
@@ -197,6 +198,17 @@
           <p class="sub">Cada drop define banner, textos, countdown e as peças. Salvar grava o arquivo e marca as peças escolhidas.</p>
           <div id="drops-lista"><p class="loading">Carregando drops…</p></div>
           <div class="msg" id="drops-msg"></div>
+        </section>
+
+        <!-- ── Aba: Cupons ── -->
+        <section id="tab-cupons" class="tabpane" hidden>
+          <div class="pecas-head">
+            <h1>Cupons</h1>
+            <button class="btn btn-primary" id="btn-novo-cupom">+ Novo cupom</button>
+          </div>
+          <p class="sub">Crie cupons de desconto, acompanhe os usos e ative/desative quando quiser.</p>
+          <div id="cupons-lista"><p class="loading">Carregando cupons…</p></div>
+          <div class="msg" id="cupons-msg"></div>
         </section>
       </div>
 
@@ -349,6 +361,32 @@
           <div class="modal-actions">
             <button type="button" class="btn btn-ghost" id="cancel-drop">Cancelar</button>
             <button type="submit" class="btn btn-light" id="submit-drop">Salvar drop</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ── Modal: novo cupom ── -->
+    <div class="modal-bg" id="cupom-modal">
+      <div class="modal">
+        <h3>Novo cupom</h3>
+        <form id="cupom-form">
+          <div class="grid2">
+            <div class="field"><label for="c-codigo">Código</label><input type="text" id="c-codigo" placeholder="BEMVINDO10" maxlength="50" required /></div>
+            <div class="field"><label for="c-tipo">Tipo de desconto</label><select id="c-tipo"><option value="percentual">Percentual (%)</option><option value="fixo">Valor fixo (R$)</option></select></div>
+          </div>
+          <div class="grid2">
+            <div class="field"><label for="c-valor">Valor do desconto</label><input type="number" id="c-valor" step="0.01" min="0" placeholder="10" required /></div>
+            <div class="field"><label for="c-minimo">Pedido mínimo (R$, opcional)</label><input type="number" id="c-minimo" step="0.01" min="0" placeholder="0" /></div>
+          </div>
+          <div class="grid2">
+            <div class="field"><label for="c-validade">Validade (opcional)</label><input type="datetime-local" id="c-validade" /></div>
+            <div class="field"><label for="c-usomax">Limite de usos (opcional)</label><input type="number" id="c-usomax" min="1" placeholder="ilimitado" /></div>
+          </div>
+          <div class="msg" id="cupom-form-msg"></div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-ghost" id="cancel-cupom">Cancelar</button>
+            <button type="submit" class="btn btn-light" id="submit-cupom">Salvar cupom</button>
           </div>
         </form>
       </div>

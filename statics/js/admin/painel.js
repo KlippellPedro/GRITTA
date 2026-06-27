@@ -47,10 +47,12 @@ async function init () {
     document.getElementById('btn-save').addEventListener('click', salvarEstado);
     document.getElementById('btn-nova-peca').addEventListener('click', () => abrirForm(null));
     document.getElementById('btn-novo-drop').addEventListener('click', () => abrirDropForm(null));
+    document.getElementById('btn-novo-cupom').addEventListener('click', abrirCupomForm);
     setupForm();
     setupDropForm();
+    setupCupomForm();
     setupHelp();
-    await Promise.all([carregarEstado(), carregarPecas(), carregarDrops()]);
+    await Promise.all([carregarEstado(), carregarPecas(), carregarDrops(), carregarCupons()]);
 }
 
 function setupTabs () {
@@ -531,6 +533,113 @@ async function excluirDrop (id, nome) {
         if (res.ok) { await carregarDrops(); await carregarEstado(); msg('drops-msg', 'Drop excluído.', 'ok'); setTimeout(() => msg('drops-msg', '', ''), 3000); }
         else msg('drops-msg', data.error || 'Erro ao excluir.', 'err');
     } catch (e) { msg('drops-msg', 'Erro de conexão.', 'err'); }
+}
+
+/* ══════════════════════════════════════
+   ABA 4 — CUPONS  (Order Service, porta 5002)
+══════════════════════════════════════ */
+const ORDER_API = CONFIG.API_ORDER_URL;
+
+async function carregarCupons () {
+    const cont = document.getElementById('cupons-lista');
+    try {
+        const res = await fetch(`${ORDER_API}/cupons`, { headers: authHeaders() });
+        if (res.status === 401 || res.status === 403)
+            return cont.innerHTML = '<p class="loading">Sessão de admin expirada. Faça login de novo.</p>';
+        const lista = await res.json();
+        if (!Array.isArray(lista) || !lista.length)
+            return cont.innerHTML = '<p class="loading">Nenhum cupom criado ainda.</p>';
+
+        cont.innerHTML = `
+          <table class="pecas"><thead><tr>
+            <th>Código</th><th>Desconto</th><th class="hide-sm">Mínimo</th><th class="hide-sm">Usos</th><th>Status</th><th></th>
+          </tr></thead><tbody>${lista.map(c => {
+            const desc = c.tipo === 'percentual' ? `${Number(c.valor).toFixed(0)}% OFF` : money(c.valor);
+            const usos = c.uso_maximo ? `${c.usos}/${c.uso_maximo}` : `${c.usos}`;
+            const expirado = c.validade && new Date(c.validade) < new Date();
+            const ativoOk = c.ativo && !expirado;
+            return `
+            <tr>
+              <td style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:1px">${escapeHtml(c.codigo)}</td>
+              <td>${desc}</td>
+              <td class="hide-sm">${Number(c.valor_minimo) > 0 ? money(c.valor_minimo) : '—'}</td>
+              <td class="hide-sm">${usos}</td>
+              <td><span class="pill ${ativoOk ? 'on' : 'off'}">${expirado ? 'Expirado' : (c.ativo ? 'Ativo' : 'Inativo')}</span></td>
+              <td><div class="row-actions">
+                <button class="mini" data-toggle="${c.id}" data-ativo="${c.ativo}">${c.ativo ? 'Desativar' : 'Ativar'}</button>
+                <button class="mini del" data-del-cupom="${c.id}" data-cod="${escapeAttr(c.codigo)}">Excluir</button>
+              </div></td>
+            </tr>`;
+          }).join('')}</tbody></table>`;
+
+        cont.querySelectorAll('[data-toggle]').forEach(b =>
+            b.addEventListener('click', () => toggleCupom(b.dataset.toggle, b.dataset.ativo !== '1')));
+        cont.querySelectorAll('[data-del-cupom]').forEach(b =>
+            b.addEventListener('click', () => excluirCupom(b.dataset.delCupom, b.dataset.cod)));
+    } catch (e) {
+        cont.innerHTML = '<p class="loading">Erro ao carregar (o Order Service na porta 5002 está rodando?).</p>';
+    }
+}
+
+function setupCupomForm () {
+    document.getElementById('cancel-cupom').addEventListener('click', () => document.getElementById('cupom-modal').classList.remove('open'));
+    document.getElementById('cupom-modal').addEventListener('click', e => { if (e.target.id === 'cupom-modal') document.getElementById('cupom-modal').classList.remove('open'); });
+    document.getElementById('cupom-form').addEventListener('submit', salvarCupom);
+}
+
+function abrirCupomForm () {
+    document.getElementById('cupom-form').reset();
+    msg('cupom-form-msg', '', '');
+    document.getElementById('cupom-modal').classList.add('open');
+    document.getElementById('c-codigo').focus();
+}
+
+async function salvarCupom (e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-cupom');
+    btn.disabled = true; msg('cupom-form-msg', 'Salvando…', '');
+    const payload = {
+        codigo: document.getElementById('c-codigo').value.trim(),
+        tipo: document.getElementById('c-tipo').value,
+        valor: parseFloat(document.getElementById('c-valor').value),
+        valor_minimo: document.getElementById('c-minimo').value || 0,
+        validade: document.getElementById('c-validade').value || null,
+        uso_maximo: document.getElementById('c-usomax').value || null
+    };
+    try {
+        const res = await fetch(`${ORDER_API}/cupons`, {
+            method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok) {
+            document.getElementById('cupom-modal').classList.remove('open');
+            await carregarCupons();
+            msg('cupons-msg', 'Cupom criado ✦', 'ok');
+            setTimeout(() => msg('cupons-msg', '', ''), 3000);
+        } else { msg('cupom-form-msg', data.error || 'Erro ao salvar.', 'err'); btn.disabled = false; }
+    } catch (err) { msg('cupom-form-msg', 'Erro de conexão ao salvar.', 'err'); btn.disabled = false; }
+    finally { btn.disabled = false; }
+}
+
+async function toggleCupom (id, ativar) {
+    try {
+        const res = await fetch(`${ORDER_API}/cupons/${id}`, {
+            method: 'PUT', headers: authHeaders({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify({ ativo: ativar })
+        });
+        if (res.ok) { await carregarCupons(); msg('cupons-msg', ativar ? 'Cupom ativado.' : 'Cupom desativado.', 'ok'); setTimeout(() => msg('cupons-msg', '', ''), 2500); }
+        else { const d = await res.json(); msg('cupons-msg', d.error || 'Erro.', 'err'); }
+    } catch (e) { msg('cupons-msg', 'Erro de conexão.', 'err'); }
+}
+
+async function excluirCupom (id, codigo) {
+    if (!confirm(`Excluir o cupom "${codigo}"? Essa ação não pode ser desfeita.`)) return;
+    try {
+        const res = await fetch(`${ORDER_API}/cupons/${id}`, { method: 'DELETE', headers: authHeaders() });
+        if (res.ok) { await carregarCupons(); msg('cupons-msg', 'Cupom excluído.', 'ok'); setTimeout(() => msg('cupons-msg', '', ''), 2500); }
+        else { const d = await res.json(); msg('cupons-msg', d.error || 'Erro.', 'err'); }
+    } catch (e) { msg('cupons-msg', 'Erro de conexão.', 'err'); }
 }
 
 /* ── utils ── */

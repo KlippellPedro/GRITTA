@@ -2,10 +2,12 @@ import requests
 import logging
 import os
 from flask import Blueprint, request, jsonify
-from .service import (get_user_cart, add_to_cart, update_cart_item, remove_from_cart, 
-                     get_user_orders, get_order_items, create_order, get_order_info, 
+from .service import (get_user_cart, add_to_cart, update_cart_item, remove_from_cart,
+                     get_user_orders, get_order_items, create_order, get_order_info,
                      get_cart_item_details)
-from .auth import token_required
+from .cupom_service import (listar_cupons, criar_cupom, definir_ativo, excluir_cupom,
+                            validar_cupom, registrar_uso)
+from .auth import token_required, admin_required
 from .utils import send_notification_async
 
 # Configuração do Logger
@@ -81,9 +83,21 @@ def checkout():
         
         itens_reservados.append(payload_estoque)
 
-    # 3. Processar o Pagamento
-    # Aqui pegamos o valor total do carrinho e enviamos para o payment_service
+    # 3. Aplicar cupom de desconto (se enviado). Revalida no servidor — nunca confia no front.
     total_venda = carrinho['total_venda']
+    cupom_codigo = (data.get("cupom_codigo") or "").strip().upper()
+    desconto = 0.0
+    if cupom_codigo:
+        res_cupom = validar_cupom(cupom_codigo, total_venda)
+        if not res_cupom.get("valido"):
+            for reservado in itens_reservados:   # devolve o estoque reservado antes de abortar
+                requests.post(INVENTORY_ROLLBACK_URL, json=reservado, headers={"Authorization": f"Bearer {token_original}"})
+            return jsonify({"error": res_cupom.get("mensagem", "Cupom inválido.")}), 400
+        desconto = res_cupom["desconto"]
+        total_venda = res_cupom["total"]
+        logger.info(f"Cupom {cupom_codigo} aplicado: -R$ {desconto:.2f} (total: R$ {total_venda:.2f})")
+
+    # 4. Processar o Pagamento (com o total já com o desconto do cupom)
     res_pagamento = requests.post(PAYMENT_URL, json={
         "valor": total_venda,
         "metodo": data.get("metodo", "pix")
@@ -97,12 +111,16 @@ def checkout():
             logger.info(f"Solicitado estorno: Variação {reservado['variacao_id']}, Qtd {reservado['quantidade']}")
         return jsonify({"error": "Pagamento recusado"}), 402
 
-    # 4. Registrar o pedido no Banco de Dados
+    # 5. Registrar o pedido no Banco de Dados (total_venda já com o desconto aplicado)
     pedido_id = create_order(user_id, endereco_id, total_venda, carrinho['itens'])
     if not pedido_id:
         return jsonify({"error": "Falha ao registrar pedido no banco de dados"}), 500
 
-    # 5. Se tudo deu certo, envia a notificação assíncrona
+    # 6. Consome 1 uso do cupom (apenas depois do pedido confirmado)
+    if cupom_codigo:
+        registrar_uso(cupom_codigo)
+
+    # 7. Se tudo deu certo, envia a notificação assíncrona
     send_notification_async(
         token_original, 
         request.user.get('email'), 
@@ -233,3 +251,44 @@ def route_get_order_info(pedido_id):
 def route_get_order_items(pedido_id):
     user_id = request.user.get("id")
     return jsonify(get_order_items(user_id, pedido_id)), 200
+
+
+# ══════════════════════════════════════
+#  CUPONS DE DESCONTO
+# ══════════════════════════════════════
+@main.route("/cupons", methods=["GET"])
+@admin_required
+def route_listar_cupons():
+    return jsonify(listar_cupons()), 200
+
+@main.route("/cupons", methods=["POST"])
+@admin_required
+def route_criar_cupom():
+    novo_id, err = criar_cupom(request.get_json() or {})
+    if err:
+        return jsonify({"error": err}), 400
+    return jsonify({"success": True, "id": novo_id}), 201
+
+@main.route("/cupons/<int:cupom_id>", methods=["PUT"])
+@admin_required
+def route_atualizar_cupom(cupom_id):
+    data = request.get_json() or {}
+    if "ativo" in data:
+        if definir_ativo(cupom_id, bool(data["ativo"])):
+            return jsonify({"success": True}), 200
+        return jsonify({"error": "Cupom não encontrado."}), 404
+    return jsonify({"error": "Nada para atualizar."}), 400
+
+@main.route("/cupons/<int:cupom_id>", methods=["DELETE"])
+@admin_required
+def route_excluir_cupom(cupom_id):
+    if excluir_cupom(cupom_id):
+        return jsonify({"success": True}), 200
+    return jsonify({"error": "Cupom não encontrado."}), 404
+
+@main.route("/cupons/validar", methods=["POST"])
+@token_required
+def route_validar_cupom():
+    """Cliente: confere o cupom e devolve o desconto (sem consumir o uso)."""
+    data = request.get_json() or {}
+    return jsonify(validar_cupom(data.get("codigo"), data.get("subtotal", 0))), 200

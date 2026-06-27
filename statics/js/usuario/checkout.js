@@ -1,6 +1,72 @@
 const API_USER_URL = CONFIG.API_USER_URL;
 const API_ORDER_URL = CONFIG.API_ORDER_URL;
 
+let subtotalCheckout = 0;
+let cupomAplicado = null;   // { codigo, desconto, total }
+
+function fmtBRL(v) {
+    return Number(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+function renderTotais() {
+    const desconto = cupomAplicado ? cupomAplicado.desconto : 0;
+    const total = Math.max(0, subtotalCheckout - desconto);
+    document.getElementById('checkout-subtotal-valor').textContent = fmtBRL(subtotalCheckout);
+    document.getElementById('checkout-total-valor').textContent = fmtBRL(total);
+    const linha = document.getElementById('linha-desconto');
+    if (cupomAplicado) {
+        document.getElementById('cupom-aplicado-cod').textContent = cupomAplicado.codigo;
+        document.getElementById('checkout-desconto-valor').textContent = '- ' + fmtBRL(desconto);
+        linha.style.display = 'flex';
+    } else {
+        linha.style.display = 'none';
+    }
+}
+
+async function aplicarCupom() {
+    const input = document.getElementById('cupom-input');
+    const btn = document.getElementById('btn-aplicar-cupom');
+    const fb = document.getElementById('cupom-feedback');
+
+    // Se já há cupom aplicado, o botão vira "REMOVER"
+    if (cupomAplicado) {
+        cupomAplicado = null;
+        input.disabled = false; input.value = '';
+        btn.textContent = 'APLICAR';
+        fb.textContent = ''; fb.className = 'cupom-feedback';
+        renderTotais();
+        return;
+    }
+
+    const codigo = input.value.trim().toUpperCase();
+    fb.className = 'cupom-feedback';
+    if (!codigo) { fb.textContent = 'Digite um código.'; fb.classList.add('err'); return; }
+
+    const token = localStorage.getItem('auth_token');
+    try {
+        const res = await fetch(`${API_ORDER_URL}/cupons/validar`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ codigo, subtotal: subtotalCheckout })
+        });
+        const data = await res.json();
+        if (data.valido) {
+            cupomAplicado = { codigo: data.codigo, desconto: data.desconto, total: data.total };
+            fb.textContent = `Cupom aplicado! Você economizou ${fmtBRL(data.desconto)}.`;
+            fb.classList.add('ok');
+            input.disabled = true;
+            btn.textContent = 'REMOVER';
+        } else {
+            fb.textContent = data.mensagem || 'Cupom inválido.';
+            fb.classList.add('err');
+        }
+        renderTotais();
+    } catch (e) {
+        fb.textContent = 'Erro ao validar o cupom. Tente de novo.';
+        fb.classList.add('err');
+    }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('auth_token');
     if (!token) {
@@ -22,6 +88,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     formEndereco.addEventListener('submit', salvarNovoEndereco);
 
     document.getElementById('btn-confirmar-pedido').addEventListener('click', finalizarCompra);
+    document.getElementById('btn-aplicar-cupom').addEventListener('click', aplicarCupom);
+    document.getElementById('cupom-input').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); aplicarCupom(); }
+    });
 });
 
 async function salvarNovoEndereco(e) {
@@ -95,8 +165,8 @@ async function carregarDadosCheckout() {
         const carrinho = await resCart.json();
         renderizarItensCheckout(carrinho.itens);
 
-        const totalFormatado = Number(carrinho.total_venda || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        document.getElementById('checkout-total-valor').textContent = totalFormatado;
+        subtotalCheckout = Number(carrinho.total_venda || 0);
+        renderTotais();
     } catch (error) {
         console.error("Erro ao carregar checkout:", error);
     }
@@ -157,7 +227,7 @@ async function finalizarCompra() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ endereco_id, metodo })
+            body: JSON.stringify({ endereco_id, metodo, cupom_codigo: cupomAplicado ? cupomAplicado.codigo : null })
         });
 
         const data = await response.json();

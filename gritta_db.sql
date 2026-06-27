@@ -625,6 +625,28 @@ ALTER TABLE `refresh_tokens`
 --
 ALTER TABLE `variacoes`
   ADD CONSTRAINT `variacoes_ibfk_1` FOREIGN KEY (`produto_id`) REFERENCES `produtos` (`id`);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `cupons`
+--
+
+CREATE TABLE `cupons` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(50) NOT NULL,
+  `tipo` enum('percentual','fixo') NOT NULL DEFAULT 'percentual',
+  `valor` decimal(10,2) NOT NULL,
+  `ativo` tinyint(1) DEFAULT 1,
+  `validade` datetime DEFAULT NULL,
+  `uso_maximo` int(11) DEFAULT NULL,
+  `usos` int(11) DEFAULT 0,
+  `valor_minimo` decimal(10,2) DEFAULT 0,
+  `criado_em` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `codigo` (`codigo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

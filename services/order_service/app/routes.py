@@ -113,8 +113,15 @@ def checkout():
     # 4. Processar o Pagamento (com desconto e frete já no total)
     res_pagamento = requests.post(PAYMENT_URL, json={
         "valor": total_venda,
-        "metodo": data.get("metodo", "pix")
+        "metodo": data.get("metodo", "pix"),
+        "dados": data.get("dados_pagamento") or {},
+        "parcelas": data.get("parcelas", 1)
     }, headers={"Authorization": f"Bearer {token_original}"})
+
+    try:
+        pagamento = res_pagamento.json()
+    except Exception:
+        pagamento = {}
 
     if res_pagamento.status_code != 200:
         logger.warning(f"PAGAMENTO RECUSADO: Iniciando estorno de estoque para o usuário {user_id}")
@@ -122,7 +129,7 @@ def checkout():
         for reservado in itens_reservados:
             requests.post(INVENTORY_ROLLBACK_URL, json=reservado, headers={"Authorization": f"Bearer {token_original}"})
             logger.info(f"Solicitado estorno: Variação {reservado['variacao_id']}, Qtd {reservado['quantidade']}")
-        return jsonify({"error": "Pagamento recusado"}), 402
+        return jsonify({"error": pagamento.get("message", "Pagamento recusado pela operadora.")}), 402
 
     # 5. Registrar o pedido no Banco de Dados (total_venda já com o desconto aplicado)
     pedido_id = create_order(user_id, endereco_id, total_venda, carrinho['itens'])
@@ -147,7 +154,15 @@ def checkout():
         f"Olá {request.user.get('nome', 'Cliente')}, recebemos seu pagamento. Seu estilo está a caminho!"
     )
     
-    return jsonify({"success": True, "message": "Pedido finalizado com sucesso!", "pedido_id": pedido_id}), 200
+    return jsonify({
+        "success": True,
+        "message": "Pedido finalizado com sucesso!",
+        "pedido_id": pedido_id,
+        "pagamento": {k: pagamento.get(k) for k in (
+            "metodo", "pix_copia_cola", "boleto_linha", "vencimento",
+            "parcelas", "valor_parcela", "bandeira", "ultimos4", "transacao_id"
+        ) if pagamento.get(k) is not None}
+    }), 200
 
 
 @main.route("/carrinho", methods=["GET"])

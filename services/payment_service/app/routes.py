@@ -1,27 +1,32 @@
 from flask import Blueprint, request, jsonify
-import time
-import random
+from .gateway import processar, MAX_PARCELAS
 
 main = Blueprint('main', __name__)
 
+
 @main.route('/processar', methods=['POST'])
 def processar_pagamento():
-    data = request.json
+    data = request.json or {}
     if not data:
         return jsonify({"success": False, "message": "Dados do pagamento ausentes"}), 400
 
-    valor = data.get('valor')
-    metodo = data.get('metodo') # 'pix' ou 'cartao'
+    resultado, status = processar(
+        data.get('metodo'),
+        data.get('valor'),
+        data.get('dados') or {},
+        data.get('parcelas', 1),
+    )
+    return jsonify(resultado), status
 
-    # Simulação de processamento (Stripe/Mercado Pago/Pix)
-    time.sleep(1.5)
 
-    # Mock de aprovação (90% de chance de sucesso)
-    if random.random() < 0.9:
-        return jsonify({
-            "success": True,
-            "transacao_id": f"GR-PAY-{random.randint(100000, 999999)}",
-            "status": "pago"
-        }), 200
-    
-    return jsonify({"success": False, "message": "Pagamento recusado pela operadora"}), 402
+@main.route('/parcelas', methods=['GET'])
+def opcoes_parcelas():
+    """Opções de parcelamento de um valor (até 12x sem juros, parcela mínima R$ 20)."""
+    valor = request.args.get('valor', 0, type=float)
+    opcoes = []
+    for n in range(1, MAX_PARCELAS + 1):
+        parcela = valor / n if n else valor
+        if n > 1 and parcela < 20:
+            break
+        opcoes.append({"parcelas": n, "valor_parcela": round(parcela, 2)})
+    return jsonify(opcoes), 200

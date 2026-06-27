@@ -132,7 +132,61 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('cupom-input').addEventListener('keydown', (e) => {
         if (e.key === 'Enter') { e.preventDefault(); aplicarCupom(); }
     });
+    setupPagamento();
 });
+
+function totalAtual() {
+    const desconto = cupomAplicado ? cupomAplicado.desconto : 0;
+    const frete = freteAtual.calculado ? freteAtual.valor : 0;
+    return Math.max(0, subtotalCheckout - desconto + frete);
+}
+
+function detectarBandeira(num) {
+    if (/^4/.test(num)) return 'Visa';
+    if (/^(5[1-5]|2[2-7])/.test(num)) return 'Mastercard';
+    if (/^3[47]/.test(num)) return 'Amex';
+    if (/^(4011|4312|4389|5041|5067|509|636368|650|651|655)/.test(num)) return 'Elo';
+    if (/^(606282|3841)/.test(num)) return 'Hipercard';
+    if (/^3(0|6|8)/.test(num)) return 'Diners';
+    return num.length >= 4 ? 'Cartão' : '';
+}
+
+function carregarParcelas() {
+    const sel = document.getElementById('card-parcelas');
+    if (!sel) return;
+    const total = totalAtual();
+    let html = '';
+    for (let n = 1; n <= 12; n++) {
+        const parcela = total / n;
+        if (n > 1 && parcela < 20) break;
+        html += `<option value="${n}">${n}x de ${fmtBRL(parcela)}${n === 1 ? ' à vista' : ' sem juros'}</option>`;
+    }
+    sel.innerHTML = html || '<option value="1">1x</option>';
+}
+
+function setupPagamento() {
+    const formCartao = document.getElementById('form-cartao');
+    document.querySelectorAll('input[name="metodo_pagamento"]').forEach(r => {
+        r.addEventListener('change', () => {
+            const ehCartao = r.checked && r.value === 'cartao';
+            if (formCartao) formCartao.style.display = ehCartao ? 'block' : 'none';
+            if (ehCartao) carregarParcelas();
+        });
+    });
+    const numEl = document.getElementById('card-numero');
+    if (numEl) numEl.addEventListener('input', () => {
+        const v = numEl.value.replace(/\D/g, '').slice(0, 19);
+        numEl.value = v.replace(/(.{4})/g, '$1 ').trim();
+        document.getElementById('card-bandeira').textContent = detectarBandeira(v);
+    });
+    const valEl = document.getElementById('card-validade');
+    if (valEl) valEl.addEventListener('input', () => {
+        const v = valEl.value.replace(/\D/g, '').slice(0, 4);
+        valEl.value = v.length > 2 ? v.slice(0, 2) + '/' + v.slice(2) : v;
+    });
+    const cvvEl = document.getElementById('card-cvv');
+    if (cvvEl) cvvEl.addEventListener('input', () => { cvvEl.value = cvvEl.value.replace(/\D/g, '').slice(0, 4); });
+}
 
 async function salvarNovoEndereco(e) {
     e.preventDefault();
@@ -263,6 +317,21 @@ async function finalizarCompra() {
         return;
     }
 
+    let dados_pagamento = {};
+    let parcelas = 1;
+    if (metodo === 'cartao') {
+        const numero = document.getElementById('card-numero').value.replace(/\s/g, '');
+        const nome = document.getElementById('card-nome').value.trim();
+        const validade = document.getElementById('card-validade').value.trim();
+        const cvv = document.getElementById('card-cvv').value.trim();
+        if (!numero || !nome || !validade || !cvv) {
+            showToast("Preencha todos os dados do cartão.", "error");
+            return;
+        }
+        dados_pagamento = { numero, nome, validade, cvv };
+        parcelas = parseInt(document.getElementById('card-parcelas').value || '1', 10);
+    }
+
     btn.disabled = true;
     btn.textContent = "PROCESSANDO...";
 
@@ -273,7 +342,10 @@ async function finalizarCompra() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ endereco_id, metodo, cupom_codigo: cupomAplicado ? cupomAplicado.codigo : null })
+            body: JSON.stringify({
+                endereco_id, metodo, parcelas, dados_pagamento,
+                cupom_codigo: cupomAplicado ? cupomAplicado.codigo : null
+            })
         });
 
         const data = await response.json();
@@ -284,13 +356,16 @@ async function finalizarCompra() {
         }
 
         if (response.ok) {
+            try { sessionStorage.setItem('gritta_pagamento', JSON.stringify(data.pagamento || {})); } catch (e) {}
             window.location.href = `sucesso.html?id=${data.pedido_id}`;
         } else {
-            showToast("Erro no checkout: " + data.error, "error");
+            showToast(data.error || "Erro no checkout.", "error");
             btn.disabled = false;
             btn.textContent = "CONFIRMAR E PAGAR";
         }
     } catch (error) {
         showToast("Erro de conexão com o servidor de pedidos.", "error");
+        btn.disabled = false;
+        btn.textContent = "CONFIRMAR E PAGAR";
     }
 }

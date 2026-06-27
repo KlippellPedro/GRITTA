@@ -37,6 +37,12 @@
       .total-linha.total-frete { color: #555; font-size: .9rem; }
       .total-linha.total-frete small { color: #999; font-size: .78rem; }
       .total-linha.total-final { font-weight: 700; font-size: 1.15rem; margin-top: 6px; }
+      .form-cartao { margin-top: 16px; padding: 16px; background: #f8f8f8; border: 1px solid #eee; border-radius: 6px; }
+      .form-cartao .input-group { margin-bottom: 12px; position: relative; }
+      .form-cartao label { display: block; font-size: .68rem; font-weight: 700; letter-spacing: 1px; color: #888; margin-bottom: 5px; }
+      .form-cartao input, .form-cartao select { width: 100%; padding: 11px 12px; border: 1px solid #ddd; border-radius: 4px; font-family: "Montserrat", sans-serif; font-size: .85rem; box-sizing: border-box; background: #fff; }
+      .form-cartao input:focus, .form-cartao select:focus { outline: none; border-color: #2aabb0; }
+      .card-bandeira { position: absolute; right: 12px; top: 31px; font-size: .72rem; font-weight: 700; color: #2aabb0; }
     </style>
   </head>
   <body>
@@ -77,6 +83,40 @@
                   <span>Até 12x sem juros</span>
                 </div>
               </label>
+              <label class="pagamento-card">
+                <input type="radio" name="metodo_pagamento" value="boleto" />
+                <span class="radio-custom"></span>
+                <div class="pagamento-info">
+                  <strong>BOLETO</strong>
+                  <span>Vence em 3 dias úteis</span>
+                </div>
+              </label>
+            </div>
+
+            <div id="form-cartao" class="form-cartao" style="display: none">
+              <div class="input-group">
+                <label for="card-numero">NÚMERO DO CARTÃO</label>
+                <input type="text" id="card-numero" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19" autocomplete="cc-number" />
+                <span class="card-bandeira" id="card-bandeira"></span>
+              </div>
+              <div class="input-group">
+                <label for="card-nome">NOME IMPRESSO</label>
+                <input type="text" id="card-nome" placeholder="Como está no cartão" autocomplete="cc-name" />
+              </div>
+              <div style="display: flex; gap: 10px">
+                <div class="input-group" style="flex: 1">
+                  <label for="card-validade">VALIDADE</label>
+                  <input type="text" id="card-validade" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp" />
+                </div>
+                <div class="input-group" style="flex: 1">
+                  <label for="card-cvv">CVV</label>
+                  <input type="text" id="card-cvv" inputmode="numeric" placeholder="123" maxlength="4" autocomplete="cc-csc" />
+                </div>
+              </div>
+              <div class="input-group">
+                <label for="card-parcelas">PARCELAS</label>
+                <select id="card-parcelas"><option value="1">1x</option></select>
+              </div>
             </div>
           </section>
         </div>

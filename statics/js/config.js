@@ -16,5 +16,5 @@ window.CONFIG = {
 
     // Login com Google — cole aqui o Client ID OAuth do Google Cloud Console
     // (mesmo valor deve estar como GOOGLE_CLIENT_ID no .env do auth_service)
-    GOOGLE_CLIENT_ID: ""
+    GOOGLE_CLIENT_ID: "88691933102-t7r3e389paq1mp8r09m2tgofgqpdkni2.apps.googleusercontent.com"
 };

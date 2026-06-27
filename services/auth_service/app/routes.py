@@ -3,7 +3,8 @@ from functools import wraps
 from collections import defaultdict
 from flask import Blueprint, request, jsonify
 from .service import (register_user, login_user, refresh_access_token,
-                      request_password_reset, reset_password, login_with_google)
+                      request_password_reset, verify_reset_code, reset_password,
+                      login_with_google)
 
 main = Blueprint('main', __name__)
 
@@ -64,6 +65,13 @@ def refresh():
 def forgot():
     email = request.json.get('email')
     response, status = request_password_reset(email)
+    return jsonify(response), status
+
+@main.route('/verify-reset-code', methods=['POST'])
+@rate_limit(max_calls=10, window=300)
+def verify_code():
+    data = request.json or {}
+    response, status = verify_reset_code(data.get('email'), data.get('codigo'))
     return jsonify(response), status
 
 @main.route('/reset-password', methods=['POST'])

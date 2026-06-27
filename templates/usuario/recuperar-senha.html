@@ -24,31 +24,43 @@
 
     <main class="login-main">
       <div class="login-container">
-        <h2 class="login-titulo">RECUPERAR SENHA</h2>
-        <p
-          style="
-            font-family: &quot;Montserrat&quot;, sans-serif;
-            font-size: 0.85rem;
-            text-align: center;
-            margin-bottom: 20px;
-            color: #666;
-            line-height: 1.4;
-          "
-        >
-          Informe seu e-mail cadastrado para receber as instruções de recuperação de senha.
-        </p>
-        <form id="recoverForm" class="login-form">
-          <div id="recover-message" class="message-area"></div>
+        <div class="reset-steps">
+          <span class="reset-step ativo" data-num="1">E-mail</span>
+          <span class="reset-step" data-num="2">Código</span>
+          <span class="reset-step" data-num="3">Nova senha</span>
+        </div>
 
-          <div class="input-group">
-            <label for="email">E-MAIL</label>
-            <input type="email" id="email" placeholder="seu@email.com" required />
-          </div>
+        <!-- PASSO 1 — E-MAIL -->
+        <div class="reset-pane" id="pane-email">
+          <p class="login-eyebrow">✦ Recuperação de senha</p>
+          <h2 class="login-titulo">ESQUECEU A SENHA?</h2>
+          <form id="emailForm" class="login-form" novalidate>
+            <div id="email-message" class="message-area"></div>
+            <p class="reset-hint">Informe seu e-mail cadastrado. Vamos enviar um código de 6 dígitos pra você redefinir a senha.</p>
+            <div class="input-group">
+              <label for="email">E-MAIL</label>
+              <input type="email" id="email" placeholder="seu@email.com" required autocomplete="email" />
+            </div>
+            <button type="submit" class="btn-login">ENVIAR CÓDIGO</button>
+            <div class="login__register">Lembrou a senha? <a href="login.html">Voltar pro login</a></div>
+          </form>
+        </div>
 
-          <button type="submit" class="btn-login">ENVIAR INSTRUÇÕES</button>
-
-          <div class="login__register">Lembrou sua senha? <a href="login.html">Voltar para o Login</a></div>
-        </form>
+        <!-- PASSO 2 — CÓDIGO -->
+        <div class="reset-pane oculto" id="pane-codigo">
+          <p class="login-eyebrow">✦ Verificação</p>
+          <h2 class="login-titulo">DIGITE O CÓDIGO</h2>
+          <form id="codigoForm" class="login-form" novalidate>
+            <div id="codigo-message" class="message-area"></div>
+            <p class="reset-hint">Enviamos um código de 6 dígitos pra <strong id="email-alvo">seu e-mail</strong>. Ele vale por 15 minutos.</p>
+            <div class="input-group">
+              <label for="codigo">CÓDIGO (6 DÍGITOS)</label>
+              <input type="text" id="codigo" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code" required />
+            </div>
+            <button type="submit" class="btn-login">VERIFICAR CÓDIGO</button>
+            <p class="reset-resend">Não recebeu? <a href="#" id="reenviar">Reenviar código</a> · <a href="#" id="voltar-email">trocar e-mail</a></p>
+          </form>
+        </div>
       </div>
     </main>
 

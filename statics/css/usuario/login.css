@@ -7,7 +7,7 @@
   padding: calc(var(--nav-h) + 40px) 5% 60px;
   background:
     linear-gradient(rgba(15,28,37,.65), rgba(15,28,37,.85)),
-    url("../../img/banners/banner_inverno.jpg") center/cover no-repeat fixed;
+    url("../../img/banners/banner_principal.png") center/cover no-repeat fixed;
 }
 
 .login-container {
@@ -228,3 +228,73 @@
   text-align: center;
   line-height: 1.5;
 }
+
+/* ══ Fluxo de redefinição de senha (recuperar + resetar) ══ */
+.reset-steps {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+.reset-step {
+  font-family: "Montserrat", sans-serif;
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: .45;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.reset-step::before {
+  content: attr(data-num);
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  font-size: .58rem;
+}
+.reset-step.ativo { color: var(--accent); opacity: 1; }
+.reset-step.ativo::before { border-color: var(--accent); color: var(--accent); }
+.reset-step.feito { color: var(--success); opacity: 1; }
+.reset-step.feito::before { content: "✓"; border-color: var(--success); color: var(--success); }
+
+.reset-pane { animation: resetFade .35s ease both; }
+.reset-pane.oculto { display: none; }
+@keyframes resetFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.reset-hint {
+  font-size: .76rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 18px;
+  text-align: center;
+}
+.reset-hint strong { color: var(--text); }
+
+#codigo {
+  letter-spacing: 10px;
+  text-align: center;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.7rem;
+  padding-left: 10px;
+}
+
+.reset-resend {
+  text-align: center;
+  margin-top: 14px;
+  font-size: .72rem;
+  font-family: "Montserrat", sans-serif;
+  color: var(--muted);
+}
+.reset-resend a { color: var(--accent); text-decoration: none; }
+.reset-resend a:hover { text-decoration: underline; }

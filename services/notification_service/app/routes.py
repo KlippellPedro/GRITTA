@@ -11,8 +11,9 @@ def enviar_email():
     destinatario = data.get('email')
     assunto = data.get('assunto')
     mensagem = data.get('mensagem')
+    html = data.get('html')
 
-    sucesso, msg_resultado = processar_envio_email(destinatario, assunto, mensagem)
+    sucesso, msg_resultado = processar_envio_email(destinatario, assunto, mensagem, html)
 
     if sucesso:
         return jsonify({"success": True, "message": msg_resultado}), 200

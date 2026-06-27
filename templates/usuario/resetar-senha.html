@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="pt-br">
   <head>
-    <title>GR!TTA | Redefinir Senha</title>
+    <title>GR!TTA | Nova Senha</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="../../statics/img/icons/loja-icon.png" />
@@ -24,33 +24,40 @@
 
     <main class="login-main">
       <div class="login-container">
+        <div class="reset-steps">
+          <span class="reset-step feito" data-num="1">E-mail</span>
+          <span class="reset-step feito" data-num="2">Código</span>
+          <span class="reset-step ativo" data-num="3">Nova senha</span>
+        </div>
+
+        <p class="login-eyebrow">✦ Quase lá</p>
         <h2 class="login-titulo">NOVA SENHA</h2>
-        <form id="resetForm" class="login-form">
+        <form id="resetForm" class="login-form" novalidate>
           <div id="reset-message" class="message-area"></div>
-          <p class="reset-hint">Enviamos um código de 6 dígitos pro seu e-mail. Digite ele aqui com a nova senha (vale por 15 min).</p>
-
-          <div class="input-group">
-            <label for="email">E-MAIL</label>
-            <input type="email" id="email" placeholder="seu@email.com" required />
-          </div>
-
-          <div class="input-group">
-            <label for="codigo">CÓDIGO (6 DÍGITOS)</label>
-            <input type="text" id="codigo" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code" required />
-          </div>
+          <p class="reset-hint">Código verificado pra <strong id="email-alvo"></strong>. Escolha sua nova senha — mínimo 6 caracteres, com letras e números.</p>
 
           <div class="input-group">
             <label for="password">NOVA SENHA</label>
-            <input type="password" id="password" placeholder="Mínimo 6 caracteres" required />
+            <div class="password-wrapper">
+              <input type="password" id="password" placeholder="••••••••" required autocomplete="new-password" />
+              <span class="toggle-password">
+                <img src="../../statics/img/icons/olho-fechado.png" alt="Ver Senha" />
+              </span>
+            </div>
           </div>
 
           <div class="input-group">
             <label for="confirm-password">CONFIRMAR NOVA SENHA</label>
-            <input type="password" id="confirm-password" placeholder="********" required />
+            <div class="password-wrapper">
+              <input type="password" id="confirm-password" placeholder="••••••••" required autocomplete="new-password" />
+              <span class="toggle-password">
+                <img src="../../statics/img/icons/olho-fechado.png" alt="Ver Senha" />
+              </span>
+            </div>
           </div>
 
           <button type="submit" class="btn-login">REDEFINIR SENHA</button>
-          <p class="reset-resend"><a href="recuperar-senha.html">Não recebeu? Reenviar código</a></p>
+          <p class="reset-resend"><a href="recuperar-senha.html">‹ Começar de novo</a></p>
         </form>
       </div>
     </main>

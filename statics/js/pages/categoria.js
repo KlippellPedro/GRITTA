@@ -86,6 +86,12 @@ function configurarListeners() {
 function aplicarFiltros() {
     const vitrine = document.getElementById('vitrine-categoria');
 
+    const precoMin = parseFloat(document.getElementById('preco-min')?.value);
+    const precoMax = parseFloat(document.getElementById('preco-max')?.value);
+    const min = isNaN(precoMin) ? 0 : precoMin;
+    const max = isNaN(precoMax) ? Infinity : precoMax;
+    const ordem = document.getElementById('ordenar-por')?.value || '';
+
     let produtosFiltrados = produtosOriginais.filter(p => {
         // Lógica de Estoque
         const temEstoque = parseInt(p.total_estoque || 0) > 0;
@@ -97,8 +103,17 @@ function aplicarFiltros() {
         const tamanhos = p.tamanhos_disponiveis ? p.tamanhos_disponiveis.split(',') : [];
         const passaTamanho = filtroTamanho === 'all' || tamanhos.includes(filtroTamanho);
 
-        return passaEstoque && passaTamanho;
+        // Lógica de Preço
+        const preco = Number(p.preco_base) || 0;
+        const passaPreco = preco >= min && preco <= max;
+
+        return passaEstoque && passaTamanho && passaPreco;
     });
+
+    // Ordenação
+    if (ordem === 'preco_asc') produtosFiltrados.sort((a, b) => a.preco_base - b.preco_base);
+    else if (ordem === 'preco_desc') produtosFiltrados.sort((a, b) => b.preco_base - a.preco_base);
+    else if (ordem === 'nome') produtosFiltrados.sort((a, b) => String(a.nome).localeCompare(String(b.nome), 'pt-BR'));
 
     if (produtosFiltrados.length === 0) {
         vitrine.innerHTML = '<p class="empty-msg">NENHUM PRODUTO CORRESPONDE AOS FILTROS SELECIONADOS.</p>';

@@ -1,6 +1,14 @@
 from .database import get_connection
 
-def get_all_products(tipo=None, special=None, drop=None, q=None):
+ORDENS = {
+    'preco_asc': 'p.preco_base ASC',
+    'preco_desc': 'p.preco_base DESC',
+    'recentes': 'p.criado_em DESC',
+    'nome': 'p.nome ASC',
+}
+
+def get_all_products(tipo=None, special=None, drop=None, q=None,
+                     preco_min=None, preco_max=None, tamanho=None, ordem=None):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
 
@@ -53,8 +61,29 @@ def get_all_products(tipo=None, special=None, drop=None, q=None):
         query += " AND drop_nome = %s"
         params.append(drop)
 
+    # Filtro de preço (?preco_min / ?preco_max)
+    if preco_min not in (None, ''):
+        try:
+            query += " AND p.preco_base >= %s"; params.append(float(preco_min))
+        except (TypeError, ValueError):
+            pass
+    if preco_max not in (None, ''):
+        try:
+            query += " AND p.preco_base <= %s"; params.append(float(preco_max))
+        except (TypeError, ValueError):
+            pass
+
+    # Filtro por tamanho disponível em estoque (?tamanho=M)
+    if tamanho:
+        query += " AND p.id IN (SELECT produto_id FROM variacoes WHERE tamanho = %s AND estoque > 0)"
+        params.append(tamanho.strip())
+
     # O agrupamento DEVE vir depois de todos os filtros WHERE
     query += " GROUP BY p.id"
+
+    # Ordenação (?ordem=preco_asc|preco_desc|recentes|nome)
+    if ordem in ORDENS:
+        query += " ORDER BY " + ORDENS[ordem]
 
     cursor.execute(query, params)
     produtos = cursor.fetchall()

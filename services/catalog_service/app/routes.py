@@ -23,7 +23,13 @@ def list_products():
     q = request.args.get('q')             # Captura ?q=termo (busca por nome)
 
     # 2. Passa esses filtros para a camada de serviço
-    produtos = get_all_products(tipo=tipo, special=special, drop=drop, q=q)
+    produtos = get_all_products(
+        tipo=tipo, special=special, drop=drop, q=q,
+        preco_min=request.args.get('preco_min'),
+        preco_max=request.args.get('preco_max'),
+        tamanho=request.args.get('tamanho'),
+        ordem=request.args.get('ordem'),
+    )
     return jsonify(produtos), 200
 
 @main.route('/products/<string:slug>', methods=['GET'])

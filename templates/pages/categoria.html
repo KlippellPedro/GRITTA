@@ -16,6 +16,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+    <style>
+      .price-range { display: flex; align-items: center; gap: 8px; }
+      .price-range input { flex: 1; min-width: 0; padding: 9px 10px; border: 1px solid #ccc; border-radius: 4px; font-family: "Montserrat", sans-serif; font-size: .85rem; box-sizing: border-box; }
+      .price-range span { color: #999; }
+      .filter-select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: "Montserrat", sans-serif; font-size: .85rem; background: #fff; cursor: pointer; }
+      .filter-select:focus, .price-range input:focus { outline: none; border-color: #2aabb0; }
+    </style>
   </head>
   <body>
     <gritta-header></gritta-header>
@@ -65,6 +72,25 @@
               <button class="size-chip" data-size="G">G</button>
               <button class="size-chip" data-size="GG">GG</button>
             </div>
+          </div>
+
+          <div class="filter-group">
+            <label>PREÇO (R$)</label>
+            <div class="price-range">
+              <input type="number" id="preco-min" placeholder="Mín" min="0" step="10" />
+              <span>—</span>
+              <input type="number" id="preco-max" placeholder="Máx" min="0" step="10" />
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label>ORDENAR POR</label>
+            <select id="ordenar-por" class="filter-select">
+              <option value="">Relevância</option>
+              <option value="preco_asc">Menor preço</option>
+              <option value="preco_desc">Maior preço</option>
+              <option value="nome">Nome (A–Z)</option>
+            </select>
           </div>
 
           <button id="btn-apply-filters" class="btn-apply">APLICAR FILTROS</button>

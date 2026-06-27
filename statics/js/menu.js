@@ -89,6 +89,7 @@ function initMenuSystem() {
     }
 
     mostrarLinkAdmin();   // atalho do painel admin no dropdown (só pra admin)
+    setupNotificacoes();  // sininho de notificações
 }
 
 // Mostra o "⚙ PAINEL ADMIN" no dropdown apenas se o JWT for de um administrador.
@@ -103,6 +104,72 @@ function mostrarLinkAdmin() {
             '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')));
         if (payload.tipo === 'admin') link.style.display = 'block';
     } catch (e) { }
+}
+
+/* ── Central de notificações (sininho) ── */
+function notifEscape(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+
+function setupNotificacoes() {
+    const icon = document.getElementById('notif-icon');
+    const dropdown = document.getElementById('notif-dropdown');
+    if (!icon || !dropdown) return;
+    icon.addEventListener('click', (e) => { e.stopPropagation(); dropdown.classList.toggle('active'); });
+    document.addEventListener('click', (e) => {
+        if (!icon.contains(e.target) && !dropdown.contains(e.target)) dropdown.classList.remove('active');
+    });
+    const markAll = document.getElementById('notif-mark-all');
+    if (markAll) markAll.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const token = localStorage.getItem('auth_token');
+        if (!token) return;
+        try {
+            await fetch(`${CONFIG.API_NOTIF_URL}/lidas`, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` } });
+            carregarNotificacoes();
+        } catch (e) { }
+    });
+}
+
+async function carregarNotificacoes() {
+    const token = localStorage.getItem('auth_token');
+    const container = document.getElementById('notif-container');
+    if (!token || !container) return;
+    container.style.display = 'flex';
+    try {
+        const res = await fetch(CONFIG.API_NOTIF_URL, { headers: { 'Authorization': `Bearer ${token}` } });
+        if (!res.ok) return;
+        const lista = await res.json();
+        const naoLidas = lista.filter(n => !n.lida).length;
+        const badge = document.getElementById('notif-count');
+        if (badge) { badge.textContent = naoLidas; badge.style.display = naoLidas > 0 ? 'flex' : 'none'; }
+
+        const listEl = document.getElementById('notif-list');
+        if (!listEl) return;
+        if (!lista.length) { listEl.innerHTML = '<p class="notif-empty">Você não tem notificações ainda.</p>'; return; }
+        listEl.innerHTML = lista.map(n => {
+            const dt = n.criado_em ? new Date(n.criado_em).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
+            return `<div class="notif-item ${n.lida ? '' : 'nao-lida'}" data-id="${n.id}" data-link="${notifEscape(n.link || '')}">
+                <div class="notif-item-titulo">${notifEscape(n.titulo)}</div>
+                <div class="notif-item-msg">${notifEscape(n.mensagem || '')}</div>
+                <div class="notif-item-data">${dt}</div>
+            </div>`;
+        }).join('');
+        listEl.querySelectorAll('.notif-item').forEach(el =>
+            el.addEventListener('click', () => abrirNotificacao(el.dataset.id, el.dataset.link)));
+    } catch (e) { }
+}
+
+async function abrirNotificacao(id, link) {
+    const token = localStorage.getItem('auth_token');
+    try { await fetch(`${CONFIG.API_NOTIF_URL}/${id}/lida`, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` } }); } catch (e) { }
+    if (link) {
+        const path = window.location.pathname;
+        const prefix = path.includes('/usuario/') ? '' : (path.includes('/pages/') ? '../usuario/' : 'usuario/');
+        window.location.href = prefix + link;
+    } else {
+        carregarNotificacoes();
+    }
 }
 
 /**
@@ -139,6 +206,7 @@ async function verificarSessaoNoCarregamento() {
 
         // Se o usuário está logado e o token é válido, carrega os totais do menu
         carregarTotaisBadges();
+        carregarNotificacoes();
     }
 
     // Lógica Global de ver/esconder senha (funciona com ou sem login)

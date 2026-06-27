@@ -4,7 +4,7 @@ import os
 from flask import Blueprint, request, jsonify
 from .service import (get_user_cart, add_to_cart, update_cart_item, remove_from_cart,
                      get_user_orders, get_order_items, create_order, get_order_info,
-                     get_cart_item_details)
+                     get_cart_item_details, criar_notificacao_app)
 from .cupom_service import (listar_cupons, criar_cupom, definir_ativo, excluir_cupom,
                             validar_cupom, registrar_uso)
 from .frete_service import calcular_frete, get_endereco_cep
@@ -133,7 +133,13 @@ def checkout():
     if cupom_codigo:
         registrar_uso(cupom_codigo)
 
-    # 7. Se tudo deu certo, envia a notificação assíncrona
+    # 6.1. Notificação in-app (sininho do header)
+    criar_notificacao_app(
+        user_id, "Pedido confirmado!",
+        f"Seu pedido #{pedido_id} foi confirmado e já está sendo preparado. Acompanhe em Meus Pedidos.",
+        "pedidos.html")
+
+    # 7. Se tudo deu certo, envia a notificação assíncrona (e-mail)
     send_notification_async(
         token_original, 
         request.user.get('email'), 

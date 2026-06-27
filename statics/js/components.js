@@ -228,6 +228,16 @@ class GrittaHeader extends HTMLElement {
                 <img src="${assets}img/icons/sacola.png" alt="Carrinho" />
                 <span class="cart-badge" id="cart-count">0</span>
               </a>
+              <div class="notif-menu-container" id="notif-container" style="display:none">
+                <button class="notif-icon-btn" id="notif-icon" aria-label="Notificações" title="Notificações">
+                  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm6.36-6.4-1.36-1.4V11c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C6.64 5.36 5 7.92 5 11v3.2l-1.36 1.4c-.4.42-.11 1.1.47 1.1h14.78c.58 0 .87-.68.47-1.1Z"/></svg>
+                  <span class="notif-badge" id="notif-count" style="display:none">0</span>
+                </button>
+                <div class="dropdown-menu notif-dropdown" id="notif-dropdown">
+                  <div class="notif-head"><span>NOTIFICAÇÕES</span><button id="notif-mark-all" type="button">Marcar lidas</button></div>
+                  <div class="notif-list" id="notif-list"><p class="notif-empty">Carregando…</p></div>
+                </div>
+              </div>
               <div class="user-menu-container">
                 <a href="${root}usuario/login.html" id="user-icon-link" title="Minha Conta">
                   <img src="${assets}img/icons/usuario.png" alt="Perfil" />

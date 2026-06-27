@@ -202,3 +202,22 @@ def create_order(user_id, endereco_id, total, itens):
     finally:
         cursor.close()
         conn.close()
+
+
+def criar_notificacao_app(usuario_id, titulo, mensagem, link=None):
+    """Cria uma notificação in-app (banco gritta_db compartilhado com o user_service)."""
+    conn = get_connection()
+    if not conn:
+        return
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "INSERT INTO notificacoes (usuario_id, titulo, mensagem, link) VALUES (%s, %s, %s, %s)",
+            (usuario_id, titulo, mensagem, link))
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        logger.error(f"Erro ao criar notificação in-app: {e}")
+    finally:
+        cursor.close()
+        conn.close()

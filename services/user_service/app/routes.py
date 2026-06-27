@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
 from .service import (get_user_by_id, update_user, get_user_addresses, add_address,
                      delete_address, get_user_favorites, add_favorite, remove_favorite)
+from .notificacao_service import (listar_notificacoes, contar_nao_lidas,
+                                  marcar_lida, marcar_todas_lidas)
 from .auth import token_required
 
 main = Blueprint('main', __name__)
@@ -76,3 +78,29 @@ def delete_fav(fav_id):
     if remove_favorite(user_id, fav_id):
         return jsonify({"message": "Removido"}), 200
     return jsonify({"error": "Erro ao remover"}), 400
+
+
+# ─────────────────────────────────────────────
+#  NOTIFICAÇÕES (central in-app / sininho)
+# ─────────────────────────────────────────────
+@main.route('/notificacoes', methods=['GET'])
+@token_required
+def list_notifs():
+    return jsonify(listar_notificacoes(request.user.get('id'))), 200
+
+@main.route('/notificacoes/count', methods=['GET'])
+@token_required
+def count_notifs():
+    return jsonify({"nao_lidas": contar_nao_lidas(request.user.get('id'))}), 200
+
+@main.route('/notificacoes/<int:notif_id>/lida', methods=['PUT'])
+@token_required
+def read_notif(notif_id):
+    marcar_lida(request.user.get('id'), notif_id)
+    return jsonify({"success": True}), 200
+
+@main.route('/notificacoes/lidas', methods=['PUT'])
+@token_required
+def read_all_notifs():
+    marcar_todas_lidas(request.user.get('id'))
+    return jsonify({"success": True}), 200

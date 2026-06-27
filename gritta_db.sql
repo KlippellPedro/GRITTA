@@ -145,7 +145,8 @@ CREATE TABLE `password_resets` (
   `usuario_id` int(11) NOT NULL,
   `token` varchar(255) NOT NULL,
   `expiracao` datetime NOT NULL,
-  `usado` tinyint(1) DEFAULT 0
+  `usado` tinyint(1) DEFAULT 0,
+  `tentativas` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -282,11 +283,13 @@ CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
   `nome` varchar(150) NOT NULL,
   `email` varchar(150) NOT NULL,
-  `telefone` varchar(30) NOT NULL,
+  `telefone` varchar(30) DEFAULT NULL,
   `tipo` enum('cliente','funcionario','admin') DEFAULT 'cliente',
-  `senha_hash` varchar(255) NOT NULL,
+  `senha_hash` varchar(255) DEFAULT NULL,
   `cpf` varchar(14) DEFAULT NULL,
   `ativo` tinyint(1) DEFAULT 1,
+  `provider` varchar(20) DEFAULT 'local',
+  `google_id` varchar(50) DEFAULT NULL,
   `criado_em` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

@@ -2,7 +2,8 @@ import time
 from functools import wraps
 from collections import defaultdict
 from flask import Blueprint, request, jsonify
-from .service import register_user, login_user, refresh_access_token, request_password_reset, reset_password
+from .service import (register_user, login_user, refresh_access_token,
+                      request_password_reset, reset_password, login_with_google)
 
 main = Blueprint('main', __name__)
 
@@ -43,6 +44,13 @@ def login():
     response, status = login_user(data)
     return jsonify(response), status
 
+@main.route('/google', methods=['POST'])
+@rate_limit(max_calls=15, window=60)
+def google_login():
+    data = request.json or {}
+    response, status = login_with_google(data.get('credential') or data.get('id_token'))
+    return jsonify(response), status
+
 @main.route('/refresh', methods=['POST'])
 @rate_limit(max_calls=20, window=60)
 def refresh():
@@ -59,8 +67,8 @@ def forgot():
     return jsonify(response), status
 
 @main.route('/reset-password', methods=['POST'])
-@rate_limit(max_calls=8, window=300)
+@rate_limit(max_calls=10, window=300)
 def reset():
     data = request.json
-    response, status = reset_password(data.get('token'), data.get('senha'))
+    response, status = reset_password(data.get('email'), data.get('codigo'), data.get('senha'))
     return jsonify(response), status

@@ -30,6 +30,7 @@ async function carregarDadosProduto(slug) {
         const produto = await response.json();
         renderizarPagina(produto);
         carregarRelacionados(produto.id); // Chamada necessária para carregar os itens em baixo
+        carregarAvaliacoes(slug, produto.id);   // avaliações (reviews) da peça
     } catch (error) {
         document.getElementById('loading-product').textContent = "Erro ao carregar produto.";
     }
@@ -199,5 +200,111 @@ async function adicionarAoCarrinho(produto) {
         }
     } catch (error) {
         console.error("Erro ao adicionar:", error);
+    }
+}
+
+/* ══════════════════════════════════════
+   AVALIAÇÕES (reviews) da peça
+══════════════════════════════════════ */
+function avalEscape(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+function estrelasHtml(nota) {
+    const n = Math.round(nota);
+    let s = '';
+    for (let i = 1; i <= 5; i++) s += i <= n ? '★' : '<span class="empty">★</span>';
+    return s;
+}
+function paintStars(stars, n) {
+    stars.forEach(s => s.classList.toggle('on', Number(s.dataset.v) <= n));
+}
+
+async function carregarAvaliacoes(slug, produtoId) {
+    const resumo = document.getElementById('avaliacoes-resumo');
+    const listaEl = document.getElementById('avaliacoes-lista');
+    try {
+        const res = await fetch(`${API_CATALOG_URL}/${slug}/avaliacoes`);
+        const data = await res.json();
+
+        if (data.total > 0) {
+            resumo.innerHTML = `
+              <span class="aval-media">${Number(data.media).toFixed(1)}</span>
+              <span class="aval-stars">${estrelasHtml(data.media)}</span>
+              <span class="aval-total">${data.total} avaliaç${data.total === 1 ? 'ão' : 'ões'}</span>`;
+        } else {
+            resumo.innerHTML = '<p class="aval-vazio">Ainda não há avaliações. Seja o primeiro a avaliar!</p>';
+        }
+
+        listaEl.innerHTML = (data.avaliacoes || []).map(a => {
+            const dt = a.criado_em ? new Date(a.criado_em).toLocaleDateString('pt-BR') : '';
+            return `
+              <div class="aval-item">
+                <div class="aval-item-head">
+                  <span class="aval-item-nome">${avalEscape(a.nome)}</span>
+                  <span class="aval-item-stars">${estrelasHtml(a.nota)}</span>
+                  <span class="aval-item-data">${dt}</span>
+                </div>
+                ${a.comentario ? `<p class="aval-item-texto">${avalEscape(a.comentario)}</p>` : ''}
+              </div>`;
+        }).join('');
+
+        renderFormAvaliacao(produtoId, slug);
+    } catch (e) {
+        resumo.innerHTML = '<p class="aval-vazio">Não foi possível carregar as avaliações.</p>';
+    }
+}
+
+function renderFormAvaliacao(produtoId, slug) {
+    const wrap = document.getElementById('avaliacao-form-wrap');
+    const token = localStorage.getItem('auth_token');
+    if (!token) {
+        wrap.innerHTML = '<p class="aval-login-hint"><a href="login.html">Entre na sua conta</a> para avaliar esta peça.</p>';
+        return;
+    }
+    wrap.innerHTML = `
+      <div class="avaliacao-form">
+        <h3>Deixe sua avaliação</h3>
+        <div class="star-pick" id="star-pick">${[1, 2, 3, 4, 5].map(i => `<span data-v="${i}">★</span>`).join('')}</div>
+        <textarea id="aval-comentario" placeholder="Conte o que achou da peça (opcional)…" maxlength="1000"></textarea>
+        <button id="btn-enviar-aval">ENVIAR AVALIAÇÃO</button>
+        <p class="aval-msg" id="aval-msg"></p>
+      </div>`;
+
+    let notaSel = 0;
+    const stars = wrap.querySelectorAll('#star-pick span');
+    stars.forEach(st => {
+        st.addEventListener('mouseenter', () => paintStars(stars, Number(st.dataset.v)));
+        st.addEventListener('click', () => { notaSel = Number(st.dataset.v); paintStars(stars, notaSel); });
+    });
+    wrap.querySelector('#star-pick').addEventListener('mouseleave', () => paintStars(stars, notaSel));
+    wrap.querySelector('#btn-enviar-aval').addEventListener('click', () => enviarAvaliacao(produtoId, slug, () => notaSel));
+}
+
+async function enviarAvaliacao(produtoId, slug, getNota) {
+    const nota = getNota();
+    const msg = document.getElementById('aval-msg');
+    msg.style.color = '#e84545';
+    if (!nota) { msg.textContent = 'Escolha uma nota (1 a 5 estrelas).'; return; }
+    const comentario = document.getElementById('aval-comentario').value.trim();
+    const token = localStorage.getItem('auth_token');
+    const btn = document.getElementById('btn-enviar-aval');
+    btn.disabled = true;
+    try {
+        const res = await fetch(`${API_CATALOG_URL}/${produtoId}/avaliacoes`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ nota, comentario })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            if (window.showToast) showToast('AVALIAÇÃO ENVIADA ✦', 'success');
+            await carregarAvaliacoes(slug, produtoId);   // recarrega com a nova avaliação
+        } else if (res.status === 401) {
+            msg.textContent = 'Faça login de novo para avaliar.'; btn.disabled = false;
+        } else {
+            msg.textContent = data.error || 'Erro ao enviar.'; btn.disabled = false;
+        }
+    } catch (e) {
+        msg.textContent = 'Erro de conexão.'; btn.disabled = false;
     }
 }

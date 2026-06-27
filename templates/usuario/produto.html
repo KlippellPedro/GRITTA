@@ -14,6 +14,33 @@
     <script src="../../statics/js/menu.js" defer></script>
     <script src="../../statics/js/usuario/produto.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+    <style>
+      .avaliacoes-section { max-width: 1100px; margin: 10px auto 50px; padding: 0 5%; }
+      .avaliacoes-title { font-family: "Bebas Neue", sans-serif; font-size: 2rem; letter-spacing: 2px; margin-bottom: 18px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+      .avaliacoes-resumo { display: flex; align-items: center; gap: 16px; margin-bottom: 22px; flex-wrap: wrap; }
+      .aval-media { font-family: "Bebas Neue", sans-serif; font-size: 2.8rem; line-height: 1; }
+      .aval-stars { color: #f5a623; font-size: 1.2rem; letter-spacing: 2px; }
+      .aval-stars .empty { color: #ddd; }
+      .aval-total { color: #888; font-size: .85rem; }
+      .avaliacao-form { background: #f8f8f8; border: 1px solid #eee; padding: 20px; margin-bottom: 26px; }
+      .avaliacao-form h3 { font-family: "Bebas Neue", sans-serif; font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 12px; }
+      .star-pick { font-size: 1.8rem; color: #ddd; cursor: pointer; display: inline-flex; gap: 4px; margin-bottom: 12px; }
+      .star-pick span:hover, .star-pick span.on { color: #f5a623; }
+      .avaliacao-form textarea { width: 100%; min-height: 70px; padding: 10px; border: 1px solid #ddd; font-family: "Montserrat", sans-serif; font-size: .85rem; resize: vertical; box-sizing: border-box; }
+      .avaliacao-form button { margin-top: 12px; background: #111; color: #fff; border: none; padding: 12px 24px; font-family: "Bebas Neue", sans-serif; font-size: 1.05rem; letter-spacing: 1px; cursor: pointer; }
+      .avaliacao-form button:hover { background: #2aabb0; }
+      .avaliacao-form .aval-msg { font-size: .8rem; margin-top: 10px; min-height: 16px; }
+      .aval-login-hint { color: #888; font-size: .85rem; margin-bottom: 24px; }
+      .aval-login-hint a { color: #2aabb0; font-weight: 700; }
+      .aval-item { border-bottom: 1px solid #eee; padding: 16px 0; }
+      .aval-item-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+      .aval-item-nome { font-weight: 700; font-size: .9rem; }
+      .aval-item-stars { color: #f5a623; font-size: .9rem; letter-spacing: 1px; }
+      .aval-item-stars .empty { color: #ddd; }
+      .aval-item-data { color: #aaa; font-size: .75rem; margin-left: auto; }
+      .aval-item-texto { color: #555; font-size: .88rem; line-height: 1.5; }
+      .aval-vazio { color: #888; font-size: .9rem; }
+    </style>
   </head>
   <body>
     <gritta-header></gritta-header>
@@ -60,6 +87,17 @@
         </div>
       </div>
     </main>
+
+    <section class="avaliacoes-section">
+      <div class="avaliacoes-container">
+        <h2 class="avaliacoes-title">AVALIAÇÕES</h2>
+        <div id="avaliacoes-resumo" class="avaliacoes-resumo">
+          <p class="aval-vazio">Carregando avaliações…</p>
+        </div>
+        <div id="avaliacao-form-wrap"></div>
+        <div id="avaliacoes-lista" class="avaliacoes-lista"></div>
+      </div>
+    </section>
 
     <section class="related-section">
       <div class="related-container">

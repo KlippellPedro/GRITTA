@@ -4,12 +4,13 @@ from .storefront import (
     get_estado, list_drops, set_estado,
     ler_drop, salvar_drop, excluir_drop
 )
-from .auth import admin_required
+from .auth import admin_required, token_required
 from .admin_service import (
     listar_produtos, obter_produto, criar_produto,
     atualizar_produto, desativar_produto, salvar_upload,
     atribuir_drop, ids_do_drop
 )
+from .avaliacao_service import listar_avaliacoes, criar_avaliacao
 
 main = Blueprint('main', __name__)
 
@@ -38,6 +39,27 @@ def get_related(product_id):
     # Busca produtos relacionados baseado no tipo do produto atual
     produtos = get_related_products(product_id, limit)
     return jsonify(produtos), 200
+
+
+# ─────────────────────────────────────────────
+#  AVALIAÇÕES (reviews) de produtos
+# ─────────────────────────────────────────────
+@main.route('/products/<string:slug>/avaliacoes', methods=['GET'])
+def get_avaliacoes(slug):
+    """Público: lista as avaliações de um produto + média e total."""
+    return jsonify(listar_avaliacoes(slug)), 200
+
+
+@main.route('/products/<int:product_id>/avaliacoes', methods=['POST'])
+@token_required
+def post_avaliacao(product_id):
+    """Cliente logado: cria/atualiza sua avaliação (1 por produto)."""
+    data = request.get_json(silent=True) or {}
+    ok, err = criar_avaliacao(product_id, request.user.get('id'),
+                              data.get('nota'), data.get('comentario'))
+    if err:
+        return jsonify({"error": err}), 400
+    return jsonify({"success": True}), 201
 
 
 # ─────────────────────────────────────────────

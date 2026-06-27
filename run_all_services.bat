@@ -25,5 +25,8 @@ start "Payment Service (5006)" cmd /k "cd services/payment_service && python run
 :: Inicia o Notification Service na porta 5007
 start "Notification Service (5007)" cmd /k "cd services/notification_service && python run.py"
 
+:: Inicia o Wishlist Service na porta 5008
+start "Wishlist Service (5008)" cmd /k "cd services/wishlist_service && python run.py"
+
 echo Todos os servicos estao sendo carregados...
 pause

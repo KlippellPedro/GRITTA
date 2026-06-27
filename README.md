@@ -125,7 +125,7 @@ GRITTA/
 │   │   ├── pages/              # JS por página de categoria
 │   │   └── usuario/            # JS por página de usuário
 │   └── img/
-│       ├── banners/            # banner_inverno.jpg · banner_drop.jpg
+│       ├── banners/            # banner_principal.png · banner_drop.jpg
 │       ├── categorias/         # Thumbnails de categoria
 │       ├── icons/              # sacola · coracao · usuario · instagram…
 │       └── roupas/             # camisas · moletons · calcas · tenis · acessorios

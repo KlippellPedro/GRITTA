@@ -4,15 +4,15 @@
   "drop_nome": null,
   "accent": "#2aabb0",
   "snow": false,
-  "topbar": "NOVA COLEÇÃO DISPONÍVEL",
-  "marquee": ["GR!TTA", "OVERSIZED", "STREETWEAR", "FRETE GRÁTIS", "NOVA COLEÇÃO", "SEM CONCESSÃO"],
+  "topbar": "A loja que você procura, com o estilo que você merece.",
+  "marquee": ["GR!TTA", "OVERSIZED", "STREETWEAR", "FRETE GRÁTIS", "SEM CONCESSÃO"],
   "hero": {
     "eyebrow": "Nova Coleção",
     "meta_index": "",
     "meta_label": "GR!TTA · Oversized streetwear",
     "headline": ["STREETWEAR", "DO JEITO", "{CERTO.}"],
     "sub": "Oversized de verdade. Caimento largo, peça pesada, feita pra rua. Sem firula, sem concessão.",
-    "banner": "img/banners/banner_inverno.jpg",
+    "banner": "img/banners/banner_principal.png",
     "cta_primary": "VER A LOJA →",
     "cta_secondary": "CATEGORIAS"
   },
@@ -23,6 +23,6 @@
     "label": "Lançamentos",
     "titulo": "LANÇAMENTOS",
     "subtitulo": "As últimas peças que chegaram à GR!TTA",
-    "banner": "img/banners/banner_inverno.jpg"
+    "banner": "img/banners/banner_principal.png"
   }
 }

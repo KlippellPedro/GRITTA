@@ -20,7 +20,7 @@
 }
 .hero-photo-img {
   position: absolute; inset: -7%;
-  background: url("../img/banners/banner_inverno.jpg") center 24%/cover no-repeat;
+  background: url("../img/banners/banner_principal.png") center 24%/cover no-repeat;
   filter: grayscale(.4) contrast(1.08) brightness(.82);
   animation: kenburns 20s ease-in-out infinite alternate;
 }

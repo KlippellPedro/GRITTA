@@ -87,6 +87,22 @@ function initMenuSystem() {
             window.logoutUser(true);   // logout manual → sempre vai pro login
         });
     }
+
+    mostrarLinkAdmin();   // atalho do painel admin no dropdown (só pra admin)
+}
+
+// Mostra o "⚙ PAINEL ADMIN" no dropdown apenas se o JWT for de um administrador.
+// (Gate de UX — a segurança real é server-side via admin_required.)
+function mostrarLinkAdmin() {
+    const token = localStorage.getItem('auth_token');
+    const link = document.getElementById('dropdown-admin');
+    if (!token || !link || isTokenExpired(token)) return;
+    try {
+        const b64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+        const payload = JSON.parse(decodeURIComponent(atob(b64).split('').map(c =>
+            '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')));
+        if (payload.tipo === 'admin') link.style.display = 'block';
+    } catch (e) { }
 }
 
 /**

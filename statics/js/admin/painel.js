@@ -4,7 +4,17 @@
  * Todas as chamadas de escrita levam o JWT no header Authorization.
  */
 const API = CONFIG.API_CATALOG_URL.replace(/\/products$/, '');   // http://127.0.0.1:5003
-const ASSETS = '../../statics/';                                  // painel está em templates/admin/
+const ROOT = '../../';                                            // painel está em templates/admin/ → raiz do site
+
+// Normaliza qualquer caminho de imagem pra uma URL válida a partir do painel.
+// O seed grava 'statics/img/...' (relativo à raiz) e o upload grava 'img/uploads/...'
+// (relativo a statics/). Aqui unificamos os dois sem duplicar 'statics/'.
+function imgUrl(path) {
+    let p = String(path || '').trim().replace(/^\/+/, '');
+    if (!p) return ROOT + 'statics/img/placeholder.png';
+    if (!p.startsWith('statics/')) p = 'statics/' + p;
+    return ROOT + p;
+}
 
 let current = null, selected = null, drops = [];
 
@@ -39,6 +49,7 @@ async function init () {
     document.getElementById('btn-novo-drop').addEventListener('click', () => abrirDropForm(null));
     setupForm();
     setupDropForm();
+    setupHelp();
     await Promise.all([carregarEstado(), carregarPecas(), carregarDrops()]);
 }
 
@@ -128,7 +139,7 @@ async function carregarPecas () {
             <th></th><th>Nome</th><th class="hide-sm">Tipo</th><th>Preço</th><th class="hide-sm">Estoque</th><th>Status</th><th></th>
           </tr></thead><tbody>${lista.map(p => `
             <tr>
-              <td><img src="${p.imagem ? ASSETS + p.imagem : ASSETS + 'img/placeholder.png'}" alt="" onerror="this.style.opacity=.2"/></td>
+              <td><img src="${imgUrl(p.imagem)}" alt="" onerror="this.style.opacity=.2"/></td>
               <td>${escapeHtml(p.nome)}${p.is_special ? ' <span class="pill special">Destaque</span>' : ''}</td>
               <td class="hide-sm" style="text-transform:capitalize;color:var(--muted)">${p.tipo}</td>
               <td>${money(p.preco_base)}</td>
@@ -172,7 +183,7 @@ async function enviarImagem (slot, file) {
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Falha no upload');
         slot.dataset.caminho = data.caminho;
-        drop.innerHTML = `<img src="${ASSETS + data.caminho}" alt="" />`;
+        drop.innerHTML = `<img src="${imgUrl(data.caminho)}" alt="" />`;
         slot.classList.add('up');
     } catch (e) {
         slot.dataset.caminho = '';
@@ -187,7 +198,7 @@ function setSlot (slot, caminho) {
     const label = t === '0' ? '+ Foto principal' : t === '1' ? '+ 2ª foto (hover)' : '+ Banner do drop';
     if (caminho) {
         slot.dataset.caminho = caminho;
-        drop.innerHTML = `<img src="${ASSETS + caminho}" alt="" onerror="this.parentNode.innerHTML='<span>${label}</span>'" />`;
+        drop.innerHTML = `<img src="${imgUrl(caminho)}" alt="" onerror="this.parentNode.innerHTML='<span>${label}</span>'" />`;
         slot.classList.add('up');
     } else {
         slot.dataset.caminho = '';
@@ -342,6 +353,47 @@ function setupDropForm () {
     document.getElementById('drop-form').addEventListener('submit', salvarDrop);
 }
 
+/* ── Ajuda dos campos (popover do "?") — explica o que cada campo muda na loja ── */
+const HELP = {
+    id: '<b>ID do arquivo.</b> Vira o arquivo /drops/&lt;id&gt;.json. Use minúsculas e hífens, sem espaço nem acento (ex.: verao-26). Não dá pra mudar depois de criar.',
+    nome: '<b>Nome interno.</b> Só aparece pra você aqui no painel, na hora de escolher qual drop ativar. O cliente nunca vê.',
+    dropnome: '<b>Etiqueta da coleção.</b> É o que liga as peças a este drop. As peças que você marcar lá embaixo recebem essa etiqueta (ex.: "Coleção Verão").',
+    snow: '<b>Efeito de neve.</b> Liga uma animação de neve caindo na loja inteira enquanto este drop estiver ativo.',
+    accent: '<b>Cor de destaque.</b> Botões, detalhes e títulos da loja toda passam a usar essa cor quando o drop está ativo.',
+    topbar: '<b>Faixa do topo.</b> A tarjinha fina acima do menu (ex.: "VERÃO CHEGANDO — DROP 02"). Vazio = sem faixa.',
+    banner: '<b>Imagem do drop.</b> Aparece no hero da home, na seção do drop e na página do drop. Use uma foto vertical de boa qualidade.',
+    eyebrow: '<b>Eyebrow.</b> O textinho pequeno acima do título do hero (ex.: "Inverno is Coming").',
+    meta: '<b>Meta label.</b> A etiqueta lateral do hero (ex.: "Drop 02 — Verão 26").',
+    headline: '<b>Título gigante do hero.</b> Cada linha que você digitar vira uma linha na tela. Escreva {palavra} pra ela sair na cor de destaque.<br>Ex.:<br>O VERÃO<br>NÃO {ESPERA.}',
+    hsub: '<b>Subtítulo.</b> O parágrafo curto logo abaixo do título do hero.',
+    cta: '<b>Botões do hero.</b> O primário é o botão cheio; o secundário é o de contorno. O texto que você escrever vira o rótulo do botão.',
+    shidden: '<b>Esconder a seção.</b> Marque pra tirar da home o bloco de contagem regressiva / chamada deste drop.',
+    count: '<b>Contagem regressiva.</b> A home mostra quanto tempo falta até essa data/hora. Vazio = sem contador.',
+    stitulo: '<b>Título da seção.</b> Uma linha por linha; escreva {palavra} pra destacar na cor do drop.',
+    visual: '<b>Texto do bloco visual.</b> A frase curta que aparece por cima da imagem da seção (ex.: VERÃO 26).',
+    marquee: '<b>Faixa animada.</b> As palavras que correm em loop numa tira. Separe por vírgula.'
+};
+
+function setupHelp () {
+    let pop = document.getElementById('help-pop');
+    if (!pop) { pop = document.createElement('div'); pop.id = 'help-pop'; pop.className = 'help-pop'; document.body.appendChild(pop); }
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.help');
+        if (btn) {
+            e.preventDefault(); e.stopPropagation();
+            pop.innerHTML = HELP[btn.dataset.help] || '';
+            pop.classList.add('open');
+            const r = btn.getBoundingClientRect();
+            const pw = Math.min(280, window.innerWidth - 24);
+            const left = Math.min(r.left, window.innerWidth - pw - 12);
+            pop.style.left = Math.max(12, left) + 'px';
+            pop.style.top = (r.bottom + 8) + 'px';
+        } else if (!e.target.closest('#help-pop')) {
+            pop.classList.remove('open');
+        }
+    });
+}
+
 async function carregarProdutosPicker (selecionados) {
     const cont = document.getElementById('d-pecas');
     const sel = new Set((selecionados || []).map(Number));
@@ -354,7 +406,7 @@ async function carregarProdutosPicker (selecionados) {
         cont.innerHTML = ativos.length ? ativos.map(p => `
           <label>
             <input type="checkbox" value="${p.id}" ${sel.has(Number(p.id)) ? 'checked' : ''} />
-            <img src="${p.imagem ? ASSETS + p.imagem : ASSETS + 'img/placeholder.png'}" alt="" onerror="this.style.opacity=.2"/>
+            <img src="${imgUrl(p.imagem)}" alt="" onerror="this.style.opacity=.2"/>
             <span class="pp-nome">${escapeHtml(p.nome)}</span>
             <span class="pp-tipo">${p.tipo}</span>
           </label>`).join('') : '<p class="loading" style="padding:16px">Cadastre peças primeiro (aba Peças).</p>';

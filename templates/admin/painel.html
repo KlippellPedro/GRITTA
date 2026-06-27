@@ -135,6 +135,20 @@
       .drop-card-row{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--border);padding:14px 18px;margin-bottom:10px}
       .drop-card-row .nm{font-family:"Bebas Neue",sans-serif;font-size:1.3rem;letter-spacing:1px}
       .drop-card-row .id{font-size:.62rem;color:var(--muted);letter-spacing:1px}
+
+      /* Ajuda dos campos do drop */
+      .formgroup-title{margin-bottom:6px}
+      .fg-hint{color:var(--muted);font-size:.74rem;line-height:1.55;margin:0 0 16px}
+      .field label{display:inline-flex;align-items:center;gap:7px}
+      .help{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;
+            border:1px solid var(--muted);background:none;color:var(--muted);font-size:.6rem;font-weight:700;line-height:1;
+            cursor:pointer;flex-shrink:0;padding:0;transition:border-color .15s,color .15s;text-transform:none}
+      .help:hover{border-color:var(--accent);color:var(--accent)}
+      .help-pop{position:fixed;z-index:200;width:280px;max-width:calc(100vw - 24px);background:var(--surface-2);
+                border:1px solid var(--accent);border-top:2px solid var(--accent);padding:13px 15px;font-size:.78rem;
+                line-height:1.6;color:var(--text);box-shadow:0 14px 34px rgba(0,0,0,.55);display:none}
+      .help-pop.open{display:block}
+      .help-pop b{color:var(--accent)}
     </style>
   </head>
   <body>
@@ -269,21 +283,22 @@
         <h3 id="drop-modal-title">Novo drop</h3>
         <form id="drop-form">
           <p class="formgroup-title">Identidade</p>
+          <p class="fg-hint">O básico: o nome do arquivo, como o drop aparece pra você e a cor/efeitos que mudam na loja inteira.</p>
           <div class="grid2">
-            <div class="field"><label for="d-id">ID (slug do arquivo)</label><input type="text" id="d-id" placeholder="verao-26" required /></div>
-            <div class="field"><label for="d-nome">Nome do drop</label><input type="text" id="d-nome" placeholder="Verão 26" required /></div>
+            <div class="field"><label for="d-id">ID (slug do arquivo) <button type="button" class="help" data-help="id">?</button></label><input type="text" id="d-id" placeholder="verao-26" required /></div>
+            <div class="field"><label for="d-nome">Nome do drop <button type="button" class="help" data-help="nome">?</button></label><input type="text" id="d-nome" placeholder="Verão 26" required /></div>
           </div>
           <div class="grid2">
-            <div class="field"><label for="d-dropnome">Coleção que liga as peças</label><input type="text" id="d-dropnome" placeholder="Coleção Verão" /></div>
+            <div class="field"><label for="d-dropnome">Coleção que liga as peças <button type="button" class="help" data-help="dropnome">?</button></label><input type="text" id="d-dropnome" placeholder="Coleção Verão" /></div>
             <div class="field" style="display:flex;align-items:flex-end;gap:24px">
-              <label class="check"><input type="checkbox" id="d-snow" /> Neve</label>
-              <span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Cor de acento</span><input type="color" id="d-accent" value="#2aabb0" style="width:50px;height:36px" /></span>
+              <label class="check"><input type="checkbox" id="d-snow" /> Neve <button type="button" class="help" data-help="snow">?</button></label>
+              <span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:6px">Cor de acento <button type="button" class="help" data-help="accent">?</button></span><input type="color" id="d-accent" value="#2aabb0" style="width:50px;height:36px" /></span>
             </div>
           </div>
-          <div class="field"><label for="d-topbar">Top-bar (faixa do topo)</label><input type="text" id="d-topbar" placeholder="VERÃO CHEGANDO — DROP 02" /></div>
+          <div class="field"><label for="d-topbar">Top-bar (faixa do topo) <button type="button" class="help" data-help="topbar">?</button></label><input type="text" id="d-topbar" placeholder="VERÃO CHEGANDO — DROP 02" /></div>
 
           <div class="field">
-            <label>Banner (usado no hero, na seção e na página)</label>
+            <label>Banner (usado no hero, na seção e na página) <button type="button" class="help" data-help="banner">?</button></label>
             <div class="imgs"><div class="imgslot" id="d-bannerslot" data-slot="banner">
               <div class="drop"><span>+ Banner do drop</span><input type="file" accept="image/*" hidden /></div>
               <div class="cap">Banner</div>
@@ -291,28 +306,31 @@
           </div>
 
           <p class="formgroup-title">Hero (home)</p>
+          <p class="fg-hint">O hero é o primeiro bloco gigante que a pessoa vê ao abrir a home: título enorme, textos e os botões principais.</p>
           <div class="grid2">
-            <div class="field"><label for="d-h-eyebrow">Eyebrow</label><input type="text" id="d-h-eyebrow" placeholder="Verão is Coming" /></div>
-            <div class="field"><label for="d-h-meta">Meta label</label><input type="text" id="d-h-meta" placeholder="Drop 02 — Verão 26" /></div>
+            <div class="field"><label for="d-h-eyebrow">Eyebrow <button type="button" class="help" data-help="eyebrow">?</button></label><input type="text" id="d-h-eyebrow" placeholder="Inverno is Coming" /></div>
+            <div class="field"><label for="d-h-meta">Meta label <button type="button" class="help" data-help="meta">?</button></label><input type="text" id="d-h-meta" placeholder="Drop 02 — Verão 26" /></div>
           </div>
-          <div class="field"><label for="d-h-headline">Título — uma linha por linha · use {palavra} pra destaque</label><textarea id="d-h-headline" placeholder="O VERÃO&#10;NÃO {ESPERA.}"></textarea></div>
-          <div class="field"><label for="d-h-sub">Subtítulo</label><textarea id="d-h-sub"></textarea></div>
+          <div class="field"><label for="d-h-headline">Título do hero <button type="button" class="help" data-help="headline">?</button></label><textarea id="d-h-headline" placeholder="O VERÃO&#10;NÃO {ESPERA.}"></textarea></div>
+          <div class="field"><label for="d-h-sub">Subtítulo <button type="button" class="help" data-help="hsub">?</button></label><textarea id="d-h-sub"></textarea></div>
           <div class="grid2">
-            <div class="field"><label for="d-h-cta1">CTA primário</label><input type="text" id="d-h-cta1" placeholder="VER O DROP →" /></div>
-            <div class="field"><label for="d-h-cta2">CTA secundário</label><input type="text" id="d-h-cta2" placeholder="CATEGORIAS" /></div>
+            <div class="field"><label for="d-h-cta1">CTA primário <button type="button" class="help" data-help="cta">?</button></label><input type="text" id="d-h-cta1" placeholder="VER O DROP →" /></div>
+            <div class="field"><label for="d-h-cta2">CTA secundário <button type="button" class="help" data-help="cta">?</button></label><input type="text" id="d-h-cta2" placeholder="CATEGORIAS" /></div>
           </div>
 
           <p class="formgroup-title">Seção do drop (home)</p>
-          <label class="check" style="margin-bottom:14px"><input type="checkbox" id="d-s-hidden" /> Esconder a seção de countdown</label>
+          <p class="fg-hint">O bloco no meio da home com a contagem regressiva e a chamada do drop.</p>
+          <label class="check" style="margin-bottom:14px"><input type="checkbox" id="d-s-hidden" /> Esconder a seção de countdown <button type="button" class="help" data-help="shidden">?</button></label>
           <div class="grid2">
             <div class="field"><label for="d-s-label">Label</label><input type="text" id="d-s-label" placeholder="A Estação do Sol" /></div>
-            <div class="field"><label for="d-s-count">Countdown (data/hora alvo)</label><input type="datetime-local" id="d-s-count" /></div>
+            <div class="field"><label for="d-s-count">Countdown (data/hora alvo) <button type="button" class="help" data-help="count">?</button></label><input type="datetime-local" id="d-s-count" /></div>
           </div>
-          <div class="field"><label for="d-s-titulo">Título da seção — {palavra} = destaque</label><textarea id="d-s-titulo" placeholder="VERÃO&#10;{26}"></textarea></div>
+          <div class="field"><label for="d-s-titulo">Título da seção <button type="button" class="help" data-help="stitulo">?</button></label><textarea id="d-s-titulo" placeholder="VERÃO&#10;{26}"></textarea></div>
           <div class="field"><label for="d-s-texto">Texto</label><textarea id="d-s-texto"></textarea></div>
-          <div class="field"><label for="d-s-visual">Texto do bloco visual</label><input type="text" id="d-s-visual" placeholder="VERÃO '26" /></div>
+          <div class="field"><label for="d-s-visual">Texto do bloco visual <button type="button" class="help" data-help="visual">?</button></label><input type="text" id="d-s-visual" placeholder="VERÃO '26" /></div>
 
           <p class="formgroup-title">Página de drop</p>
+          <p class="fg-hint">A página dedicada do drop, aberta quando a pessoa clica em "ver o drop".</p>
           <div class="grid2">
             <div class="field"><label for="d-p-label">Label</label><input type="text" id="d-p-label" /></div>
             <div class="field"><label for="d-p-titulo">Título</label><input type="text" id="d-p-titulo" /></div>
@@ -320,9 +338,11 @@
           <div class="field"><label for="d-p-sub">Subtítulo</label><input type="text" id="d-p-sub" /></div>
 
           <p class="formgroup-title">Marquee</p>
-          <div class="field"><label for="d-marquee">Palavras (separadas por vírgula)</label><input type="text" id="d-marquee" placeholder="GR!TTA, VERÃO, STREETWEAR, DROP 02" /></div>
+          <p class="fg-hint">A tira animada com palavras que correm em loop pela tela.</p>
+          <div class="field"><label for="d-marquee">Palavras (separadas por vírgula) <button type="button" class="help" data-help="marquee">?</button></label><input type="text" id="d-marquee" placeholder="GR!TTA, VERÃO, STREETWEAR, DROP 02" /></div>
 
           <p class="formgroup-title">Peças do drop</p>
+          <p class="fg-hint">Marque quais peças entram neste drop — elas ganham a etiqueta da coleção e aparecem na seção e na página do drop.</p>
           <div class="prodpick" id="d-pecas"><p class="loading" style="padding:16px">Carregando peças…</p></div>
 
           <div class="msg" id="drop-form-msg"></div>

@@ -233,6 +233,7 @@ class GrittaHeader extends HTMLElement {
                   <img src="${assets}img/icons/usuario.png" alt="Perfil" />
                 </a>
                 <div class="dropdown-menu" id="user-dropdown">
+                  <a href="${root}admin/painel.html" id="dropdown-admin" class="dropdown-admin" style="display:none">⚙ PAINEL ADMIN</a>
                   <a href="${root}usuario/perfil.html"  id="dropdown-perfil">MEU PERFIL</a>
                   <a href="${root}usuario/pedidos.html" id="dropdown-pedidos">MEUS PEDIDOS</a>
                   <hr />

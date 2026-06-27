@@ -135,6 +135,11 @@
 .dropdown-menu button:hover { background: #f5f5f5; padding-left: 24px }
 .dropdown-menu hr { border: 0; border-top: 1px solid #eee; margin: 4px 0 }
 .dropdown-menu .btn-logout { color: var(--danger) }
+.dropdown-menu .dropdown-admin {
+  color: var(--accent); font-weight: 900;
+  border-bottom: 1px solid #eee;
+}
+.dropdown-menu .dropdown-admin:hover { background: rgba(42,171,176,.08) }
 
 /* ── HAMBURGER ── */
 .navbar-toggle {

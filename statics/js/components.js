@@ -371,17 +371,27 @@ class GrittaFooter extends HTMLElement {
           </div>
         </footer>`;
 
-        // Newsletter (placeholder — captura real depende de backend)
+        // Newsletter (footer) — entra na lista VIP + e-mail de boas-vindas
         const form = this.querySelector('#footer-news-form');
         if (form) {
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
-                if (typeof showToast === 'function') showToast('VOCÊ TÁ NO MOVIMENTO ✦', 'success');
+                const input = form.querySelector('input[type=email]');
+                window.assinarNewsletter(input ? input.value : '');
+                if (typeof showToast === 'function') showToast('VOCÊ TÁ NO MOVIMENTO ✦ Confira seu e-mail!', 'success');
                 form.reset();
             });
         }
     }
 }
+
+// Assina a lista VIP (newsletter) — usado pelo footer e pelo modal de 10% OFF
+window.assinarNewsletter = function (email) {
+    email = (email || '').trim();
+    if (!email) return;
+    const url = (window.CONFIG && CONFIG.API_NEWSLETTER_URL) || 'http://127.0.0.1:5007/api/notificar/newsletter';
+    fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }).catch(() => {});
+};
 
 /* ══════════════════════════════════════════════
    STOREFRONT — aplica o drop ativo (lido do backend)
@@ -744,6 +754,7 @@ function injectNewsModal () {
     ov.addEventListener('click', e => { if (e.target === ov) close(); });
     ov.querySelector('#news-modal-form').addEventListener('submit', e => {
         e.preventDefault();
+        window.assinarNewsletter(ov.querySelector('#nm-email').value);
         if (typeof showToast === 'function') showToast('BEM-VINDO AO MOVIMENTO ✦ CONFERE TEU E-MAIL', 'success');
         close();
     });

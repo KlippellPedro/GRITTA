@@ -23,3 +23,19 @@ def send_notification_async(token, email, assunto, mensagem):
 
     thread = threading.Thread(target=task, args=(token, email, assunto, mensagem))
     thread.start()
+
+
+def send_template_email_async(token, email, tipo, dados):
+    """Dispara um e-mail profissional (template) via notification_service, sem bloquear."""
+    def task():
+        try:
+            requests.post(
+                NOTIFICATION_URL + "/template",
+                json={"email": email, "tipo": tipo, "dados": dados},
+                headers={"Authorization": f"Bearer {token}"},
+                timeout=15,
+            )
+        except Exception as e:
+            print(f"[ASYNC NOTIFY ERROR] Falha ao enviar e-mail '{tipo}': {e}")
+
+    threading.Thread(target=task, daemon=True).start()

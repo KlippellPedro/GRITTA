@@ -7,6 +7,7 @@ import os
 import secrets
 import logging
 import requests
+import threading
 from html import escape as html_escape
 
 NOTIFICATION_URL = os.environ.get("NOTIFICATION_URL", "http://127.0.0.1:5007/api/notificar/email")
@@ -100,6 +101,21 @@ def _enviar_codigo_email(email, nome, codigo):
         logger.error(f"Falha ao enviar e-mail de código: {e}")
 
 
+def _enviar_template_email(email, tipo, dados):
+    """Dispara um e-mail profissional (template) via notification_service, sem bloquear o cadastro."""
+    def _task():
+        try:
+            requests.post(
+                NOTIFICATION_URL + "/template",
+                json={"email": email, "tipo": tipo, "dados": dados},
+                headers={"Authorization": "Bearer " + _token_servico()},
+                timeout=10,
+            )
+        except Exception as e:
+            logger.error(f"Falha ao enviar e-mail '{tipo}': {e}")
+    threading.Thread(target=_task, daemon=True).start()
+
+
 def _emitir_tokens(user):
     """Gera access + refresh token pra um usuário (reaproveitado pelo login normal e Google)."""
     access_payload = {
@@ -169,6 +185,7 @@ def login_with_google(token_google):
             conn.commit()
             user = {"id": cursor.lastrowid, "nome": nome, "email": email, "tipo": "cliente"}
             logger.info(f"Novo usuário via Google: {email}")
+            _enviar_template_email(email, "boas_vindas", {"nome": nome})   # e-mail de boas-vindas
         elif user.get('ativo') == 0:
             return {"message": "Conta desativada."}, 403
         else:
@@ -219,6 +236,7 @@ def register_user(data):
         conn.commit()
         user_id = cursor.lastrowid
         logger.info(f"Novo usuário registrado: {email} (ID: {user_id})")
+        _enviar_template_email(email, "boas_vindas", {"nome": nome})   # e-mail de boas-vindas
         return user_id, None
     except IntegrityError as e:
         conn.rollback()

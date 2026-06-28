@@ -9,7 +9,7 @@ from .cupom_service import (listar_cupons, criar_cupom, definir_ativo, excluir_c
                             validar_cupom, registrar_uso)
 from .frete_service import calcular_frete, get_endereco_cep
 from .auth import token_required, admin_required
-from .utils import send_notification_async
+from .utils import send_notification_async, send_template_email_async
 
 # Configuração do Logger
 # Cria a pasta logs se não existir
@@ -146,12 +146,12 @@ def checkout():
         f"Seu pedido #{pedido_id} foi confirmado e já está sendo preparado. Acompanhe em Meus Pedidos.",
         "pedidos.html")
 
-    # 7. Se tudo deu certo, envia a notificação assíncrona (e-mail)
-    send_notification_async(
-        token_original, 
-        request.user.get('email'), 
-        "Seu pedido na GR!TTA foi confirmado!", 
-        f"Olá {request.user.get('nome', 'Cliente')}, recebemos seu pagamento. Seu estilo está a caminho!"
+    # 7. E-mail de confirmação do pedido (template profissional, assíncrono)
+    send_template_email_async(
+        token_original,
+        request.user.get('email'),
+        "pedido_confirmado",
+        {"nome": request.user.get('nome', 'Cliente'), "pedido_id": pedido_id, "total": total_venda}
     )
     
     return jsonify({

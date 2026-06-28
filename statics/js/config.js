@@ -11,6 +11,7 @@ window.CONFIG = {
     API_CATALOG_URL: `${BASE_IP}:5003/products`,
     API_STOREFRONT_URL: `${BASE_IP}:5003/storefront`,
     API_AUTH_URL: `${BASE_IP}:5005/api/auth`,
+    API_NEWSLETTER_URL: `${BASE_IP}:5007/api/notificar/newsletter`,
 
     // Valor mínimo para frete grátis (usado no mini-cart e textos)
     FRETE_GRATIS: 399.90,

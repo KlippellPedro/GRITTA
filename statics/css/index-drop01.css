@@ -22,21 +22,15 @@ body { background: var(--d-preto); color: var(--d-branco); }
 
 .bang-inv { display: inline-block; transform: rotate(180deg); color: var(--d-verde-pop); }
 
-/* ── HERO · "O GRITO" ───────────────────────────────────── */
+/* ── HERO · "O GRITO" — minimalista, contido na esquerda, foto respirando ─ */
 .hero { background: var(--d-preto); }
-.hero-photo-img { filter: grayscale(.6) brightness(.38) contrast(1.12); }
+.hero-photo-img { filter: grayscale(.5) brightness(.55) contrast(1.06); }
 .hero-grid-overlay {
   background:
-    linear-gradient(180deg, rgba(10,10,10,.35) 0%, rgba(10,10,10,.55) 55%, var(--d-preto) 100%),
-    repeating-linear-gradient(90deg, transparent 0 38px, rgba(255,255,255,.012) 38px 39px);
+    linear-gradient(90deg, rgba(10,10,10,.78) 0%, rgba(10,10,10,.45) 42%, rgba(10,10,10,0) 70%),
+    linear-gradient(180deg, rgba(10,10,10,0) 60%, var(--d-preto) 100%);
 }
-.hero::after {
-  content: "!";
-  position: absolute; right: -3%; top: -16%;
-  font-family: var(--d-display); font-size: 78vh; line-height: 1;
-  color: #101010; transform: rotate(180deg);
-  pointer-events: none; user-select: none; z-index: 0;
-}
+.hero::after { content: none; display: none; }   /* sem watermark gigante no hero — respiro */
 .hero-inner { position: relative; z-index: 2; }
 .hero-meta { font-family: var(--d-mono); letter-spacing: 2px; }
 .hero-index, .hero-meta-label { font-family: var(--d-mono); color: var(--d-concreto); letter-spacing: 2px; }
@@ -47,10 +41,16 @@ body { background: var(--d-preto); color: var(--d-branco); }
 }
 .hero-title {
   font-family: var(--d-display); color: var(--d-branco);
-  text-transform: uppercase; letter-spacing: 1px; line-height: .9;
+  text-transform: uppercase; letter-spacing: 0; line-height: .98;
+  /* Archivo Black é largo+pesado → tamanho bem menor que a Bebas original
+     pra recuperar o equilíbrio e deixar a foto respirar à direita */
+  font-size: clamp(1.7rem, 3.5vw, 3.1rem);
+  max-width: 56%; margin-bottom: 24px;
 }
-.hero-title .accent, .hero-title .word.accent { color: var(--d-verde-pop); }
-.hero-sub { font-family: var(--d-mono); color: var(--d-concreto); letter-spacing: 1px; line-height: 1.7; }
+.hero-title .accent, .hero-title .word.accent {
+  color: var(--d-verde-pop); -webkit-text-stroke: 0;   /* verde militar sutil, sólido */
+}
+.hero-sub { font-family: var(--d-mono); color: var(--d-concreto); letter-spacing: 1px; line-height: 1.7; max-width: 430px; }
 .btn-hero-primary {
   background: var(--d-verde); border: 1px solid #2F6045; color: #DFF0E6;
   font-family: var(--d-mono); text-transform: uppercase; letter-spacing: 1.5px;

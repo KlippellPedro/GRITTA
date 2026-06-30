@@ -151,8 +151,8 @@ GRITTA/
 ├── .claude/
 │   └── launch.json             # Configurações de dev servers (Claude Code)
 │
-├── gritta_db.sql               # Schema completo do banco
-├── gritta_novos_produtos.sql   # Script de 23 novos produtos (Jun/2026)
+├── database/
+│   └── gritta_db.sql           # Banco completo: schema + dados (todas as tabelas)
 ├── requirements.txt
 └── run_all_services.bat        # Orquestrador de todos os serviços
 ```
@@ -171,16 +171,15 @@ GRITTA/
 ### 2. Dependências Python
 
 ```bash
-pip install flask flask-cors mysql-connector-python PyJWT bcrypt python-dotenv requests
+pip install -r requirements.txt
 ```
 
 ### 3. Banco de Dados
 
-Importe o schema no MySQL e, em seguida, os produtos iniciais:
+Importe o banco completo (schema + dados, todas as tabelas) no MySQL:
 
 ```bash
-mysql -u root -p < gritta_db.sql
-mysql -u root -p gritta_db < gritta_novos_produtos.sql
+mysql -u root -p < database/gritta_db.sql
 ```
 
 Configure os arquivos `.env` dentro de cada `services/*/`:

@@ -391,12 +391,15 @@ function renderizarProdutos (lista, container, favMap = {}) {
             quickAddHTML = `<div class="quick-add"><span class="qa-label">Add</span><div class="qa-sizes">${chips}</div></div>`;
         }
 
-        // Badge
+        // Badge de estoque — escassez tática (verde / vermelho no crítico)
         let badgeHTML = '';
+        const est = parseInt(produto.total_estoque || 0, 10);
         if (isOfflineMode) {
-            badgeHTML = '<div class="badge-ultimas-pecas" style="background:#555">EXEMPLO</div>';
-        } else if (produto.total_estoque > 0 && produto.total_estoque < 5) {
-            badgeHTML = '<div class="badge-ultimas-pecas">ÚLTIMAS PEÇAS</div>';
+            badgeHTML = '<div class="badge-ultimas-pecas exemplo">EXEMPLO</div>';
+        } else if (est > 0 && est <= 3) {
+            badgeHTML = `<div class="badge-ultimas-pecas critico">${est} RESTANTES</div>`;
+        } else if (est > 0 && est <= 8) {
+            badgeHTML = `<div class="badge-ultimas-pecas">LIMITED · ${String(est).padStart(2, '0')} UN</div>`;
         }
 
         card.innerHTML = `

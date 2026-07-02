@@ -1,39 +1,55 @@
 {
   "id": "winter-is-coming",
   "nome": "Winter is Coming",
+  "drop_nome": "Coleção de Inverno",
+  "trancado": true,
   "arquivado": false,
   "thumb": "img/banners/banner_winter_is_comming.png",
   "desc": "A estação mais pesada do ano. Moletons brutais, jaquetas táticas e calças que encaram qualquer frio.",
-  "trancado": true,
-  "senha_hash": "46f22df8a191d766d4e1590485268ef0e22924f3286eadfd67bbcb5cd76ae2f0",
-  "drop_nome": "Coleção de Inverno",
   "accent": "#2aabb0",
   "snow": true,
   "topbar": "O FRIO TÁ VINDO — DROP 01",
-  "marquee": ["GR!TTA", "OVERSIZED", "STREETWEAR", "FRETE GRÁTIS", "DROP 01", "WINTER IS COMING", "SEM CONCESSÃO", "O FRIO NÃO PERDOA"],
+  "marquee": [
+    "GR!TTA",
+    "OVERSIZED",
+    "STREETWEAR",
+    "FRETE GRÁTIS",
+    "DROP 01",
+    "WINTER IS COMING",
+    "SEM CONCESSÃO",
+    "O FRIO NÃO PERDOA"
+  ],
   "hero": {
     "eyebrow": "Winter is Coming",
-    "meta_index": "01 / 04",
+    "meta_index": "",
     "meta_label": "Drop 01 — Inverno '26 · Tá na rua",
-    "headline": ["O NORTE", "SE {LEMBRA.}", "A GR!TTA TAMBÉM."],
+    "headline": [
+      "O NORTE",
+      "SE {LEMBRA.}",
+      "A GR!TTA TAMBÉM."
+    ],
     "sub": "Moletom pesado, jaqueta que encara vento. Caimento largo, costura firme. Pro frio que não avisa.",
-    "banner": "img/banners/banner_drop.jpg",
+    "banner": "",
     "cta_primary": "VER O DROP →",
     "cta_secondary": "CATEGORIAS"
   },
   "drop_section": {
     "hidden": false,
     "label": "A Noite Mais Longa",
-    "titulo": ["WINTER IS", "{COMING}"],
+    "titulo": [
+      "WINTER IS",
+      "{COMING}"
+    ],
     "texto": "Quando o frio chega, só os preparados resistem. A coleção mais brutal do ano chega em contagem regressiva — peças limitadas pra encarar a noite mais longa.",
-    "visual_text": "WINTER\n'26",
-    "banner": "img/banners/banner_winter_is_comming.png",
-    "countdown": "2026-07-21T23:59:59"
+    "visual_text": "WINTER'26",
+    "banner": "",
+    "countdown": "2026-07-21T23:59:00"
   },
   "drop_page": {
     "label": "Winter is Coming",
     "titulo": "WINTER IS COMING",
     "subtitulo": "A coleção que chega com o frio — edição limitada pra noite mais longa",
-    "banner": "img/banners/banner_winter_is_comming.png"
-  }
+    "banner": ""
+  },
+  "senha_hash": "30c5461fc27b84f1f1ad0a83162a26882b22d11cdfa45978dd21c810056e8d0e"
 }

@@ -28,6 +28,7 @@ def verificar_estoque(variacao_id):
     return jsonify({"error": "Variação não encontrada"}), 404
 
 @main.route('/baixa', methods=['POST'])
+@token_required
 def dar_baixa():
     # Esta rota é chamada pelo Order Service internamente
     data = request.json
@@ -51,6 +52,7 @@ def dar_baixa():
     return jsonify({"success": sucesso}), 200 if sucesso else 400
 
 @main.route('/devolver', methods=['POST'])
+@token_required
 def devolver_estoque():
     # Rota para estornar o estoque caso a venda falhe
     data = request.json

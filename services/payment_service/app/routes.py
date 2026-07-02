@@ -1,10 +1,12 @@
 from flask import Blueprint, request, jsonify
 from .gateway import processar, MAX_PARCELAS
+from .auth import token_required
 
 main = Blueprint('main', __name__)
 
 
 @main.route('/processar', methods=['POST'])
+@token_required
 def processar_pagamento():
     data = request.json or {}
     if not data:

@@ -24,11 +24,16 @@ def token_required(f):
 def admin_or_employee_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        # Primeiro verifica se está logado
         auth_header = request.headers.get("Authorization")
-        token = auth_header.split(" ")[1]
-        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-        
+        if not auth_header:
+            return jsonify({"error": "Token ausente"}), 401
+        try:
+            token = auth_header.split(" ")[1]
+            payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        except jwt.ExpiredSignatureError:
+            return jsonify({"error": "Token expirado"}), 401
+        except Exception:
+            return jsonify({"error": "Token inválido"}), 401
         if payload.get('tipo') not in ['admin', 'funcionario']:
             return jsonify({"error": "Acesso negado. Apenas administradores ou funcionários."}), 403
         return f(*args, **kwargs)

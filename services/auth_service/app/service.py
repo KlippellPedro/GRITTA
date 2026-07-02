@@ -8,7 +8,6 @@ import secrets
 import logging
 import requests
 import threading
-from html import escape as html_escape
 
 NOTIFICATION_URL = os.environ.get("NOTIFICATION_URL", "http://127.0.0.1:5007/api/notificar/email")
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "")
@@ -36,64 +35,13 @@ def _token_servico():
     return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
 
 
-def _email_html_codigo(nome, codigo):
-    """Corpo HTML (dark, branded) do e-mail de código — layout em tabela pra
-    compatibilidade com clientes de e-mail; nome escapado contra injeção."""
-    nome_safe = html_escape(nome or "")
-    return f"""\
-<!doctype html>
-<html lang="pt-br">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#0b141a;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0b141a;padding:32px 12px;font-family:Arial,Helvetica,sans-serif;">
-    <tr><td align="center">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;background:#16252f;border:1px solid #243a47;border-top:3px solid #2aabb0;">
-        <tr><td style="padding:38px 40px 6px;text-align:center;">
-          <div style="font-size:30px;font-weight:900;letter-spacing:6px;color:#ffffff;">GR<span style="color:#2aabb0;">!</span>TTA</div>
-          <div style="font-size:10px;letter-spacing:3px;color:#5b7180;text-transform:uppercase;margin-top:8px;">Redefinição de senha</div>
-        </td></tr>
-        <tr><td style="padding:26px 40px 4px;">
-          <p style="color:#e3eaef;font-size:15px;line-height:1.6;margin:0 0 16px;">Oi, <strong style="color:#ffffff;">{nome_safe}</strong>!</p>
-          <p style="color:#9fb1bd;font-size:14px;line-height:1.6;margin:0 0 22px;">Recebemos um pedido pra redefinir a senha da sua conta. Use o código abaixo pra continuar:</p>
-        </td></tr>
-        <tr><td style="padding:0 40px;">
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0f1c25;border:1px solid #2aabb0;">
-            <tr><td style="padding:22px;text-align:center;">
-              <div style="font-size:40px;font-weight:700;letter-spacing:16px;color:#2aabb0;font-family:'Courier New',Courier,monospace;">{codigo}</div>
-            </td></tr>
-          </table>
-          <p style="color:#5b7180;font-size:12px;text-align:center;margin:14px 0 0;">Vale por <strong style="color:#9fb1bd;">15 minutos</strong> &middot; uso &uacute;nico</p>
-        </td></tr>
-        <tr><td style="padding:28px 40px 0;"><div style="height:1px;background:#243a47;line-height:1px;font-size:1px;">&nbsp;</div></td></tr>
-        <tr><td style="padding:18px 40px 36px;">
-          <p style="color:#6b8190;font-size:12px;line-height:1.6;margin:0;">Se n&atilde;o foi voc&ecirc; que pediu, &eacute; s&oacute; ignorar este e-mail &mdash; sua senha continua a mesma e ningu&eacute;m tem acesso &agrave; sua conta.</p>
-        </td></tr>
-      </table>
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;font-family:Arial,Helvetica,sans-serif;">
-        <tr><td style="padding:18px 40px;text-align:center;">
-          <p style="color:#3f5765;font-size:11px;line-height:1.7;margin:0;">GR!TTA &middot; Streetwear<br>E-mail autom&aacute;tico, n&atilde;o responda.</p>
-        </td></tr>
-      </table>
-    </td></tr>
-  </table>
-</body>
-</html>"""
-
-
 def _enviar_codigo_email(email, nome, codigo):
-    assunto = "GR!TTA — Seu código de redefinição de senha"
-    mensagem = (
-        f"Oi, {nome}!\n\n"
-        f"Seu código pra redefinir a senha é: {codigo}\n\n"
-        f"Ele vale por 15 minutos e só pode ser usado uma vez.\n"
-        f"Se não foi você que pediu, é só ignorar este e-mail — sua senha continua a mesma.\n\n"
-        f"— GR!TTA"
-    )
-    html = _email_html_codigo(nome, codigo)
+    """Dispara o e-mail de código de redefinição via notification_service,
+    usando o template centralizado 'recuperar_senha' (templates/emails/)."""
     try:
         requests.post(
-            NOTIFICATION_URL,
-            json={"email": email, "assunto": assunto, "mensagem": mensagem, "html": html},
+            NOTIFICATION_URL + "/template",
+            json={"email": email, "tipo": "recuperar_senha", "dados": {"nome": nome, "codigo": codigo}},
             headers={"Authorization": "Bearer " + _token_servico()},
             timeout=8
         )

@@ -84,12 +84,13 @@ def delete_user(user_id):
 def list_favorites(user_id):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
-    # Join para pegar dados do produto e a imagem principal
     query = """
-        SELECT f.id, p.id as produto_id, p.nome, p.preco_base as preco, i.caminho_imagem as imagem
+        SELECT f.id, p.id as produto_id, p.nome, p.preco_base as preco, p.slug,
+               i.caminho_imagem as imagem, i2.caminho_imagem as imagem_2
         FROM favoritos f
         JOIN produtos p ON f.produto_id = p.id
-        LEFT JOIN imagens_produto i ON p.id = i.produto_id AND i.ordem_exibicao = 0
+        LEFT JOIN imagens_produto i  ON p.id = i.produto_id  AND i.ordem_exibicao  = 0
+        LEFT JOIN imagens_produto i2 ON p.id = i2.produto_id AND i2.ordem_exibicao = 1
         WHERE f.usuario_id = %s
     """
     cursor.execute(query, (user_id,))

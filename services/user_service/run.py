@@ -1,10 +1,10 @@
 import os
-from flask import Flask
-from app.routes import main
-from flask_cors import CORS
 from dotenv import load_dotenv
-
 load_dotenv()
+
+from flask import Flask
+from flask_cors import CORS
+from app.routes import main
 app = Flask(__name__)
 
 # Configuração de Segurança

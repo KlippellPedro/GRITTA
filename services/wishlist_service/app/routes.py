@@ -4,6 +4,12 @@ from .auth import token_required
 
 main = Blueprint("main", __name__)
 
+
+def _eh_dono(user_id):
+    """True se o id da URL bate com o usuário autenticado (anti-IDOR)."""
+    return user_id == request.user.get('id')
+
+
 @main.route("/users", methods=["GET"])
 @token_required
 def route_list_users():
@@ -13,6 +19,8 @@ def route_list_users():
 @main.route("/users/<int:user_id>", methods=["GET"])
 @token_required
 def route_get_user(user_id):
+    if not _eh_dono(user_id):
+        return jsonify({"error": "Acesso negado"}), 403
     user = get_user(user_id)
     if user:
         return jsonify(user), 200
@@ -30,6 +38,8 @@ def route_create_user():
 @main.route("/users/<int:user_id>", methods=["PUT"])
 @token_required
 def route_update_user(user_id):
+    if not _eh_dono(user_id):
+        return jsonify({"error": "Acesso negado"}), 403
     data = request.get_json()
     update_user(user_id, data)
     return jsonify({"message": "Usuário atualizado"}), 200
@@ -37,6 +47,8 @@ def route_update_user(user_id):
 @main.route("/users/<int:user_id>", methods=["DELETE"])
 @token_required
 def route_delete_user(user_id):
+    if not _eh_dono(user_id):
+        return jsonify({"error": "Acesso negado"}), 403
     delete_user(user_id)
     return jsonify({"message": "Usuário removido"}), 200
 

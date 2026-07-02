@@ -14,20 +14,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const tituloMap = {
-        'camisas':    'CAMISAS',
-        'camisetas':  'CAMISETAS',
-        'moletons':   'MOLETONS',
-        'calcas':     'CALÇAS',
-        'tenis':      'TÊNIS',
-        'acessorios': 'ACESSÓRIOS'
+        // slugs legados
+        'camisas':           'CAMISAS',
+        'camisetas':         'CAMISETAS',
+        'moletons':          'MOLETONS',
+        'calcas':            'CALÇAS',
+        'tenis':             'TÊNIS',
+        'acessorios':        'ACESSÓRIOS',
+        // novos slugs unificados
+        'camisa-e-t-shirt':  'CAMISA E T-SHIRT',
+        'casacos-e-jaqueta': 'CASACOS E JAQUETA',
     };
     const labelMap = {
-        'camisas':    '✦ Streetwear',
-        'camisetas':  '✦ Streetwear',
-        'moletons':   '✦ Inverno 2026',
-        'calcas':     '✦ Oversized',
-        'tenis':      '✦ Drops Limitados',
-        'acessorios': '✦ Complete o Look'
+        // slugs legados
+        'camisas':           '✦ Streetwear',
+        'camisetas':         '✦ Streetwear',
+        'moletons':          '✦ Oversized',
+        'calcas':            '✦ Tapered',
+        'tenis':             '✦ Drops Limitados',
+        'acessorios':        '✦ Complete o Look',
+        // novos slugs unificados
+        'camisa-e-t-shirt':  '✦ Streetwear',
+        'casacos-e-jaqueta': '✦ Inverno 2026',
     };
 
     document.title = `GR!TTA | ${tituloMap[tipo] || 'Loja'}`;
@@ -127,7 +135,10 @@ async function carregarProdutosDaCategoria(tipo) {
 
     try {
         const response = await fetch(`${CONFIG.API_CATALOG_URL}?tipo=${tipo}`);
-        produtosOriginais = await response.json();
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const data = await response.json();
+        produtosOriginais = Array.isArray(data) ? data : [];
 
         if (produtosOriginais.length === 0) {
             vitrine.innerHTML = `<p class="empty-msg">NENHUM PRODUTO ENCONTRADO EM ${tipo.toUpperCase()}.</p>`;
@@ -147,12 +158,15 @@ function escapeHtml (s) {
 
 function renderizarProdutos(lista, container) {
     container.innerHTML = lista.map(p => {
-        const imagemUrl = window.resolveStaticPath(p.imagem);
-        const nomeSafe  = escapeHtml(p.nome);
+        const imagemUrl  = window.resolveStaticPath(p.imagem);
+        const imagem2Url = p.imagem_2 ? window.resolveStaticPath(p.imagem_2) : null;
+        const nomeSafe   = escapeHtml(p.nome);
+        const classes    = ['produto-card', imagem2Url ? 'has-2nd' : '', p.is_special ? 'is-special' : ''].filter(Boolean).join(' ');
         return `
-            <div class="produto-card" onclick="window.grittaGo ? window.grittaGo('../usuario/produto.html?slug=${p.slug || p.id}') : window.location.href='../usuario/produto.html?slug=${p.slug || p.id}'">
+            <div class="${classes}" onclick="window.grittaGo ? window.grittaGo('../usuario/produto.html?slug=${p.slug || p.id}') : window.location.href='../usuario/produto.html?slug=${p.slug || p.id}'">
                 <div class="produto-imagem">
-                    <img src="${imagemUrl}" alt="${nomeSafe}">
+                    <img class="img-primary" src="${imagemUrl}" alt="${nomeSafe}" onerror="this.onerror=null;this.src=window.resolveStaticPath(null)">
+                    ${imagem2Url ? `<img class="img-secondary" src="${imagem2Url}" alt="" loading="lazy" onerror="this.onerror=null;this.src=window.resolveStaticPath(null)">` : ''}
                 </div>
                 <div class="produto-info">
                     <h4>${nomeSafe}</h4>

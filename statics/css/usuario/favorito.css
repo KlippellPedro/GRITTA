@@ -28,7 +28,7 @@
 }
 
 .favoritos-titulo {
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
   font-size: clamp(3rem, 6vw, 4.5rem);
   letter-spacing: 4px;
   color: var(--text);
@@ -79,7 +79,7 @@
   color: #fff;
   padding: 16px 44px;
   text-decoration: none;
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
   font-size: 1.2rem;
   letter-spacing: 3px;
   cursor: none;

@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initFilterChips();
     initBusca();
     initRecentes();
+    carregarCategoriasHome();
     carregarProdutosVitrine().then(aplicarBuscaDaURL);
 });
 
@@ -79,14 +80,17 @@ function initRecentes () {
     sec.hidden = false;
     cont.innerHTML = lista.map(p => {
         const img      = window.resolveStaticPath(p.imagem);
+        const img2     = p.imagem_2 ? window.resolveStaticPath(p.imagem_2) : null;
         const slug     = p.slug || p.id;
         const nomeR    = escapeHtml(p.nome);
         const precoFmt = Number(p.preco_base).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        const has2nd   = img2 ? ' has-2nd' : '';
         return `
-        <div class="produto-card" onclick="window.grittaGo('usuario/produto.html?slug=${slug}')" style="cursor:none">
+        <div class="produto-card${has2nd}" onclick="window.grittaGo('usuario/produto.html?slug=${slug}')" style="cursor:none">
             <div class="produto-imagem">
                 <img class="img-primary" src="${img}" alt="${nomeR}" loading="lazy"
                      onerror="this.style.padding='40px';this.style.objectFit='contain'"/>
+                ${img2 ? `<img class="img-secondary" src="${img2}" alt="" loading="lazy">` : ''}
             </div>
             <div class="produto-info">
                 <h4>${nomeR}</h4>
@@ -253,6 +257,27 @@ function escapeHtml (s) {
 }
 
 /* ══════════════════════════════════════
+   CARREGAR IMAGENS DE CATEGORIA (home)
+══════════════════════════════════════ */
+async function carregarCategoriasHome () {
+    try {
+        const base = (CONFIG.API_CATALOG_URL || '').replace(/\/products(\?.*)?$/, '');
+        if (!base) return;
+        const res = await fetch(`${base}/categories`, { cache: 'no-store' });
+        if (!res.ok) return;
+        const cats = await res.json();
+        const MAP = { moletons: 1, camisas: 2, calcas: 3, tenis: 4, acessorios: 5 };
+        const grad = 'linear-gradient(180deg,rgba(0,0,0,.1) 0%,rgba(0,0,0,.55) 100%)';
+        Object.entries(cats).forEach(([tipo, caminho]) => {
+            const idx = MAP[tipo];
+            if (!idx || !caminho) return;
+            const el = document.querySelector(`.cat-bg-${idx}`);
+            if (el) el.style.backgroundImage = `${grad},url("${window.resolveStaticPath(caminho)}")`;
+        });
+    } catch (e) {}
+}
+
+/* ══════════════════════════════════════
    CARREGAR PRODUTOS
 ══════════════════════════════════════ */
 async function carregarProdutosVitrine () {
@@ -377,7 +402,8 @@ function renderizarProdutos (lista, container, favMap = {}) {
         const parcelaFmt = (preco / 12).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         const imagem2Url = produto.imagem_2 ? window.resolveStaticPath(produto.imagem_2) : null;
         const nomeSafe   = escapeHtml(produto.nome);
-        if (imagem2Url) card.classList.add('has-2nd');
+        if (imagem2Url)         card.classList.add('has-2nd');
+        if (produto.is_special) card.classList.add('is-special');
 
         // Quick-add: chips de tamanho revelados no hover
         let quickAddHTML = '';
@@ -388,7 +414,7 @@ function renderizarProdutos (lista, container, favMap = {}) {
                     ? `<button class="qa-size out" disabled title="Esgotado">${tam}</button>`
                     : `<button class="qa-size" onclick="event.stopPropagation(); window.quickAddCarrinho('${vid}')">${tam}</button>`;
             }).join('');
-            quickAddHTML = `<div class="quick-add"><span class="qa-label">Add</span><div class="qa-sizes">${chips}</div></div>`;
+            quickAddHTML = `<div class="quick-add"><div class="qa-sizes">${chips}</div></div>`;
         }
 
         // Badge de estoque — escassez tática (verde / vermelho no crítico)
@@ -412,14 +438,14 @@ function renderizarProdutos (lista, container, favMap = {}) {
                     <img src="../statics/img/icons/coracao.png" alt="Favoritar" />
                 </button>
                 <img class="img-primary" src="${imagemUrl}" alt="${nomeSafe}" loading="lazy"
-                     onerror="this.style.padding='40px';this.style.objectFit='contain';this.style.background='#f5f5f5'"/>
+                     onerror="this.onerror=null;this.src=window.resolveStaticPath(null)"/>
                 ${imagem2Url ? `<img class="img-secondary" src="${imagem2Url}" alt="" loading="lazy" />` : ''}
-                ${quickAddHTML}
             </div>
             <div class="produto-info" onclick="window.grittaGo('usuario/produto.html?slug=${slug}')" style="cursor:none">
                 <h4>${nomeSafe}</h4>
                 <p class="preco"><strong>${precoFmt}</strong></p>
                 <p class="parcelas">ou 12x de ${parcelaFmt}</p>
+                ${quickAddHTML}
                 <button class="add-carrinho" onclick="event.stopPropagation(); window.grittaGo('usuario/produto.html?slug=${slug}')">
                     VER PEÇA
                 </button>

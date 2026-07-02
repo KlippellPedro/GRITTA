@@ -11,14 +11,14 @@
   text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 14px;
 }
 .inst-hero h1 {
-  font-family: "Bebas Neue", sans-serif; font-size: clamp(2.6rem, 6vw, 4.5rem);
+  font-family: "Archivo Black", "Bebas Neue", sans-serif; font-size: clamp(2.6rem, 6vw, 4.5rem);
   letter-spacing: 1px; line-height: .95; color: var(--text); margin-bottom: 14px;
 }
 .inst-hero .lead { font-size: .92rem; color: var(--muted); line-height: 1.7; max-width: 640px }
 
-.inst-content { font-size: .9rem; line-height: 1.8; color: rgba(240,236,228,.85) }
+.inst-content { font-size: .9rem; line-height: 1.8; color: rgba(242,242,242,.85) }
 .inst-content h2 {
-  font-family: "Bebas Neue", sans-serif; font-size: 1.7rem; letter-spacing: 1px;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif; font-size: 1.7rem; letter-spacing: 1px;
   color: var(--text); margin: 42px 0 16px;
 }
 .inst-content h2:first-child { margin-top: 0 }
@@ -54,12 +54,12 @@
 /* Tabela de tamanhos */
 .size-table { width: 100%; border-collapse: collapse; margin: 0 0 30px; font-size: .82rem }
 .size-table caption {
-  text-align: left; font-family: "Bebas Neue", sans-serif; font-size: 1.4rem;
+  text-align: left; font-family: "Archivo Black", "Bebas Neue", sans-serif; font-size: 1.4rem;
   letter-spacing: 1px; color: var(--text); margin-bottom: 12px; caption-side: top;
 }
 .size-table th, .size-table td { border: 1px solid var(--border); padding: 11px 12px; text-align: center }
 .size-table thead th {
-  background: var(--surface); color: var(--accent); font-family: "Bebas Neue", sans-serif;
+  background: var(--surface); color: var(--accent); font-family: "Archivo Black", "Bebas Neue", sans-serif;
   letter-spacing: 1px; font-weight: 400; font-size: 1.05rem;
 }
 .size-table tbody tr:nth-child(even) { background: rgba(255,255,255,.02) }
@@ -72,14 +72,14 @@
   counter-increment: step; content: counter(step);
   position: absolute; left: 0; top: 0; width: 38px; height: 38px; border-radius: 50%;
   background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center;
-  font-family: "Bebas Neue", sans-serif; font-size: 1.25rem;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif; font-size: 1.25rem;
 }
 
 /* Contato */
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; margin-top: 8px }
 .contact-channels { display: flex; flex-direction: column; gap: 18px }
 .channel { background: var(--surface); border: 1px solid var(--border); padding: 20px 22px }
-.channel h3 { font-family: "Bebas Neue", sans-serif; font-size: 1.2rem; letter-spacing: 1px; color: var(--text); margin-bottom: 6px }
+.channel h3 { font-family: "Archivo Black", "Bebas Neue", sans-serif; font-size: 1.2rem; letter-spacing: 1px; color: var(--text); margin-bottom: 6px }
 .channel p, .channel a { color: var(--muted); font-size: .85rem; text-decoration: none; line-height: 1.6 }
 .channel a:hover { color: var(--accent) }
 .contact-form { display: flex; flex-direction: column; gap: 14px }
@@ -96,7 +96,7 @@
 .contact-form textarea { resize: vertical; min-height: 120px }
 .contact-form button {
   background: var(--text); color: var(--bg); border: none; padding: 15px;
-  font-family: "Bebas Neue", sans-serif; font-size: 1.1rem; letter-spacing: 1.5px;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif; font-size: 1.1rem; letter-spacing: 1.5px;
   cursor: none; transition: background .3s, color .3s;
 }
 .contact-form button:hover { background: var(--accent); color: #fff }
@@ -106,13 +106,13 @@
   margin-top: 48px; padding: 36px; text-align: center;
   background: var(--surface); border: 1px solid var(--border);
 }
-.inst-cta h3 { font-family: "Bebas Neue", sans-serif; font-size: 1.8rem; letter-spacing: 1px; color: var(--text); margin-bottom: 14px }
+.inst-cta h3 { font-family: "Archivo Black", "Bebas Neue", sans-serif; font-size: 1.8rem; letter-spacing: 1px; color: var(--text); margin-bottom: 14px }
 .inst-cta .btn-cta {
   display: inline-block; margin-top: 6px; padding: 14px 32px; background: var(--accent); color: #fff;
-  font-family: "Bebas Neue", sans-serif; font-size: 1.05rem; letter-spacing: 1.5px; text-decoration: none;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif; font-size: 1.05rem; letter-spacing: 1.5px; text-decoration: none;
   transition: transform .2s, background .3s;
 }
-.inst-cta .btn-cta:hover { transform: translateY(-2px); background: #2398a0 }
+.inst-cta .btn-cta:hover { transform: translateY(-2px); background: var(--accent-hover) }
 
 @media (max-width: 700px) {
   .contact-grid { grid-template-columns: 1fr }

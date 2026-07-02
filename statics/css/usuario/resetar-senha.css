@@ -5,7 +5,7 @@
 
 .login-main {
   background:
-    linear-gradient(rgba(15,28,37,.65), rgba(15,28,37,.85)),
+    linear-gradient(rgba(10,10,10,.65), rgba(10,10,10,.85)),
     url("../../img/banners/banner_principal.png") center/cover no-repeat fixed;
 }
 
@@ -19,7 +19,7 @@
 }
 #codigo {
   letter-spacing: 8px; text-align: center;
-  font-family: "Bebas Neue", sans-serif; font-size: 1.6rem;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif; font-size: 1.6rem;
 }
 .reset-resend {
   text-align: center; margin-top: 14px; font-size: .72rem;

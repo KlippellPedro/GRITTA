@@ -1,0 +1,133 @@
+/* ── DROP-SENHA — Lockscreen brutalista ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+
+html, body {
+  height: 100%; overflow: hidden;
+  background: #0A0A0A; color: #F2F2F2;
+  font-family: "Roboto Mono", "Fira Code", monospace;
+}
+
+.lock-page {
+  min-height: 100vh; display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 32px 40px;
+}
+
+/* ── topo ── */
+.lock-logo {
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
+  font-size: 1.4rem; letter-spacing: 3px;
+  color: #F2F2F2; text-decoration: none;
+  display: flex; align-items: center; gap: 12px;
+}
+.lock-logo svg { width: 20px; height: 20px; color: #3A7D59 }
+
+/* ── centro ── */
+.lock-center {
+  display: flex; flex-direction: column;
+  justify-content: center; max-width: 540px;
+}
+
+.lock-eyebrow {
+  font-size: .65rem; letter-spacing: 3px; text-transform: uppercase;
+  color: #3A7D59; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.lock-eyebrow::before {
+  content: ""; display: block;
+  width: 28px; height: 1px; background: #3A7D59;
+}
+
+.lock-title {
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
+  font-size: clamp(3.2rem, 8vw, 6rem);
+  line-height: .92; letter-spacing: -1px;
+  text-transform: uppercase; margin-bottom: 28px;
+}
+.lock-title em { color: #3A7D59; font-style: normal }
+
+.lock-desc {
+  font-size: .75rem; line-height: 1.7; color: #6B6B6B;
+  margin-bottom: 40px; max-width: 380px;
+}
+.lock-desc strong { color: #F2F2F2 }
+
+/* ── formulário ── */
+.lock-form { display: flex; flex-direction: column; gap: 0 }
+
+.lock-input-row {
+  display: flex; border: 1px solid #2A2A2A;
+  background: #141414; transition: border-color .2s;
+}
+.lock-input-row:focus-within { border-color: #3A7D59 }
+
+#lock-senha {
+  flex: 1; background: none; border: none; outline: none;
+  color: #F2F2F2; font-family: inherit;
+  font-size: 1rem; letter-spacing: 4px; text-transform: uppercase;
+  padding: 18px 20px;
+}
+#lock-senha::placeholder { color: #2A2A2A; letter-spacing: 2px }
+
+.lock-toggle {
+  background: none; border: none; cursor: pointer;
+  padding: 0 18px; color: #6B6B6B;
+  transition: color .2s; font-size: .7rem;
+  font-family: inherit; letter-spacing: 1px;
+}
+.lock-toggle:hover { color: #F2F2F2 }
+
+.lock-submit {
+  background: #3A7D59; color: #F2F2F2;
+  border: none; cursor: pointer;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
+  font-size: .85rem; letter-spacing: 3px; text-transform: uppercase;
+  padding: 18px 32px;
+  transition: background .2s; white-space: nowrap;
+}
+.lock-submit:hover { background: #2C5A40 }
+.lock-submit:disabled { background: #2A2A2A; cursor: not-allowed; color: #6B6B6B }
+
+.lock-erro {
+  font-size: .68rem; letter-spacing: 2px; text-transform: uppercase;
+  color: #C0392B; margin-top: 14px; min-height: 18px;
+  display: flex; align-items: center; gap: 8px;
+}
+.lock-erro::before { content: ""; display: none }
+.lock-erro.visible::before {
+  content: "✕"; display: block; font-size: .6rem;
+}
+
+/* ── rodapé ── */
+.lock-footer {
+  font-size: .6rem; letter-spacing: 2px; text-transform: uppercase;
+  color: #2A2A2A;
+}
+
+/* ── shake animation (senha errada) ── */
+@keyframes shake {
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-8px)}
+  40%{transform:translateX(8px)}
+  60%{transform:translateX(-6px)}
+  80%{transform:translateX(4px)}
+}
+.shake { animation: shake .4s cubic-bezier(.19,1,.22,1) }
+
+/* ── unlock success overlay ── */
+.lock-success {
+  position: fixed; inset: 0; background: #3A7D59;
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
+  font-size: clamp(2rem, 6vw, 4rem); letter-spacing: 4px;
+  color: #F2F2F2; opacity: 0; pointer-events: none;
+  transition: opacity .3s;
+}
+.lock-success.show { opacity: 1; pointer-events: auto }
+
+@media (max-width: 600px) {
+  .lock-page { padding: 24px 20px }
+  .lock-input-row { flex-direction: column }
+  .lock-submit { padding: 16px }
+  .lock-toggle { padding: 12px; border-top: 1px solid #2A2A2A }
+}

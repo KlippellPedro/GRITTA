@@ -1,0 +1,345 @@
+/* ══ DROPS — Listagem de Coleções ══ */
+
+.drops-main {
+  padding: calc(var(--nav-h) + 60px) 5% 100px;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 80vh;
+}
+
+/* ── Header editorial ── */
+.drops-header {
+  text-align: center;
+  margin-bottom: 72px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--steel);
+}
+.drops-titulo {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 10vw, 8rem);
+  letter-spacing: 8px;
+  line-height: 0.88;
+  color: var(--text);
+  margin: 12px 0 20px;
+}
+.drops-accent {
+  font-style: normal;
+  color: var(--accent);
+}
+.drops-sub {
+  font-family: "Montserrat", sans-serif;
+  font-size: .82rem;
+  color: var(--muted);
+  letter-spacing: 1px;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── Grid ── */
+.drops-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+}
+
+/* ── Loading dots ── */
+.drops-loading {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 100px 0;
+}
+.dl-dot {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: dl-pulse .9s ease-in-out infinite;
+}
+.dl-dot:nth-child(2) { animation-delay: .15s }
+.dl-dot:nth-child(3) { animation-delay: .3s }
+@keyframes dl-pulse {
+  0%, 100% { opacity: .2; transform: scale(.8) }
+  50%       { opacity: 1;  transform: scale(1.2) }
+}
+
+/* ═══════════════════════════════════════════
+   BASE CARD (Drop público e ativo)
+═══════════════════════════════════════════ */
+.drop-card {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--steel);
+  cursor: none;
+  display: block;
+  text-decoration: none;
+  transition: border-color .35s, transform .4s cubic-bezier(.19,1,.22,1);
+}
+.drop-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+/* background image */
+.drop-card-bg {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .8s cubic-bezier(.19,1,.22,1), filter .5s;
+}
+.drop-card:hover .drop-card-bg { transform: scale(1.06) }
+
+/* gradient overlay — sempre presente */
+.drop-card-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.9) 0%,
+    rgba(0,0,0,.45) 40%,
+    rgba(0,0,0,.1)  100%
+  );
+  transition: background .4s;
+}
+.drop-card:hover .drop-card-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.95) 0%,
+    rgba(0,0,0,.6)  40%,
+    rgba(0,0,0,.25) 100%
+  );
+}
+
+/* info na base */
+.drop-card-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 28px 24px;
+  transform: translateY(0);
+  transition: transform .4s cubic-bezier(.19,1,.22,1);
+}
+.dc-eyebrow {
+  font-family: var(--font-mono);
+  font-size: .58rem; letter-spacing: 3px;
+  color: var(--accent); text-transform: uppercase;
+  margin-bottom: 6px; display: block;
+}
+.dc-nome {
+  font-family: var(--font-display);
+  font-size: 1.7rem; color: var(--text);
+  letter-spacing: 1px; line-height: .95;
+  display: block; margin-bottom: 10px;
+}
+.dc-desc {
+  font-family: "Montserrat", sans-serif;
+  font-size: .72rem; color: rgba(242,242,242,.65);
+  line-height: 1.55; max-width: 92%;
+  display: block; margin-bottom: 14px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .35s .05s, transform .35s .05s cubic-bezier(.19,1,.22,1);
+}
+.drop-card:hover .dc-desc {
+  opacity: 1; transform: translateY(0);
+}
+
+/* CTA */
+.dc-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-display);
+  font-size: .78rem; letter-spacing: 2px;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,.25);
+  padding: 9px 16px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .3s .08s, transform .3s .08s cubic-bezier(.19,1,.22,1),
+              border-color .25s, background .25s;
+}
+.drop-card:hover .dc-cta {
+  opacity: 1; transform: translateY(0);
+  border-color: var(--accent); background: rgba(58,125,89,.15);
+}
+
+/* tag de status ativo */
+.dc-tag {
+  position: absolute; top: 16px; left: 16px;
+  font-family: var(--font-mono);
+  font-size: .55rem; letter-spacing: 2.5px; text-transform: uppercase;
+  padding: 4px 9px;
+  border: 1px solid;
+}
+.dc-tag.ativo {
+  color: var(--accent); border-color: rgba(58,125,89,.5);
+  background: rgba(58,125,89,.12);
+}
+
+
+/* ═══════════════════════════════════════════
+   CARD ARQUIVADO  (coleção encerrada)
+═══════════════════════════════════════════ */
+.drop-card.arquivado {
+  opacity: .42;
+  filter: grayscale(.9) brightness(.55) contrast(1.1);
+  pointer-events: auto; /* ainda clicável para ver */
+  cursor: not-allowed;
+  transform: none !important;
+  border-color: var(--steel) !important;
+}
+.drop-card.arquivado .drop-card-bg {
+  transform: none !important;
+}
+.drop-card.arquivado .dc-cta,
+.drop-card.arquivado .dc-desc {
+  display: none;
+}
+.dc-tag.encerrado {
+  color: var(--muted);
+  border-color: rgba(107,107,107,.4);
+  background: rgba(0,0,0,.5);
+}
+/* selo "encerrado" permanente na base */
+.drop-card.arquivado .dc-cta-arquivo {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono);
+  font-size: .6rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid rgba(107,107,107,.35);
+  padding: 7px 12px;
+}
+
+
+/* ═══════════════════════════════════════════
+   CARD SECRETO  (trancado + ativo)
+   — efeito terminal tático neon
+═══════════════════════════════════════════ */
+.drop-card.secreto {
+  border-color: rgba(0,255,122,.22);
+  transition: border-color .25s, box-shadow .25s, transform .4s cubic-bezier(.19,1,.22,1);
+}
+.drop-card.secreto:hover {
+  border-color: #00ff7a;
+  box-shadow: 0 0 18px rgba(0,255,122,.25), inset 0 0 18px rgba(0,255,122,.06);
+  transform: translateY(-4px);
+}
+
+/* imagem de fundo: difusa + escurecida */
+.drop-card.secreto .drop-card-bg {
+  filter: brightness(.28) blur(2px) saturate(.4);
+  transform: scale(1.08);
+}
+.drop-card.secreto:hover .drop-card-bg {
+  filter: brightness(.38) blur(1.5px) saturate(.5);
+  transform: scale(1.05);
+}
+
+/* overlay terminal escuro */
+.drop-card-secreto-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.72);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 14px;
+  padding: 24px;
+  text-align: center;
+}
+
+/* scan-lines effect */
+.drop-card-secreto-overlay::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,255,122,.03) 3px,
+    rgba(0,255,122,.03) 4px
+  );
+  pointer-events: none;
+}
+
+/* lock icon */
+.secreto-lock {
+  font-size: 1.6rem;
+  filter: drop-shadow(0 0 6px rgba(0,255,122,.7));
+  animation: lock-pulse 2s ease-in-out infinite;
+}
+@keyframes lock-pulse {
+  0%, 100% { opacity: .7; filter: drop-shadow(0 0 4px rgba(0,255,122,.5)) }
+  50%       { opacity: 1;  filter: drop-shadow(0 0 12px rgba(0,255,122,.9)) }
+}
+
+/* linha de status — pisca idle */
+.secreto-status-idle {
+  font-family: var(--font-mono);
+  font-size: .62rem; letter-spacing: 3px;
+  color: #00ff7a; text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(0,255,122,.8);
+  line-height: 2;
+  transition: opacity .2s;
+  animation: neon-blink 1.6s step-end infinite;
+}
+@keyframes neon-blink {
+  0%, 90%, 100% { opacity: 1 }
+  95%           { opacity: 0 }
+}
+
+/* segundo texto — aparece no hover */
+.secreto-status-hover {
+  font-family: var(--font-mono);
+  font-size: .68rem; letter-spacing: 2.5px;
+  color: #ffe066; text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255,224,102,.9);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.drop-card.secreto:hover .secreto-status-idle { opacity: 0; animation: none }
+.drop-card.secreto:hover .secreto-status-hover { opacity: 1 }
+
+/* nome do drop no secreto (visível, dá o hype) */
+.secreto-nome {
+  font-family: var(--font-display);
+  font-size: 1.4rem; letter-spacing: 2px;
+  color: rgba(242,242,242,.55);
+  text-transform: uppercase; margin-bottom: 4px;
+}
+
+/* borda animada no hover — pulso neon */
+.drop-card.secreto:hover {
+  animation: border-neon-pulse .7s ease-in-out infinite;
+}
+@keyframes border-neon-pulse {
+  0%, 100% { border-color: #00ff7a; box-shadow: 0 0 16px rgba(0,255,122,.28), inset 0 0 16px rgba(0,255,122,.06) }
+  50%       { border-color: rgba(0,255,122,.5); box-shadow: 0 0 8px rgba(0,255,122,.12), inset 0 0 8px rgba(0,255,122,.03) }
+}
+
+/* tag RESTRICTED no topo */
+.dc-tag.restrito {
+  color: #00ff7a;
+  border-color: rgba(0,255,122,.35);
+  background: rgba(0,0,0,.7);
+  text-shadow: 0 0 6px rgba(0,255,122,.7);
+}
+
+
+/* ── Mensagem vazia / erro ── */
+.drops-empty {
+  grid-column: 1 / -1;
+  text-align: center; padding: 80px 0;
+  color: var(--muted); font-family: var(--font-mono);
+  font-size: .8rem; letter-spacing: 2px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .drops-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px }
+  .dc-nome { font-size: 1.4rem }
+}
+@media (max-width: 480px) {
+  .drops-main { padding: calc(var(--nav-h) + 40px) 4% 80px }
+  .drops-grid { grid-template-columns: 1fr; gap: 16px }
+  .drop-card { aspect-ratio: 4/5 }
+}

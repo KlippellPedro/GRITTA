@@ -8,13 +8,13 @@
    Injetado uma única vez no body pelo header.
    Estados: hover (links/botões) · view (cards "VER") · down (clique)
 ══════════════════════════════════════════════ */
-function injectCursor () {
+function injectCursor() {
     if (document.getElementById('cursor')) return;
     // Só em dispositivos com mouse de verdade — touch usa o toque nativo
     if (!window.matchMedia('(pointer: fine)').matches) return;
 
     const body = document.body;
-    const cur  = document.createElement('div'); cur.id  = 'cursor';
+    const cur = document.createElement('div'); cur.id = 'cursor';
     const ring = document.createElement('div'); ring.id = 'cursor-ring';
     ring.innerHTML = '<span id="cursor-label">VER</span>';
     body.prepend(ring);
@@ -23,16 +23,15 @@ function injectCursor () {
     let mx = 0, my = 0, rx = 0, ry = 0;
     document.addEventListener('mousemove', e => {
         mx = e.clientX; my = e.clientY;
-        cur.style.left = mx + 'px';
-        cur.style.top  = my + 'px';
+        cur.style.transform = `translate3d(calc(${mx}px - 50%), calc(${my}px - 50%), 0)`;
     });
-    (function loop () {
+    (function loop() {
         rx += (mx - rx) * .16;
         ry += (my - ry) * .16;
-        ring.style.left = rx + 'px';
-        ring.style.top  = ry + 'px';
+        ring.style.transform = `translate3d(calc(${rx}px - 50%), calc(${ry}px - 50%), 0)`;
         requestAnimationFrame(loop);
     })();
+    document.body.classList.add('has-custom-cursor');
 
     // Delegação: detecta o tipo de alvo a cada movimento de entrada.
     // Funciona automaticamente com conteúdo injetado dinamicamente.
@@ -48,7 +47,7 @@ function injectCursor () {
         }
     });
     document.addEventListener('mousedown', () => body.classList.add('cursor-down'));
-    document.addEventListener('mouseup',   () => body.classList.remove('cursor-down'));
+    document.addEventListener('mouseup', () => body.classList.remove('cursor-down'));
 }
 
 /* ══════════════════════════════════════════════
@@ -56,7 +55,7 @@ function injectCursor () {
    Cobre a tela ao sair, revela ao chegar — movimento
    contínuo de baixo→cima entre as páginas.
 ══════════════════════════════════════════════ */
-function initPageTransition () {
+function initPageTransition() {
     if (document.getElementById('page-transition')) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -83,7 +82,7 @@ function initPageTransition () {
         void ov.offsetWidth;              // força reflow antes de animar
         ov.classList.add('pt-anim');
         requestAnimationFrame(() => ov.classList.add('pt-up'));
-        ov.addEventListener('transitionend', function te (e) {
+        ov.addEventListener('transitionend', function te(e) {
             if (e.propertyName !== 'transform') return;
             ov.classList.remove('pt-anim', 'pt-cover', 'pt-up');
             ov.removeEventListener('transitionend', te);
@@ -126,15 +125,15 @@ window.initSnow = function (target, count = 24) {
     layer.className = 'snow-layer';
     let html = '';
     for (let i = 0; i < count; i++) {
-        const size  = (Math.random() * 4 + 2).toFixed(1);   // 2–6px
-        const left  = (Math.random() * 100).toFixed(2);
-        const dur   = (Math.random() * 8 + 6).toFixed(1);    // 6–14s
+        const size = (Math.random() * 4 + 2).toFixed(1);   // 2–6px
+        const left = (Math.random() * 100).toFixed(2);
+        const dur = (Math.random() * 8 + 6).toFixed(1);    // 6–14s
         const delay = (Math.random() * -14).toFixed(1);
         const drift = (Math.random() * 60 - 30).toFixed(0);  // -30..30px
-        const op    = (Math.random() * .5 + .3).toFixed(2);
+        const op = (Math.random() * .5 + .3).toFixed(2);
         html += `<span class="snowflake" style="left:${left}%;width:${size}px;height:${size}px;`
-              + `animation-duration:${dur}s;animation-delay:${delay}s;opacity:${op};`
-              + `--drift:${drift}px"></span>`;
+            + `animation-duration:${dur}s;animation-delay:${delay}s;opacity:${op};`
+            + `--drift:${drift}px"></span>`;
     }
     layer.innerHTML = html;
     host.prepend(layer);
@@ -143,7 +142,7 @@ window.initSnow = function (target, count = 24) {
 /* ══════════════════════════════════════════════
    SCROLL REVEAL
 ══════════════════════════════════════════════ */
-function initReveal () {
+function initReveal() {
     const obs = new IntersectionObserver(
         entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
         { threshold: .1 }
@@ -158,11 +157,11 @@ window.buildMarquee = function (containerId, customWords) {
     const el = document.getElementById(containerId);
     if (!el) return;
     const words = (Array.isArray(customWords) && customWords.length) ? customWords : [
-        'GR!TTA','OVERSIZED','STREETWEAR','FRETE GRÁTIS',
-        'DROP 01','WINTER IS COMING','SEM CONCESSÃO','O FRIO NÃO PERDOA'
+        'GR!TTA', 'OVERSIZED', 'STREETWEAR', 'FRETE GRÁTIS',
+        'DROP 01', 'WINTER IS COMING', 'SEM CONCESSÃO', 'O FRIO NÃO PERDOA'
     ];
     let h = '';
-    for (let i=0; i<4; i++) words.forEach(w => { h += `<div class="marquee-item">${w}</div>`; });
+    for (let i = 0; i < 4; i++) words.forEach(w => { h += `<div class="marquee-item">${w}</div>`; });
     el.innerHTML = h;
 };
 
@@ -170,7 +169,7 @@ window.buildMarquee = function (containerId, customWords) {
    HELPER: resolve caminhos de imagens do banco
 ══════════════════════════════════════════════ */
 window.resolveStaticPath = function (dbPath) {
-    const placeholder = 'img/placeholder.png';
+    const placeholder = 'img/icons/logo-header.png';
     let clean = (dbPath && dbPath !== 'undefined') ? dbPath : placeholder;
     if (clean.includes('statics/')) clean = clean.split('statics/').pop();
     clean = clean.replace(/^\//, '');
@@ -178,8 +177,8 @@ window.resolveStaticPath = function (dbPath) {
     const p = window.location.pathname;
     let prefix = '';
     if (p.includes('/pages/') || p.includes('/usuario/')) prefix = '../../statics/';
-    else if (p.includes('/templates/'))                    prefix = '../statics/';
-    else                                                    prefix = './statics/';
+    else if (p.includes('/templates/')) prefix = '../statics/';
+    else prefix = './statics/';
 
     return prefix + clean;
 };
@@ -188,10 +187,10 @@ window.resolveStaticPath = function (dbPath) {
    GRITTA-HEADER  (Web Component)
 ══════════════════════════════════════════════ */
 class GrittaHeader extends HTMLElement {
-    connectedCallback () {
-        const isSub  = window.location.pathname.includes('/pages/')
-                    || window.location.pathname.includes('/usuario/');
-        const root   = isSub ? '../'        : './';
+    connectedCallback() {
+        const isSub = window.location.pathname.includes('/pages/')
+            || window.location.pathname.includes('/usuario/');
+        const root = isSub ? '../' : './';
         const assets = isSub ? '../../statics/' : '../statics/';
 
         this.innerHTML = `
@@ -202,19 +201,22 @@ class GrittaHeader extends HTMLElement {
           <div class="main">
             <div class="logo">
               <a href="${root}index.html">
-                <img src="${assets}img/icons/loja-icon.png" alt="GR!TTA" />
+                <img src="${assets}img/icons/logo-header.png" alt="GR!TTA" />
                 <span class="brand-name">GR!TTA</span>
               </a>
             </div>
 
             <nav class="menu navbar-menu">
+              <button class="menu-close" id="menu-close" aria-label="Fechar menu">&times;</button>
               <a href="${root}index.html">INÍCIO</a>
-              <a href="${root}pages/categoria.html?tipo=camisas">CAMISAS</a>
-              <a href="${root}pages/categoria.html?tipo=moletons">MOLETONS</a>
-              <a href="${root}pages/categoria.html?tipo=calcas">CALÇAS</a>
-              <a href="${root}pages/categoria.html?tipo=tenis">TÊNIS</a>
-              <a href="${root}pages/categoria.html?tipo=acessorios">ACESSÓRIOS</a>
+              <div class="mega-item" data-mega="mega-colecao">
+                <a href="${root}pages/categoria.html?tipo=tenis" class="mega-trigger" aria-expanded="false" aria-controls="mega-colecao">COLEÇÃO</a>
+              </div>
+              <div class="mega-item" data-mega="mega-drops">
+                <a href="${root}pages/drops.html" class="mega-trigger" aria-expanded="false" aria-controls="mega-drops">DROPS</a>
+              </div>
             </nav>
+            <div class="menu-overlay" id="menu-overlay"></div>
 
             <div class="icons">
               <button class="search-icon-btn" id="search-icon" aria-label="Buscar" title="Buscar">
@@ -255,6 +257,55 @@ class GrittaHeader extends HTMLElement {
               </button>
             </div>
           </div>
+
+          <!-- ── Mega Panel: Coleção ── -->
+          <div class="mega-panel" id="mega-colecao" role="region" aria-label="Coleção">
+            <div class="mega-inner">
+              <div class="mega-col-links">
+                <span class="mega-col-eyebrow">COLEÇÃO INVERNO 2026</span>
+                <a class="mega-link" href="${root}pages/categoria.html?tipo=tenis">
+                  <span class="ml-name">TÊNIS</span><span class="ml-sub">Drops Limitados</span>
+                </a>
+                <a class="mega-link" href="${root}pages/categoria.html?tipo=calcas">
+                  <span class="ml-name">CALÇA</span><span class="ml-sub">Tapered</span>
+                </a>
+                <a class="mega-link" href="${root}pages/categoria.html?tipo=camisa-e-t-shirt">
+                  <span class="ml-name">CAMISA E T-SHIRT</span><span class="ml-sub">Streetwear</span>
+                </a>
+                <a class="mega-link" href="${root}pages/categoria.html?tipo=casacos-e-jaqueta">
+                  <span class="ml-name">CASACOS E JAQUETA</span><span class="ml-sub">Inverno 2026</span>
+                </a>
+                <a class="mega-link" href="${root}pages/categoria.html?tipo=moletons">
+                  <span class="ml-name">MOLETOM</span><span class="ml-sub">Oversized</span>
+                </a>
+                <a class="mega-link" href="${root}pages/categoria.html?tipo=acessorios">
+                  <span class="ml-name">ACESSÓRIOS</span><span class="ml-sub">Complete o Look</span>
+                </a>
+              </div>
+              <div class="mega-col-visual">
+                <img src="${assets}img/banners/banner_winter_is_comming.png" alt="Coleção de Inverno" />
+                <div class="mega-visual-label">
+                  <span class="mvl-eyebrow">INVERNO 2026</span>
+                  <strong class="mvl-title">Winter is Coming.</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Mega Panel: Drops ── -->
+          <div class="mega-panel" id="mega-drops" role="region" aria-label="Drops">
+            <div class="mega-inner">
+              <div class="mega-col-drop">
+                <span class="mega-drop-eyebrow">DROP ATIVO</span>
+                <h3 class="mega-drop-title">WINTER IS<br>COMING.</h3>
+                <p class="mega-drop-desc">Peças de inverno com identidade pesada. Moletons, jaquetas e calças para os dias de frio sem perdão.</p>
+                <a href="${root}pages/drops.html" class="mega-drop-cta">VER TODOS OS DROPS →</a>
+              </div>
+              <div class="mega-col-visual">
+                <img src="${assets}img/banners/banner_winter_is_comming.png" alt="Winter is Coming" />
+              </div>
+            </div>
+          </div>
         </header>`;
 
         // Garante cursor e reveal após o header ser montado
@@ -269,10 +320,11 @@ class GrittaHeader extends HTMLElement {
    GRITTA-FOOTER  (Web Component)
 ══════════════════════════════════════════════ */
 class GrittaFooter extends HTMLElement {
-    connectedCallback () {
-        const isSub  = window.location.pathname.includes('/pages/')
-                    || window.location.pathname.includes('/usuario/');
-        const root   = isSub ? '../' : './';
+    connectedCallback() {
+        const isSub = window.location.pathname.includes('/pages/')
+            || window.location.pathname.includes('/usuario/');
+        const root = isSub ? '../' : './';
+        const assets = isSub ? '../../statics/' : '../statics/';
 
         const ig = '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/></svg>';
         const tk = '<svg viewBox="0 0 24 24"><path d="M14 3v11.6a3.4 3.4 0 1 1-3-3.38v2.06a1.4 1.4 0 1 0 1 1.32V3h2c.2 1.9 1.7 3.4 3.6 3.6V8.7A6 6 0 0 1 14 6.9" fill="currentColor"/></svg>';
@@ -309,10 +361,11 @@ class GrittaFooter extends HTMLElement {
             <div class="footer-column">
               <h3>Loja</h3>
               <ul>
-                <li><a href="${root}pages/categoria.html?tipo=camisas">Camisetas</a></li>
-                <li><a href="${root}pages/categoria.html?tipo=moletons">Moletons</a></li>
-                <li><a href="${root}pages/categoria.html?tipo=calcas">Calças</a></li>
                 <li><a href="${root}pages/categoria.html?tipo=tenis">Tênis</a></li>
+                <li><a href="${root}pages/categoria.html?tipo=calcas">Calças</a></li>
+                <li><a href="${root}pages/categoria.html?tipo=camisa-e-t-shirt">Camisas & T-Shirts</a></li>
+                <li><a href="${root}pages/categoria.html?tipo=casacos-e-jaqueta">Casacos & Jaquetas</a></li>
+                <li><a href="${root}pages/categoria.html?tipo=moletons">Moletons</a></li>
                 <li><a href="${root}pages/categoria.html?tipo=acessorios">Acessórios</a></li>
                 <li><a href="${root}pages/drop.html">Drops</a></li>
               </ul>
@@ -352,9 +405,13 @@ class GrittaFooter extends HTMLElement {
             <div class="pay-group">
               <span class="pay-label">Pagamento</span>
               <div class="pay-chips">
-                <span class="pay-chip">Pix</span><span class="pay-chip">Visa</span>
-                <span class="pay-chip">Mastercard</span><span class="pay-chip">Elo</span>
-                <span class="pay-chip">Amex</span><span class="pay-chip">Boleto</span>
+                <span class="pay-chip"><img src="${assets}img/icons/pagamentos/pix.png" alt="Pix" /></span>
+                <span class="pay-chip"><img src="${assets}img/icons/pagamentos/visa.png" alt="Visa" /></span>
+                <span class="pay-chip"><img src="${assets}img/icons/pagamentos/mastercard.png" alt="Mastercard" /></span>
+                <span class="pay-chip"><img src="${assets}img/icons/pagamentos/elo.png" alt="Elo" /></span>
+                <span class="pay-chip"><img src="${assets}img/icons/pagamentos/amex.png" alt="Amex" /></span>
+                <span class="pay-chip"><img src="${assets}img/icons/pagamentos/boleto.png" alt="Boleto" /></span>
+                <span class="pay-chip"><img src="${assets}img/icons/pagamentos/paypal.png" alt="PayPal" /></span>
               </div>
             </div>
             <div class="pay-group">
@@ -390,7 +447,7 @@ window.assinarNewsletter = function (email) {
     email = (email || '').trim();
     if (!email) return;
     const url = (window.CONFIG && CONFIG.API_NEWSLETTER_URL) || 'http://127.0.0.1:5007/api/notificar/newsletter';
-    fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }).catch(() => {});
+    fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }).catch(() => { });
 };
 
 /* ══════════════════════════════════════════════
@@ -399,7 +456,7 @@ window.assinarNewsletter = function (email) {
    Tudo é guardado por existência de elemento, então roda
    em qualquer página sem quebrar.
 ══════════════════════════════════════════════ */
-function setText (sel, text, root) {
+function setText(sel, text, root) {
     if (text === undefined || text === null) return;
     const el = (root || document).querySelector(sel);
     if (el) el.textContent = text;
@@ -407,7 +464,7 @@ function setText (sel, text, root) {
 
 /* Monta o <h1> do hero a partir de um array de linhas.
    Palavra entre { } vira destaque (.accent). */
-function buildHeadline (lines) {
+function buildHeadline(lines) {
     let i = 0, html = '';
     lines.forEach(line => {
         html += '<span class="line">';
@@ -425,13 +482,13 @@ function buildHeadline (lines) {
 }
 
 /* Título da seção drop: { } vira <em> (acento teal), linhas viram <br>. */
-function buildDropTitle (lines) {
+function buildDropTitle(lines) {
     return lines.map(l => String(l).replace(/\{([^}]+)\}/g, '<em>$1</em>')).join('<br/>');
 }
 
-function applyStorefront (state) {
+function applyStorefront(state) {
     if (!state || !state.drop) return;
-    const d  = state.drop;
+    const d = state.drop;
     const sp = window.resolveStaticPath;
 
     if (d.accent) document.documentElement.style.setProperty('--accent', d.accent);
@@ -452,6 +509,8 @@ function applyStorefront (state) {
         setText('.hero-sub', h.sub);
         setText('.btn-hero-primary span', h.cta_primary);
         setText('.btn-hero-ghost span', h.cta_secondary);
+        const heroBtn = document.querySelector('.btn-hero-primary');
+        if (heroBtn) heroBtn.href = (state.modo === 'drop') ? './pages/drop.html' : '#vitrine';
 
         const ht = document.querySelector('.hero-title');
         if (ht && Array.isArray(h.headline)) {
@@ -460,7 +519,7 @@ function applyStorefront (state) {
             if (novo !== atual) ht.innerHTML = buildHeadline(h.headline); // evita re-animar se igual
         }
         const hp = document.querySelector('.hero-photo-img');
-        if (hp && h.banner) hp.style.background = `url("${sp(h.banner)}") center 24%/cover no-repeat`;
+        if (hp && h.banner) hp.style.background = `url("${sp(h.banner)}") center ${h.banner_y || '24%'}/cover no-repeat`;
     }
 
     // ── SEÇÃO DROP (home #drop) ──
@@ -480,7 +539,7 @@ function applyStorefront (state) {
             const sec = dropSec.querySelector('.drop-section');
             if (sec && ds.banner) {
                 sec.style.background =
-                    'linear-gradient(to right, rgba(8,16,24,.93) 0%, rgba(8,16,24,.62) 55%, rgba(8,16,24,.42) 100%), '
+                    'linear-gradient(to right, rgba(10,10,10,.93) 0%, rgba(10,10,10,.62) 55%, rgba(10,10,10,.42) 100%), '
                     + `url("${sp(ds.banner)}") center 28%/cover no-repeat`;
             }
             // Countdown com a data real do drop (cai no padrão se ausente/ inválida)
@@ -501,21 +560,21 @@ function applyStorefront (state) {
             setText('.section-label', dp.label ? '✦ ' + dp.label : undefined, dh);
             if (dp.banner) {
                 dh.style.background =
-                    'linear-gradient(rgba(8,16,24,.62), rgba(8,16,24,.84)), '
+                    'linear-gradient(rgba(10,10,10,.62), rgba(10,10,10,.84)), '
                     + `url("${sp(dp.banner)}") center 32%/cover no-repeat`;
             }
         }
     }
 }
 
-function initStorefront () {
+function initStorefront() {
     if (!window.CONFIG || !window.CONFIG.API_STOREFRONT_URL) return;
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 4000);
     fetch(window.CONFIG.API_STOREFRONT_URL, { signal: ctrl.signal })
         .then(r => r.ok ? r.json() : null)
         .then(state => { if (state) applyStorefront(state); })
-        .catch(() => {})            // serviço fora → mantém os defaults do HTML
+        .catch(() => { })            // serviço fora → mantém os defaults do HTML
         .finally(() => clearTimeout(t));
 }
 
@@ -523,10 +582,10 @@ function initStorefront () {
    MINI-CART DRAWER  (gaveta lateral da sacola)
    Abre ao clicar no ícone do carrinho ou ao adicionar.
 ══════════════════════════════════════════════ */
-function mcMoney (v) { return Number(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
-function mcRoot ()  { return (location.pathname.includes('/pages/') || location.pathname.includes('/usuario/')) ? '../' : './'; }
+function mcMoney(v) { return Number(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+function mcRoot() { return (location.pathname.includes('/pages/') || location.pathname.includes('/usuario/')) ? '../' : './'; }
 
-function injectMiniCart () {
+function injectMiniCart() {
     if (document.getElementById('minicart')) return;
     const root = mcRoot();
 
@@ -590,7 +649,7 @@ window.refreshMiniCart = async function (injetado) {
     } catch (e) { renderMiniCart(null, 'error'); }
 };
 
-function renderMiniCart (data, state) {
+function renderMiniCart(data, state) {
     const body = document.getElementById('mc-body');
     const foot = document.getElementById('mc-foot');
     const freebar = document.getElementById('mc-freebar');
@@ -617,7 +676,7 @@ function renderMiniCart (data, state) {
     // Barra "faltam R$X pro frete grátis"
     const FRETE = (window.CONFIG && window.CONFIG.FRETE_GRATIS) || 399.90;
     const ftext = document.getElementById('mc-freetext');
-    const fill  = document.getElementById('mc-progress-fill');
+    const fill = document.getElementById('mc-progress-fill');
     if (subtotal >= FRETE) {
         ftext.innerHTML = '✦ <b>Você ganhou frete grátis!</b>';
         fill.style.width = '100%';
@@ -653,7 +712,7 @@ function renderMiniCart (data, state) {
     });
 }
 
-async function mcUpdateQty (id, qtd) {
+async function mcUpdateQty(id, qtd) {
     const token = localStorage.getItem('auth_token');
     try {
         const res = await fetch(`${CONFIG.API_ORDER_URL}/carrinho/atualizar`, {
@@ -664,10 +723,10 @@ async function mcUpdateQty (id, qtd) {
             const d = await res.json().catch(() => ({}));
             showToast(d.error || 'Não deu pra atualizar.', 'error');
         }
-    } catch (e) {}
+    } catch (e) { }
     window.refreshMiniCart();
 }
-async function mcRemove (id) {
+async function mcRemove(id) {
     const token = localStorage.getItem('auth_token');
     try {
         await fetch(`${CONFIG.API_ORDER_URL}/carrinho/remover`, {
@@ -675,7 +734,7 @@ async function mcRemove (id) {
             body: JSON.stringify({ carrinho_item_id: id })
         });
         if (typeof showToast === 'function') showToast('ITEM REMOVIDO DA SACOLA', 'error');
-    } catch (e) {}
+    } catch (e) { }
     window.refreshMiniCart();
 }
 
@@ -683,7 +742,7 @@ async function mcRemove (id) {
    BUSCA GLOBAL (overlay aberto pelo ícone do header)
    Submete redirecionando pra home?busca= (a home roda a busca).
 ══════════════════════════════════════════════ */
-function injectSearch () {
+function injectSearch() {
     if (document.getElementById('search-overlay')) return;
     const root = mcRoot();
     const ov = document.createElement('div');
@@ -725,13 +784,13 @@ window.closeSearch = function () {
 /* ══════════════════════════════════════════════
    MODAL NEWSLETTER (10% OFF · LGPD) — 1ª visita
 ══════════════════════════════════════════════ */
-function injectNewsModal () {
+function injectNewsModal() {
     if (document.getElementById('news-modal-overlay')) return;
     const root = mcRoot();
     const ov = document.createElement('div');
     ov.id = 'news-modal-overlay';
     ov.innerHTML = `
-        <div id="news-modal" role="dialog" aria-label="Newsletter GR!TTA">
+        <div id="news-modal" role="dialog" aria-modal="true" aria-label="Newsletter GR!TTA">
           <button class="nm-close" id="nm-close" aria-label="Fechar">&times;</button>
           <span class="nm-eyebrow">✦ Entra pro Movimento</span>
           <h2>10% OFF<br/>na primeira compra</h2>
@@ -748,7 +807,14 @@ function injectNewsModal () {
         </div>`;
     document.body.appendChild(ov);
 
-    const close = () => ov.classList.remove('active');
+    let _nmPrevFocus = null;
+    const modal = ov.querySelector('#news-modal');
+
+    const close = () => {
+        ov.classList.remove('active');
+        if (_nmPrevFocus) { _nmPrevFocus.focus(); _nmPrevFocus = null; }
+    };
+
     ov.querySelector('#nm-close').addEventListener('click', close);
     ov.querySelector('#nm-dismiss').addEventListener('click', close);
     ov.addEventListener('click', e => { if (e.target === ov) close(); });
@@ -758,7 +824,28 @@ function injectNewsModal () {
         if (typeof showToast === 'function') showToast('BEM-VINDO AO MOVIMENTO ✦ CONFERE TEU E-MAIL', 'success');
         close();
     });
-    window.openNewsModal = () => ov.classList.add('active');
+
+    ov.addEventListener('keydown', e => {
+        if (!ov.classList.contains('active')) return;
+        if (e.key === 'Escape') { close(); return; }
+        if (e.key !== 'Tab') return;
+        const focusable = Array.from(modal.querySelectorAll(
+            'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        ));
+        const first = focusable[0];
+        const last  = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+            if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+        }
+    });
+
+    window.openNewsModal = () => {
+        _nmPrevFocus = document.activeElement;
+        ov.classList.add('active');
+        setTimeout(() => modal.querySelector('#nm-email')?.focus(), 100);
+    };
 
     // Mostra uma vez por navegador, ~4,5s após a 1ª visita
     if (!localStorage.getItem('gritta_news_seen')) {

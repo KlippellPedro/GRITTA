@@ -29,7 +29,7 @@
 }
 
 .perfil-titulo {
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   color: var(--text);
   letter-spacing: 3px;
@@ -74,7 +74,7 @@
 
 /* Títulos de seção — ficam fora do card branco, sobre fundo escuro */
 .perfil-section h3 {
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
   font-size: 1.4rem;
   color: var(--muted);           /* visível no fundo escuro */
   margin-bottom: 16px;
@@ -83,7 +83,7 @@
 }
 
 .sidebar-box h3 {
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
   font-size: 1.4rem;
   color: #111;
   margin-bottom: 20px;
@@ -130,7 +130,7 @@
   color: #fff;
   text-align: center;
   padding: 16px;
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
   font-size: 1.2rem;
   letter-spacing: 2px;
   text-decoration: none;

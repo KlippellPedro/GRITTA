@@ -67,17 +67,27 @@ function initMenuSystem() {
 
     const toggle  = document.querySelector('.navbar-toggle');
     const navMenu = document.querySelector('.menu');
+    const menuClose = document.getElementById('menu-close');
+    const menuOverlay = document.getElementById('menu-overlay');
     if (toggle && navMenu) {
+        const closeMobileMenu = () => {
+            toggle.classList.remove('active');
+            navMenu.classList.remove('active');
+            if (menuOverlay) menuOverlay.classList.remove('active');
+        };
         toggle.addEventListener('click', () => {
             toggle.classList.toggle('active');
             navMenu.classList.toggle('active');
+            if (menuOverlay) menuOverlay.classList.toggle('active');
+        });
+        if (menuClose) menuClose.addEventListener('click', closeMobileMenu);
+        if (menuOverlay) menuOverlay.addEventListener('click', closeMobileMenu);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeMobileMenu();
         });
         // Fecha o menu ao clicar em qualquer link dentro dele
         navMenu.querySelectorAll('a').forEach(a => {
-            a.addEventListener('click', () => {
-                toggle.classList.remove('active');
-                navMenu.classList.remove('active');
-            });
+            a.addEventListener('click', closeMobileMenu);
         });
     }
 
@@ -90,6 +100,47 @@ function initMenuSystem() {
 
     mostrarLinkAdmin();   // atalho do painel admin no dropdown (só pra admin)
     setupNotificacoes();  // sininho de notificações
+    setupMegaMenu();      // mega menu hover panels
+}
+
+function setupMegaMenu() {
+    const items = document.querySelectorAll('.mega-item');
+    if (!items.length) return;
+
+    let timer = null;
+
+    const closeAll = () => {
+        document.querySelectorAll('.mega-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.mega-trigger[aria-expanded]').forEach(t => t.setAttribute('aria-expanded', 'false'));
+    };
+
+    const scheduleClose = () => {
+        timer = setTimeout(closeAll, 120);
+    };
+
+    items.forEach(item => {
+        const panelId = item.dataset.mega;
+        const panel   = panelId ? document.getElementById(panelId) : null;
+        const trigger = item.querySelector('.mega-trigger');
+
+        item.addEventListener('mouseenter', () => {
+            clearTimeout(timer);
+            closeAll();
+            if (panel) panel.classList.add('active');
+            if (trigger) trigger.setAttribute('aria-expanded', 'true');
+        });
+
+        item.addEventListener('mouseleave', scheduleClose);
+
+        if (panel) {
+            panel.addEventListener('mouseenter', () => clearTimeout(timer));
+            panel.addEventListener('mouseleave', scheduleClose);
+        }
+    });
+
+    document.addEventListener('click', e => {
+        if (!e.target.closest('.mega-item') && !e.target.closest('.mega-panel')) closeAll();
+    });
 }
 
 // Mostra o "⚙ PAINEL ADMIN" no dropdown apenas se o JWT for de um administrador.

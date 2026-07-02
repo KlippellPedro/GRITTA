@@ -19,7 +19,7 @@
 }
 
 .checkout-titulo {
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
   font-size: clamp(2.5rem, 6vw, 4rem);
   color: var(--text);
   margin-bottom: 50px;
@@ -48,7 +48,7 @@
 }
 
 .checkout-section h3 {
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
   font-size: 1.7rem;
   margin-bottom: 28px;
   color: #111;
@@ -215,7 +215,7 @@
 }
 
 .resumo-fixo h3 {
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
   font-size: 1.8rem;
   margin-bottom: 28px;
   border-bottom: 1px solid #ebebeb;
@@ -275,7 +275,7 @@
   color: #fff;
   border: none;
   padding: 22px;
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
   font-size: 1.5rem;
   cursor: none;
   margin-top: 28px;

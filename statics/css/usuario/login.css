@@ -6,12 +6,12 @@
   justify-content: center;
   padding: calc(var(--nav-h) + 40px) 5% 60px;
   background:
-    linear-gradient(rgba(15,28,37,.65), rgba(15,28,37,.85)),
+    linear-gradient(rgba(10,10,10,.65), rgba(10,10,10,.85)),
     url("../../img/banners/banner_principal.png") center/cover no-repeat fixed;
 }
 
 .login-container {
-  background: rgba(22,37,48,.92);
+  background: rgba(20,20,20,.92);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border);
@@ -35,13 +35,14 @@
 }
 
 .login-titulo {
-  font-family: "Bebas Neue", sans-serif;
-  font-size: 2.8rem;
-  letter-spacing: 3px;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
+  font-size: clamp(1.8rem, 6vw, 2.2rem);
+  letter-spacing: 1px;
   text-align: center;
   margin-bottom: 36px;
   color: var(--text);
-  line-height: 1;
+  line-height: 1.1;
+  overflow-wrap: break-word;
 }
 
 /* Mensagens de feedback */
@@ -106,7 +107,7 @@
 .input-group input:focus {
   outline: none;
   border-color: var(--accent);
-  background: rgba(42,171,176,.05);
+  background: rgba(58,125,89,.05);
 }
 
 /* Campo de senha */
@@ -156,11 +157,11 @@
 
 /* Botão principal */
 .btn-login {
-  background: #111;
+  background: var(--accent-deep);
   color: #fff;
   padding: 18px;
   border: none;
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
   font-size: 1.25rem;
   letter-spacing: 3px;
   cursor: none;
@@ -170,7 +171,7 @@
 }
 
 .btn-login:hover {
-  background: #333;
+  background: var(--accent-hover);
   letter-spacing: 4px;
 }
 
@@ -284,7 +285,7 @@
 #codigo {
   letter-spacing: 10px;
   text-align: center;
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
   font-size: 1.7rem;
   padding-left: 10px;
 }

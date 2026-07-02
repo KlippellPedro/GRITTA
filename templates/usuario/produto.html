@@ -4,7 +4,7 @@
     <title>GR!TTA | Detalhes do Produto</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../statics/img/icons/loja-icon.png" />
+    <link rel="icon" type="image/png" href="../../statics/img/icons/favicon.png" />
     <link rel="stylesheet" type="text/css" href="../../statics/css/reset.css" />
     <link rel="stylesheet" type="text/css" href="../../statics/css/global.css" />
     <link rel="stylesheet" type="text/css" href="../../statics/css/menu.css" />
@@ -28,10 +28,10 @@
       .star-pick span:hover, .star-pick span.on { color: #f5a623; }
       .avaliacao-form textarea { width: 100%; min-height: 70px; padding: 10px; border: 1px solid #ddd; font-family: "Montserrat", sans-serif; font-size: .85rem; resize: vertical; box-sizing: border-box; }
       .avaliacao-form button { margin-top: 12px; background: #111; color: #fff; border: none; padding: 12px 24px; font-family: "Bebas Neue", sans-serif; font-size: 1.05rem; letter-spacing: 1px; cursor: pointer; }
-      .avaliacao-form button:hover { background: #2aabb0; }
+      .avaliacao-form button:hover { background: var(--accent); }
       .avaliacao-form .aval-msg { font-size: .8rem; margin-top: 10px; min-height: 16px; }
       .aval-login-hint { color: #888; font-size: .85rem; margin-bottom: 24px; }
-      .aval-login-hint a { color: #2aabb0; font-weight: 700; }
+      .aval-login-hint a { color: var(--accent); font-weight: 700; }
       .aval-item { border-bottom: 1px solid #eee; padding: 16px 0; }
       .aval-item-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
       .aval-item-nome { font-weight: 700; font-size: .9rem; }
@@ -52,8 +52,10 @@
         <!-- Lado Esquerdo: Galeria -->
         <div class="produto-galeria">
           <div class="main-image-container">
-            <img id="main-product-img" src="" alt="" />
+            <img id="main-product-img" src="" alt=""
+                 onerror="this.onerror=null;this.src=window.resolveStaticPath(null)" />
           </div>
+          <div class="galeria-thumbs" id="galeria-thumbs"></div>
         </div>
 
         <!-- Lado Direito: Info e Compra -->

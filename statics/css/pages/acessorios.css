@@ -12,7 +12,7 @@
 }
 
 .acessorios-titulo {
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
   font-size: clamp(3.5rem, 8vw, 6rem);
   letter-spacing: 6px;
   color: var(--text);
@@ -74,7 +74,7 @@
 }
 
 .acessorio-card-info h3 {
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Archivo Black", "Bebas Neue", sans-serif;
   font-size: 1.3rem;
   color: #111;
   letter-spacing: 1px;

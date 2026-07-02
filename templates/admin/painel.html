@@ -4,25 +4,27 @@
     <title>GR!TTA | Painel Admin</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../statics/img/icons/loja-icon.png" />
+    <link rel="icon" type="image/png" href="../../statics/img/icons/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
       :root{
-        --bg:#0f1c25; --surface:#162530; --surface-2:#1a2e3d;
-        --border:rgba(255,255,255,.08); --text:#f0ece4; --muted:#6e8fa0;
-        --accent:#2aabb0; --danger:#e84545; --success:#1a9e5a;
+        --bg:#0A0A0A; --surface:#141414; --surface-2:#1A1A1A; --steel:#2A2A2A;
+        --border:rgba(255,255,255,.08); --text:#F2F2F2; --muted:#6B6B6B;
+        --accent:#3A7D59; --accent-deep:#1F3D2E; --accent-hover:#2C5A40;
+        --danger:#e84545; --success:#1a9e5a;
+        --font-display:"Archivo Black","Bebas Neue",sans-serif; --font-mono:"Roboto Mono",monospace;
       }
       *{box-sizing:border-box;margin:0;padding:0}
       body{font-family:"Montserrat",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:40px 20px;line-height:1.6}
       .wrap{max-width:980px;margin:0 auto}
       .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
-      .brand{font-family:"Bebas Neue",sans-serif;font-size:2rem;letter-spacing:2px}
+      .brand{font-family:var(--font-display);font-size:2rem;letter-spacing:1px}
       .brand span{color:var(--accent)}
       .back{color:var(--muted);text-decoration:none;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;font-weight:700}
       .back:hover{color:var(--text)}
-      h1{font-family:"Bebas Neue",sans-serif;font-size:2.4rem;letter-spacing:1px;margin-bottom:4px}
+      h1{font-family:var(--font-display);font-size:2.4rem;letter-spacing:0;margin-bottom:4px}
       .sub{color:var(--muted);font-size:.82rem;margin-bottom:28px}
       .label{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:block}
       .msg{margin-top:16px;font-size:.8rem;font-weight:700;letter-spacing:1px;min-height:20px}
@@ -30,7 +32,7 @@
 
       /* Abas */
       .tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:28px}
-      .tab{background:none;border:none;color:var(--muted);font-family:"Bebas Neue",sans-serif;font-size:1.2rem;letter-spacing:1px;
+      .tab{background:none;border:none;color:var(--muted);font-family:var(--font-display);font-size:1.2rem;letter-spacing:1px;
            padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
       .tab:hover{color:var(--text)}
       .tab.active{color:var(--text);border-bottom-color:var(--accent)}
@@ -38,24 +40,24 @@
 
       /* Estado da loja */
       .status{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);padding:16px 20px;margin-bottom:24px;font-size:.85rem}
-      .status b{font-family:"Bebas Neue",sans-serif;font-size:1.2rem;letter-spacing:1px;color:var(--accent)}
+      .status b{font-family:var(--font-display);font-size:1.2rem;letter-spacing:1px;color:var(--accent)}
       .options{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
       .opt{background:var(--surface);border:1px solid var(--border);padding:18px 20px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:border-color .25s,background .25s;user-select:none}
       .opt:hover{border-color:var(--muted)}
       .opt.sel{border-color:var(--accent);background:var(--surface-2)}
       .opt .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);flex-shrink:0;transition:all .2s}
-      .opt.sel .dot{border-color:var(--accent);background:var(--accent);box-shadow:0 0 0 4px rgba(42,171,176,.15) inset}
+      .opt.sel .dot{border-color:var(--accent);background:var(--accent);box-shadow:0 0 0 4px rgba(58,125,89,.15) inset}
       .opt .info{flex:1}
-      .opt .nome{font-family:"Bebas Neue",sans-serif;font-size:1.3rem;letter-spacing:1px}
+      .opt .nome{font-family:var(--font-display);font-size:1.3rem;letter-spacing:1px}
       .opt .tag{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700}
       .opt .badge{font-size:.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--success);border:1px solid var(--success);padding:3px 8px}
 
       /* Botões */
-      .btn{font-family:"Bebas Neue",sans-serif;font-size:1.1rem;letter-spacing:1.5px;border:none;cursor:pointer;padding:13px 22px;transition:background .25s,color .25s}
-      .btn-primary{background:var(--accent);color:#fff}
-      .btn-primary:hover{background:#2398a0}
+      .btn{font-family:var(--font-display);font-size:1.1rem;letter-spacing:1.5px;border:none;cursor:pointer;padding:13px 22px;transition:background .25s,color .25s}
+      .btn-primary{background:var(--accent-deep);color:#fff}
+      .btn-primary:hover{background:var(--accent-hover)}
       .btn-light{background:var(--text);color:var(--bg)}
-      .btn-light:hover{background:var(--accent);color:#fff}
+      .btn-light:hover{background:var(--accent-deep);color:#fff}
       .btn-ghost{background:none;color:var(--muted);border:1px solid var(--border)}
       .btn-ghost:hover{color:var(--text);border-color:var(--muted)}
       .btn:disabled{opacity:.4;cursor:not-allowed}
@@ -63,7 +65,7 @@
 
       /* Peças — tabela */
       .pecas-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
-      .pecas-head h2{font-family:"Bebas Neue",sans-serif;font-size:1.8rem;letter-spacing:1px}
+      .pecas-head h2{font-family:var(--font-display);font-size:1.8rem;letter-spacing:1px}
       table.pecas{width:100%;border-collapse:collapse;font-size:.8rem}
       table.pecas th,table.pecas td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--border)}
       table.pecas th{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700}
@@ -72,17 +74,26 @@
       .pill{font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border:1px solid var(--border)}
       .pill.on{color:var(--success);border-color:rgba(26,158,90,.4)}
       .pill.off{color:var(--muted)}
-      .pill.special{color:var(--accent);border-color:rgba(42,171,176,.4)}
+      .pill.special{color:var(--accent);border-color:rgba(58,125,89,.4)}
       .row-actions{display:flex;gap:8px}
       .mini{background:none;border:1px solid var(--border);color:var(--muted);font-size:.62rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;padding:6px 10px;cursor:pointer;transition:all .2s}
       .mini:hover{color:var(--text);border-color:var(--muted)}
       .mini.del:hover{color:var(--danger);border-color:rgba(232,69,69,.4)}
+      .mini.xdel{border-color:rgba(232,69,69,.35);color:var(--danger)}
+      .mini.xdel:hover{background:rgba(232,69,69,.1);border-color:var(--danger)}
+      .mini.ok{border-color:rgba(58,125,89,.35);color:var(--accent)}
+      .mini.ok:hover{background:rgba(58,125,89,.12);border-color:var(--accent)}
+      .pecas-status-filter{display:flex;margin-bottom:16px}
+      .sfbtn{background:none;border:1px solid var(--border);color:var(--muted);font-size:.62rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:8px 20px;cursor:pointer;transition:all .2s;font-family:var(--font-mono,monospace)}
+      .sfbtn:not(:last-child){border-right:none}
+      .sfbtn.active{background:var(--accent-deep);color:var(--text);border-color:var(--accent)}
+      .sfbtn:hover:not(.active){color:var(--text);border-color:var(--muted)}
 
       /* Modal de formulário */
       .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(5px);display:none;align-items:flex-start;justify-content:center;padding:30px 16px;z-index:100;overflow-y:auto}
       .modal-bg.open{display:flex}
       .modal{background:var(--surface);border:1px solid var(--border);width:100%;max-width:620px;padding:32px}
-      .modal h3{font-family:"Bebas Neue",sans-serif;font-size:1.8rem;letter-spacing:1px;margin-bottom:22px}
+      .modal h3{font-family:var(--font-display);font-size:1.8rem;letter-spacing:1px;margin-bottom:22px}
       .field{margin-bottom:16px}
       .field label{display:block;font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
       .field input,.field select,.field textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:11px 12px;font-family:"Montserrat",sans-serif;font-size:.85rem;outline:none;transition:border-color .2s}
@@ -114,15 +125,51 @@
       .modal-actions .btn{flex:1}
 
       .denied{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--danger);padding:32px;text-align:center}
-      .denied h2{font-family:"Bebas Neue",sans-serif;font-size:2rem;color:var(--danger);margin-bottom:10px;letter-spacing:1px}
+      .denied h2{font-family:var(--font-display);font-size:2rem;color:var(--danger);margin-bottom:10px;letter-spacing:1px}
       .denied a{color:var(--accent);font-weight:700}
       .hint{color:var(--muted);font-size:.72rem;margin-top:24px;line-height:1.7}
       .hint code{background:var(--surface-2);padding:2px 6px;border-radius:2px;color:var(--text)}
-      .loading{color:var(--muted);text-align:center;padding:40px;font-family:"Bebas Neue",sans-serif;letter-spacing:1px}
+      .loading{color:var(--muted);text-align:center;padding:40px;font-family:var(--font-display);letter-spacing:1px}
+
+      /* Drop counters — dashboard */
+      .drop-counters{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap}
+      .dc-chip{background:var(--surface);border:1px solid var(--steel);padding:10px 18px;display:flex;flex-direction:column;gap:1px;min-width:90px}
+      .dc-chip .dc-val{font-family:var(--font-display);font-size:1.7rem;letter-spacing:1px;line-height:1}
+      .dc-chip .dc-lab{font-size:.55rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700}
+      .dc-chip.c-ativo .dc-val{color:var(--accent)}
+      .dc-chip.c-secreto .dc-val{color:#ffe066}
+      .dc-chip.c-arquivado .dc-val{color:var(--muted)}
+
+      /* Status radio group */
+      .status-radios{display:flex;flex-wrap:wrap;gap:0}
+      .radio-opt{display:flex;align-items:center;gap:8px;font-size:.8rem;cursor:pointer;
+                 padding:10px 14px;border:1px solid var(--border);background:var(--bg);
+                 transition:border-color .2s,background .2s,color .2s}
+      .radio-opt:not(:last-child){border-right:none}
+      .radio-opt:has(input:checked){border-color:var(--accent);background:var(--accent-deep);color:var(--text)}
+      .radio-opt input{width:auto;accent-color:var(--accent)}
+
       @media(max-width:560px){.grid2{grid-template-columns:1fr}table.pecas .hide-sm{display:none}}
 
+      /* Imagem extra (remove) */
+      .imgslot .rm-img{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.85rem;padding:0 2px;line-height:1;transition:color .15s;vertical-align:middle}
+      .imgslot .rm-img:hover{color:var(--danger)}
+      .field-hint{font-size:.68rem;color:var(--muted);margin-top:5px}
+      #add-img{vertical-align:middle}
+
+      /* Gerenciamento de categorias */
+      .cat-grid-admin{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px}
+      .cat-admin-card{display:flex;flex-direction:column;gap:8px;width:150px}
+      .cat-admin-preview{height:188px;background-size:cover;background-position:center;
+                         background-color:var(--surface);border:1px solid var(--border);
+                         display:flex;align-items:flex-end;padding:8px;position:relative;overflow:hidden}
+      .cat-admin-name{font-family:var(--font-display);font-size:.85rem;letter-spacing:1px;color:#fff;
+                      text-shadow:0 1px 4px rgba(0,0,0,.85);position:relative;z-index:1}
+      .cat-upload-label{display:block;cursor:pointer}
+      .cat-upload-label .mini{width:100%;text-align:center;display:block}
+
       /* Construtor de drop */
-      .formgroup-title{font-family:"Bebas Neue",sans-serif;font-size:1.2rem;letter-spacing:1px;color:var(--accent);margin:26px 0 14px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+      .formgroup-title{font-family:var(--font-display);font-size:1.2rem;letter-spacing:1px;color:var(--accent);margin:26px 0 14px;padding-bottom:6px;border-bottom:1px solid var(--border)}
       input[type=color]{background:var(--bg);border:1px solid var(--border);cursor:pointer;padding:2px}
       .prodpick{max-height:230px;overflow-y:auto;border:1px solid var(--border);background:var(--bg);padding:4px}
       .prodpick label{display:flex;align-items:center;gap:10px;padding:8px 10px;font-size:.78rem;cursor:pointer;border-bottom:1px solid var(--border)}
@@ -133,7 +180,7 @@
       .prodpick .pp-nome{flex:1}
       .prodpick .pp-tipo{font-size:.58rem;text-transform:uppercase;color:var(--muted);letter-spacing:1px}
       .drop-card-row{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--border);padding:14px 18px;margin-bottom:10px}
-      .drop-card-row .nm{font-family:"Bebas Neue",sans-serif;font-size:1.3rem;letter-spacing:1px}
+      .drop-card-row .nm{font-family:var(--font-display);font-size:1.3rem;letter-spacing:1px}
       .drop-card-row .id{font-size:.62rem;color:var(--muted);letter-spacing:1px}
 
       /* Ajuda dos campos do drop */
@@ -164,6 +211,7 @@
           <button class="tab" data-tab="pecas">Peças</button>
           <button class="tab" data-tab="drops">Drops</button>
           <button class="tab" data-tab="cupons">Cupons</button>
+          <button class="tab" data-tab="categorias">Categorias</button>
         </div>
 
         <!-- ── Aba: Estado da Loja ── -->
@@ -171,6 +219,11 @@
           <h1>Estado da Loja</h1>
           <p class="sub">Ative a loja normal ou um drop. Troca imagens e personalizações sem mexer no código.</p>
           <div class="status" id="status">Carregando estado atual…</div>
+          <div class="drop-counters" id="drop-counters" style="display:none">
+            <div class="dc-chip c-ativo"><span class="dc-val" id="cnt-ativos">0</span><span class="dc-lab">Ativos</span></div>
+            <div class="dc-chip c-secreto"><span class="dc-val" id="cnt-secretos">0</span><span class="dc-lab">Secretos</span></div>
+            <div class="dc-chip c-arquivado"><span class="dc-val" id="cnt-arquivados">0</span><span class="dc-lab">Arquivados</span></div>
+          </div>
           <span class="label">Selecione o modo</span>
           <div class="options" id="options"></div>
           <button class="btn btn-light save" id="btn-save" disabled>Salvar e aplicar</button>
@@ -185,6 +238,10 @@
             <button class="btn btn-primary" id="btn-nova-peca">+ Nova peça</button>
           </div>
           <p class="sub">Cadastre, edite e gerencie as roupas da loja.</p>
+          <div class="pecas-status-filter" id="pecas-status-filter">
+            <button class="sfbtn active" data-sf="ativas">Ativas</button>
+            <button class="sfbtn" data-sf="desativadas">Desativadas</button>
+          </div>
           <div id="pecas-lista"><p class="loading">Carregando peças…</p></div>
           <div class="msg" id="pecas-msg"></div>
         </section>
@@ -198,6 +255,16 @@
           <p class="sub">Cada drop define banner, textos, countdown e as peças. Salvar grava o arquivo e marca as peças escolhidas.</p>
           <div id="drops-lista"><p class="loading">Carregando drops…</p></div>
           <div class="msg" id="drops-msg"></div>
+        </section>
+
+        <!-- ── Aba: Categorias ── -->
+        <section id="tab-categorias" class="tabpane" hidden>
+          <div class="pecas-head">
+            <h1>Categorias</h1>
+          </div>
+          <p class="sub">Atualize as fotos do bloco "Explore por Categoria" na home. Clique em "Trocar imagem" para fazer upload de uma nova foto.</p>
+          <div class="cat-grid-admin" id="cat-admin-grid"><p class="loading">Carregando…</p></div>
+          <div class="msg" id="categorias-msg"></div>
         </section>
 
         <!-- ── Aba: Cupons ── -->
@@ -246,6 +313,7 @@
                 <option value="calca">Calça</option>
                 <option value="tenis">Tênis</option>
                 <option value="acessorio">Acessório</option>
+                <option value="jaqueta">Jaqueta / Casaco</option>
               </select>
             </div>
           </div>
@@ -255,23 +323,15 @@
               <input type="text" id="f-drop" placeholder="Ex.: Coleção Inverno" />
             </div>
             <div class="field" style="display:flex;align-items:flex-end;gap:20px">
-              <label class="check"><input type="checkbox" id="f-special" /> Destaque na home</label>
+              <label class="check"><input type="checkbox" id="f-special" /> Item especial — grid assimétrica</label>
               <label class="check" id="wrap-ativo" hidden><input type="checkbox" id="f-ativo" checked /> Ativo</label>
             </div>
           </div>
 
           <div class="field">
-            <label>Imagens</label>
-            <div class="imgs">
-              <div class="imgslot" data-slot="0">
-                <div class="drop"><span>+ Foto principal</span><input type="file" accept="image/*" hidden /></div>
-                <div class="cap">Principal</div>
-              </div>
-              <div class="imgslot" data-slot="1">
-                <div class="drop"><span>+ 2ª foto (hover)</span><input type="file" accept="image/*" hidden /></div>
-                <div class="cap">2ª foto</div>
-              </div>
-            </div>
+            <label>Imagens <button type="button" class="mini" id="add-img" style="margin-left:8px">+ Imagem</button></label>
+            <div id="imgs-container" class="imgs"></div>
+            <p class="field-hint">1ª = card principal · 2ª = hover crossfade · demais = galeria do produto</p>
           </div>
 
           <div class="field">
@@ -304,10 +364,38 @@
             <div class="field"><label for="d-dropnome">Coleção que liga as peças <button type="button" class="help" data-help="dropnome">?</button></label><input type="text" id="d-dropnome" placeholder="Coleção Verão" /></div>
             <div class="field" style="display:flex;align-items:flex-end;gap:24px">
               <label class="check"><input type="checkbox" id="d-snow" /> Neve <button type="button" class="help" data-help="snow">?</button></label>
-              <span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:6px">Cor de acento <button type="button" class="help" data-help="accent">?</button></span><input type="color" id="d-accent" value="#2aabb0" style="width:50px;height:36px" /></span>
+              <span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:6px">Cor de acento <button type="button" class="help" data-help="accent">?</button></span><input type="color" id="d-accent" value="#3A7D59" style="width:50px;height:36px" /></span>
             </div>
           </div>
+
+          <div class="field">
+            <label>Status do drop <button type="button" class="help" data-help="status">?</button></label>
+            <div class="status-radios">
+              <label class="radio-opt"><input type="radio" name="d-status" value="publico" checked /> Público (ativo)</label>
+              <label class="radio-opt"><input type="radio" name="d-status" value="secreto" /> Secreto (senha)</label>
+              <label class="radio-opt"><input type="radio" name="d-status" value="arquivado" /> Arquivado</label>
+            </div>
+          </div>
+          <div class="field" id="campo-senha" style="display:none">
+            <label for="d-senha">Senha de acesso <button type="button" class="help" data-help="senha">?</button></label>
+            <input type="text" id="d-senha" placeholder="Em branco ao editar = mantém a senha atual" autocomplete="off" />
+          </div>
+
           <div class="field"><label for="d-topbar">Top-bar (faixa do topo) <button type="button" class="help" data-help="topbar">?</button></label><input type="text" id="d-topbar" placeholder="VERÃO CHEGANDO — DROP 02" /></div>
+
+          <div class="grid2">
+            <div class="field">
+              <label>Thumbnail do card <button type="button" class="help" data-help="thumb">?</button></label>
+              <div class="imgs"><div class="imgslot" id="d-thumbslot" data-slot="thumb">
+                <div class="drop"><span>+ Thumbnail</span><input type="file" accept="image/*" hidden /></div>
+                <div class="cap">Thumb</div>
+              </div></div>
+            </div>
+            <div class="field">
+              <label for="d-desc">Descrição editorial <button type="button" class="help" data-help="desc">?</button></label>
+              <textarea id="d-desc" placeholder="Texto curto que aparece no card da coleção…" style="min-height:100px"></textarea>
+            </div>
+          </div>
 
           <div class="field">
             <label>Banner (usado no hero, na seção e na página) <button type="button" class="help" data-help="banner">?</button></label>
@@ -389,6 +477,26 @@
             <button type="submit" class="btn btn-light" id="submit-cupom">Salvar cupom</button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- ── Modal: excluir peça (confirmação por senha) ── -->
+    <div class="modal-bg" id="excluir-modal">
+      <div class="modal" style="max-width:420px">
+        <h3>Excluir peça</h3>
+        <p id="excluir-modal-nome" style="color:var(--muted);margin-bottom:20px;font-size:.85rem"></p>
+        <p style="color:var(--danger);font-size:.78rem;margin-bottom:16px;font-weight:700;line-height:1.5">
+          ⚠ Esta ação é permanente e irreversível. O produto será removido do banco de dados.
+        </p>
+        <div class="field">
+          <label for="excluir-senha">Senha de administrador</label>
+          <input type="password" id="excluir-senha" placeholder="Digite a senha para confirmar" />
+        </div>
+        <div class="msg" id="excluir-msg"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="cancel-excluir">Cancelar</button>
+          <button type="button" class="btn" id="confirm-excluir" style="background:var(--danger);color:#fff;border:none">Excluir permanentemente</button>
+        </div>
       </div>
     </div>
 

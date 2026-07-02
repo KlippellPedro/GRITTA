@@ -1,15 +1,22 @@
 from flask import Blueprint, request, jsonify
+import hashlib
+import os
 from .service import get_all_products, get_product_by_slug, get_related_products
 from .storefront import (
     get_estado, list_drops, set_estado,
-    ler_drop, salvar_drop, excluir_drop
+    ler_drop, salvar_drop, excluir_drop,
+    get_categorias, set_categoria
 )
 from .auth import admin_required, token_required
 from .admin_service import (
     listar_produtos, obter_produto, criar_produto,
-    atualizar_produto, desativar_produto, salvar_upload,
+    atualizar_produto, desativar_produto, reativar_produto,
+    excluir_produto_hard, salvar_upload,
     atribuir_drop, ids_do_drop
 )
+
+# Defina sua senha no .env como: ADMIN_DELETE_SECRET=minha-senha-segura
+ADMIN_DELETE_SECRET = os.getenv('ADMIN_DELETE_SECRET', '')
 from .avaliacao_service import listar_avaliacoes, criar_avaliacao
 
 main = Blueprint('main', __name__)
@@ -66,6 +73,71 @@ def post_avaliacao(product_id):
     if err:
         return jsonify({"error": err}), 400
     return jsonify({"success": True}), 201
+
+
+# ─────────────────────────────────────────────
+#  DROPS — listagem pública + info + senha
+# ─────────────────────────────────────────────
+@main.route('/drops', methods=['GET'])
+def listar_drops_publico():
+    """Público: lista todos os drops (sem senha_hash), com flag ativo/arquivado."""
+    estado = get_estado()
+    ativo_id = estado.get('ativo')
+    resultado = []
+    for item in list_drops():
+        drop_id = item.get('id')
+        if drop_id == 'normal':
+            continue
+        config = ler_drop(drop_id)
+        if not config:
+            continue
+        thumb = (config.get('thumb')
+                 or config.get('drop_page', {}).get('banner', '')
+                 or config.get('hero', {}).get('banner', ''))
+        resultado.append({
+            'id':        config.get('id'),
+            'nome':      config.get('nome', ''),
+            'drop_nome': config.get('drop_nome'),
+            'trancado':  bool(config.get('trancado', False)),
+            'arquivado': bool(config.get('arquivado', False)),
+            'thumb':     thumb,
+            'desc':      config.get('desc', ''),
+            'ativo':     drop_id == ativo_id,
+        })
+    return jsonify(resultado), 200
+
+
+@main.route('/drops/<string:drop_id>/info', methods=['GET'])
+def drop_info(drop_id):
+    """Público: retorna metadados do drop (sem expor senha_hash)."""
+    config = ler_drop(drop_id)
+    if config is None:
+        return jsonify({"error": "Drop não encontrado"}), 404
+    return jsonify({
+        "id":        config.get('id'),
+        "nome":      config.get('nome'),
+        "drop_nome": config.get('drop_nome'),
+        "trancado":  bool(config.get('trancado')),
+    }), 200
+
+
+@main.route('/drops/<string:drop_id>/acesso', methods=['POST'])
+def drop_acesso(drop_id):
+    """Público: valida a senha de um drop trancado."""
+    config = ler_drop(drop_id)
+    if config is None:
+        return jsonify({"ok": False, "erro": "Drop não encontrado."}), 404
+    if not config.get('trancado'):
+        return jsonify({"ok": True}), 200
+    data  = request.get_json(silent=True) or {}
+    senha = (data.get('senha') or '').strip()
+    if not senha:
+        return jsonify({"ok": False, "erro": "Senha obrigatória."}), 400
+    hash_stored   = config.get('senha_hash', '')
+    hash_enviado  = hashlib.sha256(senha.encode('utf-8')).hexdigest()
+    if hash_enviado != hash_stored:
+        return jsonify({"ok": False, "erro": "SENHA INCORRETA."}), 401
+    return jsonify({"ok": True}), 200
 
 
 # ─────────────────────────────────────────────
@@ -139,7 +211,8 @@ def storefront_set():
 @main.route('/admin/produtos', methods=['GET'])
 @admin_required
 def admin_listar():
-    return jsonify(listar_produtos()), 200
+    status = request.args.get('status', 'ativas')
+    return jsonify(listar_produtos(status)), 200
 
 
 @main.route('/admin/produtos/<int:pid>', methods=['GET'])
@@ -175,6 +248,46 @@ def admin_desativar(pid):
     if not desativar_produto(pid):
         return jsonify({"error": "Peça não encontrada"}), 404
     return jsonify({"success": True}), 200
+
+
+@main.route('/admin/produtos/<int:pid>/reativar', methods=['PUT'])
+@admin_required
+def admin_reativar(pid):
+    if not reativar_produto(pid):
+        return jsonify({"error": "Peça não encontrada"}), 404
+    return jsonify({"success": True}), 200
+
+
+@main.route('/admin/produtos/<int:pid>/excluir', methods=['DELETE'])
+@admin_required
+def admin_excluir(pid):
+    if not ADMIN_DELETE_SECRET:
+        return jsonify({"error": "Senha de exclusão não configurada no servidor. Defina ADMIN_DELETE_SECRET no arquivo .env."}), 503
+    data = request.get_json(silent=True) or {}
+    senha = (data.get('senha') or '').strip()
+    if senha != ADMIN_DELETE_SECRET:
+        return jsonify({"error": "Senha incorreta."}), 403
+    ok, err = excluir_produto_hard(pid)
+    if err:
+        return jsonify({"error": err}), 400
+    return jsonify({"success": True}), 200
+
+
+@main.route('/categories', methods=['GET'])
+def get_categories_public():
+    """Público: retorna os caminhos de imagem de cada categoria da home."""
+    return jsonify(get_categorias()), 200
+
+
+@main.route('/admin/categories/<string:tipo>', methods=['PUT'])
+@admin_required
+def admin_set_category(tipo):
+    """Admin: atualiza a imagem de uma categoria (grava em drops/_categorias.json)."""
+    data = request.get_json(silent=True) or {}
+    cats, err = set_categoria(tipo, data.get('caminho', ''))
+    if err:
+        return jsonify({"error": err}), 400
+    return jsonify({"success": True, "categorias": cats}), 200
 
 
 @main.route('/admin/upload', methods=['POST'])

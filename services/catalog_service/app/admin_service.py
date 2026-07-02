@@ -23,7 +23,7 @@ if not logger.handlers:
     _h.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
     logger.addHandler(_h)
 
-TIPOS_VALIDOS = {'moletom', 'calca', 'acessorio', 'camisa', 'tenis'}
+TIPOS_VALIDOS = {'moletom', 'calca', 'acessorio', 'camisa', 'tenis', 'jaqueta'}
 ALLOWED_EXT = {'.webp', '.jpg', '.jpeg', '.png'}
 MAX_UPLOAD = 5 * 1024 * 1024  # 5 MB
 
@@ -92,7 +92,8 @@ def _validar(data):
 
 
 # ─────────────────────────── leitura ───────────────────────────
-def listar_produtos():
+def listar_produtos(status='ativas'):
+    ativo = 0 if status == 'desativadas' else 1
     conn = get_connection()
     cur = conn.cursor(dictionary=True)
     cur.execute("""
@@ -103,9 +104,10 @@ def listar_produtos():
         FROM produtos p
         LEFT JOIN imagens_produto i ON p.id = i.produto_id AND i.ordem_exibicao = 0
         LEFT JOIN variacoes v ON p.id = v.produto_id
+        WHERE p.ativo = %s
         GROUP BY p.id
         ORDER BY p.id DESC
-    """)
+    """, (ativo,))
     rows = cur.fetchall()
     cur.close()
     conn.close()
@@ -258,6 +260,58 @@ def desativar_produto(pid):
     cur.close()
     conn.close()
     return ok
+
+
+def reativar_produto(pid):
+    """Reativa produto (ativo=1) para que volte a aparecer na loja."""
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("UPDATE produtos SET ativo=1 WHERE id=%s", (pid,))
+    ok = cur.rowcount > 0
+    cur.close()
+    conn.close()
+    return ok
+
+
+def excluir_produto_hard(pid):
+    """Hard delete permanente — bloqueia se houver pedidos associados."""
+    conn = get_connection()
+    conn.autocommit = False
+    cur = conn.cursor()
+    try:
+        cur.execute("SELECT id FROM produtos WHERE id=%s", (pid,))
+        if not cur.fetchone():
+            return False, "Peça não encontrada."
+
+        # Bloqueia se algum pedido referenciar variações deste produto
+        try:
+            cur.execute("""
+                SELECT COUNT(*) FROM itens_pedido ip
+                INNER JOIN variacoes v ON ip.variacao_id = v.id
+                WHERE v.produto_id = %s
+            """, (pid,))
+            (qtd,) = cur.fetchone()
+            if qtd > 0:
+                return False, "Não é possível excluir: este produto aparece em {} pedido(s). Desative-o para removê-lo da loja.".format(qtd)
+        except Exception:
+            pass  # tabela em outro banco — prossegue
+
+        cur.execute("DELETE FROM imagens_produto WHERE produto_id=%s", (pid,))
+        try:
+            cur.execute("DELETE FROM favoritos WHERE produto_id=%s", (pid,))
+        except Exception:
+            pass
+        cur.execute("DELETE FROM variacoes WHERE produto_id=%s", (pid,))
+        cur.execute("DELETE FROM produtos WHERE id=%s", (pid,))
+        conn.commit()
+        return True, None
+    except Exception as e:
+        conn.rollback()
+        logger.error("Erro ao excluir peça %s: %s", pid, e)
+        return False, "Não foi possível excluir: verifique se não há pedidos ou itens de carrinho associados."
+    finally:
+        cur.close()
+        conn.close()
 
 
 def ids_do_drop(drop_nome):

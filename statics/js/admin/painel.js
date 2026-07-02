@@ -17,6 +17,8 @@ function imgUrl(path) {
 }
 
 let current = null, selected = null, drops = [];
+let filtroStatusPecas = 'ativas';
+let excluirTarget = null;
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -52,7 +54,9 @@ async function init () {
     setupDropForm();
     setupCupomForm();
     setupHelp();
-    await Promise.all([carregarEstado(), carregarPecas(), carregarDrops(), carregarCupons()]);
+    setupFiltroStatus();
+    setupExcluirModal();
+    await Promise.all([carregarEstado(), carregarPecas(), carregarDrops(), carregarCupons(), carregarCategorias()]);
 }
 
 function setupTabs () {
@@ -82,6 +86,7 @@ async function carregarEstado () {
         current = state.ativo; selected = current;
         renderStatus(state.modo, current);
         renderOptions();
+        renderContadores();
     } catch (e) {
         msg('msg', 'Não consegui falar com o Catalog Service (porta 5003). Ele está rodando?', 'err');
     }
@@ -91,6 +96,19 @@ function renderStatus (modo, ativo) {
     document.getElementById('status').innerHTML =
         `Estado atual: <b>${modo === 'normal' ? 'Loja Normal' : nomeDrop(ativo)}</b>`;
 }
+function renderContadores () {
+    const real = drops.filter(d => d.id !== 'normal');
+    const ativos    = real.filter(d => !d.trancado && !d.arquivado).length;
+    const secretos  = real.filter(d => d.trancado  && !d.arquivado).length;
+    const arquivados = real.filter(d => d.arquivado).length;
+    const el = document.getElementById('drop-counters');
+    if (!el) return;
+    el.style.display = '';
+    document.getElementById('cnt-ativos').textContent    = ativos;
+    document.getElementById('cnt-secretos').textContent  = secretos;
+    document.getElementById('cnt-arquivados').textContent = arquivados;
+}
+
 function renderOptions () {
     const box = document.getElementById('options');
     box.innerHTML = drops.map(d => {
@@ -128,13 +146,14 @@ async function salvarEstado () {
 ══════════════════════════════════════ */
 async function carregarPecas () {
     const cont = document.getElementById('pecas-lista');
+    document.querySelectorAll('.sfbtn').forEach(b => b.classList.toggle('active', b.dataset.sf === filtroStatusPecas));
     try {
-        const res = await fetch(`${API}/admin/produtos`, { headers: authHeaders() });
+        const res = await fetch(`${API}/admin/produtos?status=${filtroStatusPecas}`, { headers: authHeaders() });
         if (res.status === 401 || res.status === 403)
             return cont.innerHTML = '<p class="loading">Sessão de admin expirada. Faça login de novo.</p>';
         const lista = await res.json();
         if (!Array.isArray(lista) || !lista.length)
-            return cont.innerHTML = '<p class="loading">Nenhuma peça cadastrada ainda.</p>';
+            return cont.innerHTML = `<p class="loading">Nenhuma peça ${filtroStatusPecas === 'desativadas' ? 'desativada' : 'cadastrada'} ainda.</p>`;
 
         cont.innerHTML = `
           <table class="pecas"><thead><tr>
@@ -149,12 +168,17 @@ async function carregarPecas () {
               <td><span class="pill ${p.ativo ? 'on' : 'off'}">${p.ativo ? 'Ativo' : 'Inativo'}</span></td>
               <td><div class="row-actions">
                 <button class="mini" data-edit="${p.id}">Editar</button>
-                <button class="mini del" data-del="${p.id}" data-nome="${escapeHtml(p.nome)}">Desativar</button>
+                ${p.ativo
+                  ? `<button class="mini del" data-del="${p.id}" data-nome="${escapeHtml(p.nome)}">Desativar</button>`
+                  : `<button class="mini ok" data-reativar="${p.id}" data-nome="${escapeHtml(p.nome)}">Reativar</button>`}
+                <button class="mini xdel" data-excluir="${p.id}" data-nome="${escapeHtml(p.nome)}">Excluir</button>
               </div></td>
             </tr>`).join('')}</tbody></table>`;
 
         cont.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => abrirForm(b.dataset.edit)));
         cont.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => desativarPeca(b.dataset.del, b.dataset.nome)));
+        cont.querySelectorAll('[data-reativar]').forEach(b => b.addEventListener('click', () => reativarPeca(b.dataset.reativar, b.dataset.nome)));
+        cont.querySelectorAll('[data-excluir]').forEach(b => b.addEventListener('click', () => abrirExcluirModal(b.dataset.excluir, b.dataset.nome)));
     } catch (e) {
         cont.innerHTML = '<p class="loading">Erro ao carregar (o Catalog Service está rodando?).</p>';
     }
@@ -166,14 +190,25 @@ function setupForm () {
     document.getElementById('peca-modal').addEventListener('click', e => { if (e.target.id === 'peca-modal') fecharForm(); });
     document.getElementById('add-var').addEventListener('click', () => addVarRow());
     document.getElementById('peca-form').addEventListener('submit', salvarPeca);
-
-    // Upload por slot de imagem
-    document.querySelectorAll('.imgslot').forEach(slot => {
-        const drop = slot.querySelector('.drop');
-        const input = slot.querySelector('input[type=file]');
-        drop.addEventListener('click', () => input.click());
-        input.addEventListener('change', () => { if (input.files[0]) enviarImagem(slot, input.files[0]); });
+    document.getElementById('add-img').addEventListener('click', () => {
+        const count = document.querySelectorAll('#imgs-container .imgslot').length;
+        createImgSlot(count, '');
     });
+}
+
+function createImgSlot (order, caminho) {
+    const cont = document.getElementById('imgs-container');
+    if (!cont) return;
+    const slot = document.createElement('div');
+    slot.className = 'imgslot';
+    slot.dataset.slot = String(order);
+    slot.dataset.caminho = '';
+    const capLabel = order === 0 ? 'Principal' : order === 1 ? 'Crossfade' : `Extra ${order - 1}`;
+    slot.innerHTML = `<div class="drop"></div>
+        <div class="cap">${capLabel} <button type="button" class="rm-img" title="Remover">×</button></div>`;
+    slot.querySelector('.rm-img').addEventListener('click', () => slot.remove());
+    setSlot(slot, caminho || '');
+    cont.appendChild(slot);
 }
 
 async function enviarImagem (slot, file) {
@@ -197,7 +232,7 @@ async function enviarImagem (slot, file) {
 function setSlot (slot, caminho) {
     const drop = slot.querySelector('.drop');
     const t = slot.dataset.slot;
-    const label = t === '0' ? '+ Foto principal' : t === '1' ? '+ 2ª foto (hover)' : '+ Banner do drop';
+    const label = t === '0' ? '+ Imagem principal' : t === '1' ? '+ Secundária (crossfade)' : t === 'thumb' ? '+ Thumbnail' : '+ Banner do drop';
     if (caminho) {
         slot.dataset.caminho = caminho;
         drop.innerHTML = `<img src="${imgUrl(caminho)}" alt="" onerror="this.parentNode.innerHTML='<span>${label}</span>'" />`;
@@ -233,7 +268,8 @@ async function abrirForm (id) {
     const form = document.getElementById('peca-form');
     form.reset();
     document.getElementById('vars').innerHTML = '';
-    document.querySelectorAll('.imgslot').forEach(s => setSlot(s, ''));
+    const imgCont = document.getElementById('imgs-container');
+    if (imgCont) imgCont.innerHTML = '';
     msg('form-msg', '', '');
     document.getElementById('f-id').value = id || '';
     document.getElementById('wrap-ativo').hidden = !id;
@@ -241,6 +277,8 @@ async function abrirForm (id) {
     if (!id) {
         document.getElementById('peca-modal-title').textContent = 'Nova peça';
         ['P', 'M', 'G', 'GG'].forEach(t => addVarRow(t, 0));
+        createImgSlot(0, '');
+        createImgSlot(1, '');
     } else {
         document.getElementById('peca-modal-title').textContent = 'Editar peça';
         try {
@@ -254,10 +292,13 @@ async function abrirForm (id) {
             document.getElementById('f-drop').value = p.drop_nome || '';
             document.getElementById('f-special').checked = !!p.is_special;
             document.getElementById('f-ativo').checked = !!p.ativo;
-            (p.imagens || []).forEach(img => {
-                const slot = document.querySelector(`.imgslot[data-slot="${img.ordem_exibicao}"]`);
-                if (slot) setSlot(slot, img.caminho_imagem);
-            });
+            const imgs = p.imagens || [];
+            if (imgs.length > 0) {
+                imgs.forEach((img, i) => createImgSlot(i, img.caminho_imagem));
+            } else {
+                createImgSlot(0, '');
+                createImgSlot(1, '');
+            }
             if (p.variacoes && p.variacoes.length) p.variacoes.forEach(v => addVarRow(v.tamanho, v.estoque, v.id));
             else addVarRow('', 0);
         } catch (e) { msg('form-msg', 'Erro ao carregar a peça.', 'err'); }
@@ -314,12 +355,87 @@ async function salvarPeca (e) {
 }
 
 async function desativarPeca (id, nome) {
-    if (!confirm(`Desativar "${nome}"? Ela some da loja mas continua no banco (dá pra reativar editando).`)) return;
+    if (!confirm(`Desativar "${nome}"? Ela some da loja mas pode ser reativada depois.`)) return;
     try {
         const res = await fetch(`${API}/admin/produtos/${id}`, { method: 'DELETE', headers: authHeaders() });
         if (res.ok) { _produtosCache = null; await carregarPecas(); msg('pecas-msg', 'Peça desativada.', 'ok'); setTimeout(() => msg('pecas-msg', '', ''), 3000); }
         else { const d = await res.json(); msg('pecas-msg', d.error || 'Erro ao desativar.', 'err'); }
     } catch (e) { msg('pecas-msg', 'Erro de conexão.', 'err'); }
+}
+
+async function reativarPeca (id, nome) {
+    if (!confirm(`Reativar "${nome}"? Ela voltará a aparecer na loja.`)) return;
+    try {
+        const res = await fetch(`${API}/admin/produtos/${id}/reativar`, { method: 'PUT', headers: authHeaders() });
+        if (res.ok) { _produtosCache = null; await carregarPecas(); msg('pecas-msg', 'Peça reativada ✦', 'ok'); setTimeout(() => msg('pecas-msg', '', ''), 3000); }
+        else { const d = await res.json(); msg('pecas-msg', d.error || 'Erro ao reativar.', 'err'); }
+    } catch (e) { msg('pecas-msg', 'Erro de conexão.', 'err'); }
+}
+
+function setupFiltroStatus () {
+    document.getElementById('pecas-status-filter').addEventListener('click', async e => {
+        const btn = e.target.closest('.sfbtn');
+        if (!btn) return;
+        filtroStatusPecas = btn.dataset.sf;
+        await carregarPecas();
+    });
+}
+
+function setupExcluirModal () {
+    document.getElementById('cancel-excluir').addEventListener('click', () => {
+        document.getElementById('excluir-modal').classList.remove('open');
+        excluirTarget = null;
+    });
+    document.getElementById('excluir-modal').addEventListener('click', e => {
+        if (e.target.id === 'excluir-modal') {
+            document.getElementById('excluir-modal').classList.remove('open');
+            excluirTarget = null;
+        }
+    });
+    document.getElementById('confirm-excluir').addEventListener('click', confirmarExcluir);
+    document.getElementById('excluir-senha').addEventListener('keydown', e => {
+        if (e.key === 'Enter') confirmarExcluir();
+    });
+}
+
+function abrirExcluirModal (id, nome) {
+    excluirTarget = { id, nome };
+    document.getElementById('excluir-modal-nome').textContent = `Peça: "${nome}"`;
+    document.getElementById('excluir-senha').value = '';
+    msg('excluir-msg', '', '');
+    document.getElementById('excluir-modal').classList.add('open');
+    setTimeout(() => document.getElementById('excluir-senha').focus(), 100);
+}
+
+async function confirmarExcluir () {
+    if (!excluirTarget) return;
+    const senha = document.getElementById('excluir-senha').value;
+    if (!senha) return msg('excluir-msg', 'Digite a senha de administrador.', 'err');
+    const btn = document.getElementById('confirm-excluir');
+    btn.disabled = true;
+    msg('excluir-msg', 'Verificando…', '');
+    try {
+        const res = await fetch(`${API}/admin/produtos/${excluirTarget.id}/excluir`, {
+            method: 'DELETE',
+            headers: authHeaders({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify({ senha })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            document.getElementById('excluir-modal').classList.remove('open');
+            excluirTarget = null;
+            _produtosCache = null;
+            await carregarPecas();
+            msg('pecas-msg', 'Peça excluída permanentemente.', 'ok');
+            setTimeout(() => msg('pecas-msg', '', ''), 4000);
+        } else {
+            msg('excluir-msg', data.error || 'Erro ao excluir.', 'err');
+        }
+    } catch (e) {
+        msg('excluir-msg', 'Erro de conexão.', 'err');
+    } finally {
+        btn.disabled = false;
+    }
 }
 
 /* ══════════════════════════════════════
@@ -334,14 +450,23 @@ async function carregarDrops () {
         if (res.status === 401 || res.status === 403)
             return cont.innerHTML = '<p class="loading">Sessão de admin expirada.</p>';
         const lista = await res.json();
-        cont.innerHTML = (lista || []).map(d => `
-          <div class="drop-card-row">
-            <div><div class="nm">${escapeHtml(d.nome)}</div><div class="id">${escapeHtml(d.id)}.json</div></div>
-            <div class="row-actions">
-              <button class="mini" data-edit-drop="${escapeAttr(d.id)}">Editar</button>
-              ${d.id === 'normal' ? '' : `<button class="mini del" data-del-drop="${escapeAttr(d.id)}" data-nome="${escapeAttr(d.nome)}">Excluir</button>`}
-            </div>
-          </div>`).join('');
+        cont.innerHTML = (lista || []).map(d => {
+            const badge = d.id === 'normal' ? '' :
+                d.arquivado ? '<span class="pill off">Arquivado</span>' :
+                d.trancado  ? '<span class="pill" style="color:#ffe066;border-color:rgba(255,224,102,.35)">Secreto</span>' :
+                              '<span class="pill on">Público</span>';
+            return `
+              <div class="drop-card-row">
+                <div><div class="nm">${escapeHtml(d.nome)}</div><div class="id">${escapeHtml(d.id)}.json</div></div>
+                <div style="display:flex;align-items:center;gap:14px">
+                  ${badge}
+                  <div class="row-actions">
+                    <button class="mini" data-edit-drop="${escapeAttr(d.id)}">Editar</button>
+                    ${d.id === 'normal' ? '' : `<button class="mini del" data-del-drop="${escapeAttr(d.id)}" data-nome="${escapeAttr(d.nome)}">Excluir</button>`}
+                  </div>
+                </div>
+              </div>`;
+        }).join('');
         cont.querySelectorAll('[data-edit-drop]').forEach(b => b.addEventListener('click', () => abrirDropForm(b.dataset.editDrop)));
         cont.querySelectorAll('[data-del-drop]').forEach(b => b.addEventListener('click', () => excluirDrop(b.dataset.delDrop, b.dataset.nome)));
     } catch (e) {
@@ -353,6 +478,14 @@ function setupDropForm () {
     document.getElementById('cancel-drop').addEventListener('click', () => document.getElementById('drop-modal').classList.remove('open'));
     document.getElementById('drop-modal').addEventListener('click', e => { if (e.target.id === 'drop-modal') document.getElementById('drop-modal').classList.remove('open'); });
     document.getElementById('drop-form').addEventListener('submit', salvarDrop);
+
+    // Status radio → mostra/oculta campo de senha
+    document.querySelectorAll('[name="d-status"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            const val = document.querySelector('[name="d-status"]:checked')?.value;
+            document.getElementById('campo-senha').style.display = val === 'secreto' ? '' : 'none';
+        });
+    });
 }
 
 /* ── Ajuda dos campos (popover do "?") — explica o que cada campo muda na loja ── */
@@ -373,7 +506,11 @@ const HELP = {
     count: '<b>Contagem regressiva.</b> A home mostra quanto tempo falta até essa data/hora. Vazio = sem contador.',
     stitulo: '<b>Título da seção.</b> Uma linha por linha; escreva {palavra} pra destacar na cor do drop.',
     visual: '<b>Texto do bloco visual.</b> A frase curta que aparece por cima da imagem da seção (ex.: VERÃO 26).',
-    marquee: '<b>Faixa animada.</b> As palavras que correm em loop numa tira. Separe por vírgula.'
+    marquee: '<b>Faixa animada.</b> As palavras que correm em loop numa tira. Separe por vírgula.',
+    status:  '<b>Status do drop.</b> <b>Público</b> aparece normalmente na listagem. <b>Secreto</b> exige senha — o card fica com efeito neon e bloqueia acesso. <b>Arquivado</b> aparece em grayscale como coleção encerrada.',
+    senha:   '<b>Senha de acesso.</b> Só necessária quando Status = Secreto. O backend salva o hash SHA-256, nunca a senha em texto claro. Ao editar, deixe em branco para manter a senha atual.',
+    thumb:   '<b>Thumbnail do card.</b> Imagem 3:4 que aparece no card da listagem /drops. Se não definido, usa o banner principal como fallback.',
+    desc:    '<b>Descrição editorial.</b> Texto curto (1–2 linhas) que aparece no card da coleção ao hover. Ex.: "Moletons brutais, jaquetas táticas e calças que encaram qualquer frio."'
 };
 
 function setupHelp () {
@@ -422,9 +559,15 @@ function dLinhas (id) { return document.getElementById(id).value.split('\n').map
 async function abrirDropForm (id) {
     document.getElementById('drop-form').reset();
     setSlot(document.getElementById('d-bannerslot'), '');
-    document.getElementById('d-accent').value = '#2aabb0';
+    document.getElementById('d-accent').value = '#3A7D59';
     msg('drop-form-msg', '', '');
     const idInput = document.getElementById('d-id');
+
+    // Reset status radio e campos novos
+    const radioPublico = document.querySelector('[name="d-status"][value="publico"]');
+    if (radioPublico) { radioPublico.checked = true; radioPublico.dispatchEvent(new Event('change')); }
+    document.getElementById('d-senha').value = '';
+    setSlot(document.getElementById('d-thumbslot'), '');
 
     if (!id) {
         document.getElementById('drop-modal-title').textContent = 'Novo drop';
@@ -450,6 +593,16 @@ function preencherDropForm (c) {
     if (c.accent) document.getElementById('d-accent').value = c.accent;
     if (c.banner) setSlot(document.getElementById('d-bannerslot'), c.banner);
     dSet('d-marquee', Array.isArray(c.marquee) ? c.marquee.join(', ') : '');
+
+    // Status radio
+    const statusVal = c.arquivado ? 'arquivado' : (c.trancado ? 'secreto' : 'publico');
+    const radioEl = document.querySelector(`[name="d-status"][value="${statusVal}"]`);
+    if (radioEl) { radioEl.checked = true; radioEl.dispatchEvent(new Event('change')); }
+
+    // Thumbnail e descrição
+    if (c.thumb) setSlot(document.getElementById('d-thumbslot'), c.thumb);
+    dSet('d-desc', c.desc);
+
     const h = c.hero || {};
     dSet('d-h-eyebrow', h.eyebrow); dSet('d-h-meta', h.meta_label);
     dSet('d-h-headline', Array.isArray(h.headline) ? h.headline.join('\n') : '');
@@ -464,12 +617,21 @@ function preencherDropForm (c) {
 }
 
 function coletarDropConfig () {
-    const banner = document.getElementById('d-bannerslot').dataset.caminho || '';
+    const banner   = document.getElementById('d-bannerslot').dataset.caminho || '';
+    const thumb    = document.getElementById('d-thumbslot').dataset.caminho  || '';
     const countRaw = document.getElementById('d-s-count').value;
+    const statusVal = document.querySelector('[name="d-status"]:checked')?.value || 'publico';
+    const trancado  = statusVal === 'secreto';
+    const arquivado = statusVal === 'arquivado';
     const config = {
         id: document.getElementById('d-id').value.trim(),
         nome: document.getElementById('d-nome').value.trim(),
         drop_nome: document.getElementById('d-dropnome').value.trim() || null,
+        trancado,
+        arquivado,
+        senha: trancado ? (document.getElementById('d-senha').value.trim()) : '',
+        thumb,
+        desc: document.getElementById('d-desc').value.trim(),
         accent: document.getElementById('d-accent').value,
         snow: document.getElementById('d-snow').checked,
         topbar: document.getElementById('d-topbar').value.trim(),
@@ -640,6 +802,70 @@ async function excluirCupom (id, codigo) {
         if (res.ok) { await carregarCupons(); msg('cupons-msg', 'Cupom excluído.', 'ok'); setTimeout(() => msg('cupons-msg', '', ''), 2500); }
         else { const d = await res.json(); msg('cupons-msg', d.error || 'Erro.', 'err'); }
     } catch (e) { msg('cupons-msg', 'Erro de conexão.', 'err'); }
+}
+
+/* ══════════════════════════════════════
+   ABA 5 — CATEGORIAS (imagens da home)
+══════════════════════════════════════ */
+const CATS_META = [
+    { key: 'moletons',   label: 'MOLETONS',   eyebrow: 'Mais Vendido' },
+    { key: 'camisas',    label: 'CAMISAS',     eyebrow: 'Novo Drop' },
+    { key: 'calcas',     label: 'CALÇAS',      eyebrow: 'Oversized' },
+    { key: 'tenis',      label: 'TÊNIS',       eyebrow: 'Drops Limitados' },
+    { key: 'acessorios', label: 'ACESSÓRIOS',  eyebrow: 'Completa o Look' },
+];
+
+async function carregarCategorias () {
+    const cont = document.getElementById('cat-admin-grid');
+    if (!cont) return;
+    try {
+        const res = await fetch(`${API}/categories`);
+        const cats = res.ok ? await res.json() : {};
+        cont.innerHTML = CATS_META.map(c => {
+            const bg = cats[c.key] ? `background-image:url('${imgUrl(cats[c.key])}');` : '';
+            return `
+              <div class="cat-admin-card">
+                <div class="cat-admin-preview" style="${bg}">
+                  <div class="cat-admin-name">${c.label}</div>
+                </div>
+                <label class="cat-upload-label">
+                  <div class="mini" style="cursor:pointer">📷 Trocar imagem</div>
+                  <input type="file" accept="image/*" hidden data-tipo="${c.key}" />
+                </label>
+              </div>`;
+        }).join('');
+        cont.querySelectorAll('input[type=file]').forEach(input => {
+            input.addEventListener('change', () => {
+                if (input.files[0]) uploadCategoriaImagem(input.dataset.tipo, input.files[0]);
+            });
+        });
+    } catch (e) {
+        if (cont) cont.innerHTML = '<p class="loading">Erro ao carregar categorias.</p>';
+    }
+}
+
+async function uploadCategoriaImagem (tipo, file) {
+    msg('categorias-msg', 'Enviando imagem…', '');
+    const fd = new FormData();
+    fd.append('file', file);
+    try {
+        const upRes  = await fetch(`${API}/admin/upload`, { method: 'POST', headers: authHeaders(), body: fd });
+        const upData = await upRes.json();
+        if (!upRes.ok) throw new Error(upData.error || 'Falha no upload');
+
+        const putRes  = await fetch(`${API}/admin/categories/${tipo}`, {
+            method: 'PUT', headers: authHeaders({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify({ caminho: upData.caminho })
+        });
+        const putData = await putRes.json();
+        if (!putRes.ok) throw new Error(putData.error || 'Falha ao salvar');
+
+        msg('categorias-msg', 'Imagem de "' + tipo + '" atualizada ✦', 'ok');
+        setTimeout(() => msg('categorias-msg', '', ''), 3500);
+        await carregarCategorias();
+    } catch (e) {
+        msg('categorias-msg', e.message || 'Erro desconhecido.', 'err');
+    }
 }
 
 /* ── utils ── */

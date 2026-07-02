@@ -23,14 +23,28 @@ window.changeQty = function (delta) {
 
 async function carregarDadosProduto(slug) {
     try {
-        // Aqui usamos o slug para buscar os detalhes no Catalog Service
-        const response = await fetch(`${API_CATALOG_URL}/${slug}`);
-        if (!response.ok) throw new Error("Produto não encontrado");
+        const [prodResp, sfResp] = await Promise.all([
+            fetch(`${API_CATALOG_URL}/${slug}`),
+            fetch(CONFIG.API_STOREFRONT_URL).catch(() => null),
+        ]);
+        if (!prodResp.ok) throw new Error("Produto não encontrado");
 
-        const produto = await response.json();
+        const produto    = await prodResp.json();
+        const storefront = sfResp?.ok ? await sfResp.json() : null;
+
+        // Gate: produto pertence a um drop trancado e ainda não desbloqueado
+        if (storefront?.drop?.trancado && storefront.drop.drop_nome === produto.drop_nome) {
+            const dropId = storefront.ativo;
+            if (!sessionStorage.getItem(`gritta_unlock_${dropId}`)) {
+                const back = encodeURIComponent(location.href);
+                window.location.replace(`../pages/drop-senha.html?drop=${dropId}&back=${back}`);
+                return;
+            }
+        }
+
         renderizarPagina(produto);
-        carregarRelacionados(produto.id); // Chamada necessária para carregar os itens em baixo
-        carregarAvaliacoes(slug, produto.id);   // avaliações (reviews) da peça
+        carregarRelacionados(produto.id);
+        carregarAvaliacoes(slug, produto.id);
     } catch (error) {
         document.getElementById('loading-product').textContent = "Erro ao carregar produto.";
     }
@@ -66,7 +80,24 @@ function renderizarPagina(produto) {
     document.getElementById('product-price').textContent = Number(produto.preco_base).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     document.getElementById('product-desc').textContent = produto.descricao;
 
-    document.getElementById('main-product-img').src = window.resolveStaticPath(produto.imagem);
+    const mainImg = document.getElementById('main-product-img');
+    mainImg.src = window.resolveStaticPath(produto.imagem);
+    mainImg.alt = produto.nome;
+
+    // Galeria de miniaturas
+    const thumbsEl = document.getElementById('galeria-thumbs');
+    if (produto.todas_imagens) {
+        const imagens = produto.todas_imagens.split('|').filter(Boolean);
+        if (imagens.length > 1) {
+            thumbsEl.innerHTML = imagens.map((img, i) => {
+                const url = window.resolveStaticPath(img);
+                return `<img class="galeria-thumb${i === 0 ? ' active' : ''}"
+                             src="${url}" alt="Foto ${i + 1}" loading="lazy"
+                             onerror="this.onerror=null;this.src=window.resolveStaticPath(null)"
+                             onclick="window.trocarImagem(this,'${url}')" />`;
+            }).join('');
+        }
+    }
 
     const productBadgesContainer = document.getElementById('product-badges');
     productBadgesContainer.innerHTML = ''; // Limpa badges anteriores
@@ -136,6 +167,12 @@ async function carregarRelacionados(excludeId) {
         console.error("Erro ao carregar relacionados:", e);
     }
 }
+
+window.trocarImagem = function (thumb, url) {
+    document.getElementById('main-product-img').src = url;
+    document.querySelectorAll('.galeria-thumb').forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+};
 
 window.selecionarVariacao = function (elemento, id) {
     // Remove ativo de todos

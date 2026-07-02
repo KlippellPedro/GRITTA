@@ -1,6 +1,11 @@
 {
   "id": "winter-is-coming",
   "nome": "Winter is Coming",
+  "arquivado": false,
+  "thumb": "img/banners/banner_winter_is_comming.png",
+  "desc": "A estação mais pesada do ano. Moletons brutais, jaquetas táticas e calças que encaram qualquer frio.",
+  "trancado": true,
+  "senha_hash": "46f22df8a191d766d4e1590485268ef0e22924f3286eadfd67bbcb5cd76ae2f0",
   "drop_nome": "Coleção de Inverno",
   "accent": "#2aabb0",
   "snow": true,

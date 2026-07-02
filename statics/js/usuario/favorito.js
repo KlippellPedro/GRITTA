@@ -43,14 +43,17 @@ function renderizarFavoritos(itens) {
             ultimasPecasHTML = '<div class="badge-ultimas-pecas">ÚLTIMAS PEÇAS</div>';
         }
 
+        const imagem2Url = item.imagem_2 ? window.resolveStaticPath(item.imagem_2) : null;
+        const has2nd     = imagem2Url ? ' has-2nd' : '';
         return `
-        <div class="produto-card">
+        <div class="produto-card${has2nd}">
             <div class="produto-imagem">
                 ${ultimasPecasHTML}
                 <button class="btn-favoritar-vitrine active" onclick="removerFavorito(this, ${item.id})" title="Remover dos favoritos">
                     <img src="../../statics/img/icons/coracao.png" alt="Favoritos" class="heart-icon">
                 </button>
-                <img src="${imagemUrl}" alt="${item.nome}">
+                <img class="img-primary" src="${imagemUrl}" alt="${item.nome}">
+                ${imagem2Url ? `<img class="img-secondary" src="${imagem2Url}" alt="" loading="lazy">` : ''}
             </div>
             <div class="produto-info">
                 <h4>${item.nome}</h4>

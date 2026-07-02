@@ -1,19 +1,18 @@
 <!doctype html>
 <html lang="pt-br">
   <head>
-    <title>GR!TTA | Drop</title>
+    <title>GR!TTA | Coleções</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/png" href="../../statics/img/icons/favicon.png" />
     <link rel="stylesheet" type="text/css" href="../../statics/css/reset.css" />
     <link rel="stylesheet" type="text/css" href="../../statics/css/global.css" />
     <link rel="stylesheet" type="text/css" href="../../statics/css/menu.css" />
-    <link rel="stylesheet" type="text/css" href="../../statics/css/index.css" />
-    <link rel="stylesheet" type="text/css" href="../../statics/css/pages/drop.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/css/pages/drops.css" />
     <script src="../../statics/js/components.js" defer></script>
     <script src="../../statics/js/config.js" defer></script>
     <script src="../../statics/js/menu.js" defer></script>
-    <script src="../../statics/js/pages/drop.js" defer></script>
+    <script src="../../statics/js/pages/drops.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto+Mono:wght@400;700&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
@@ -26,14 +25,17 @@
       <div class="marquee-inner" id="marquee-inner"></div>
     </div>
 
-    <main class="drop-main" data-snow="30">
-      <div class="drop-header reveal">
-        <span class="section-label" id="drop-label">✦ Coleção</span>
-        <h2 id="titulo-drop" class="drop-titulo">CARREGANDO…</h2>
-        <p class="drop-subtitulo" id="drop-subtitulo"></p>
+    <main class="drops-main">
+      <div class="drops-header reveal">
+        <span class="section-label">✦ Todas as Coleções</span>
+        <h1 class="drops-titulo">DROPS<em class="drops-accent">.</em></h1>
+        <p class="drops-sub">Cada lançamento é uma cápsula. Peças limitadas, identidade própria, sem segunda chance.</p>
       </div>
-      <div class="drop-grid reveal d1" id="vitrine-drop">
-        <p class="loading">Buscando as peças…</p>
+
+      <div class="drops-grid reveal d1" id="drops-grid">
+        <div class="drops-loading">
+          <span class="dl-dot"></span><span class="dl-dot"></span><span class="dl-dot"></span>
+        </div>
       </div>
     </main>
 

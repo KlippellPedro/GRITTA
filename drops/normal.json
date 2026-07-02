@@ -2,7 +2,7 @@
   "id": "normal",
   "nome": "Loja Normal",
   "drop_nome": null,
-  "accent": "#2aabb0",
+  "accent": "#3A7D59",
   "snow": false,
   "topbar": "A loja que você procura, com o estilo que você merece.",
   "marquee": ["GR!TTA", "OVERSIZED", "STREETWEAR", "FRETE GRÁTIS", "SEM CONCESSÃO"],
@@ -13,6 +13,7 @@
     "headline": ["STREETWEAR", "DO JEITO", "{CERTO.}"],
     "sub": "Oversized de verdade. Caimento largo, peça pesada, feita pra rua. Sem firula, sem concessão.",
     "banner": "img/banners/banner_principal.png",
+    "banner_y": "top",
     "cta_primary": "VER A LOJA →",
     "cta_secondary": "CATEGORIAS"
   },

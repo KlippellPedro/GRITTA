@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <title>GR!TTA | Acesso Restrito</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="../../statics/img/icons/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../statics/css/pages/drop-senha.css" />
+    <script src="../../statics/js/config.js" defer></script>
+    <script src="../../statics/js/pages/drop-senha.js" defer></script>
+  </head>
+
+  <body>
+    <div class="lock-page">
+
+      <!-- Topo -->
+      <header>
+        <a href="../../templates/index.html" class="lock-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="0"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          GR!TTA
+        </a>
+      </header>
+
+      <!-- Centro -->
+      <main class="lock-center">
+        <span class="lock-eyebrow">Acesso Restrito</span>
+
+        <h1 class="lock-title">
+          DROP<br>
+          <em>TRANCADO.</em>
+        </h1>
+
+        <p class="lock-desc">
+          Este drop é <strong>exclusivo</strong>. A senha foi divulgada
+          pelo nosso Instagram — siga <strong>@gritta.store</strong>
+          pra ficar por dentro dos próximos lançamentos.
+        </p>
+
+        <form class="lock-form" id="lock-form" autocomplete="off">
+          <div class="lock-input-row" id="lock-input-row">
+            <input
+              type="password"
+              id="lock-senha"
+              name="senha"
+              placeholder="SENHA DO DROP"
+              maxlength="64"
+              spellcheck="false"
+              autocomplete="new-password"
+              required
+            />
+            <button type="button" class="lock-toggle" id="lock-toggle" aria-label="Mostrar senha">
+              VER
+            </button>
+            <button type="submit" class="lock-submit" id="lock-submit">
+              DESBLOQUEAR →
+            </button>
+          </div>
+          <p class="lock-erro" id="lock-erro" role="alert" aria-live="polite"></p>
+        </form>
+      </main>
+
+      <!-- Rodapé -->
+      <footer class="lock-footer">
+        GR!TTA © 2026 — BRUTAL MINIMALIST DARKWEAR
+      </footer>
+
+    </div>
+
+    <!-- Overlay de sucesso -->
+    <div class="lock-success" id="lock-success" aria-hidden="true">
+      ACESSO LIBERADO.
+    </div>
+  </body>
+</html>

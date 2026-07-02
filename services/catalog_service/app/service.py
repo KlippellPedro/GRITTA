@@ -34,19 +34,23 @@ def get_all_products(tipo=None, special=None, drop=None, q=None,
 
     # Se o frontend mandou ?tipo=camisa
     if tipo:
-        # Mapeamento para converter o plural da URL para o singular do ENUM no Banco
+        # Mapeamento para converter slugs de URL para o ENUM do banco
         mapping = {
-            'camisas':    'camisa',   # aceita plural pt-BR
-            'camisetas':  'camisa',   # aceita plural alternativo
-            'moletons':   'moletom',
-            'calcas':     'calca',
-            'tenis':      'tenis',
-            'acessorios': 'acessorio',
-            # singulares passados diretamente também funcionam
-            'camisa':     'camisa',
-            'moletom':    'moletom',
-            'calca':      'calca',
-            'acessorio':  'acessorio',
+            # slugs legados (mantidos para não quebrar links antigos)
+            'camisas':           'camisa',
+            'camisetas':         'camisa',
+            'moletons':          'moletom',
+            'calcas':            'calca',
+            'tenis':             'tenis',
+            'acessorios':        'acessorio',
+            # novos slugs unificados da taxonomia 2026
+            'camisa-e-t-shirt':  'camisa',
+            'casacos-e-jaqueta': 'jaqueta',
+            # singulares passados diretamente
+            'camisa':    'camisa',
+            'moletom':   'moletom',
+            'calca':     'calca',
+            'acessorio': 'acessorio',
         }
         tipo_filtrado = mapping.get(tipo.lower(), tipo)
         query += " AND tipo = %s"
@@ -96,23 +100,26 @@ def get_all_products(tipo=None, special=None, drop=None, q=None,
 def get_product_by_slug(slug):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
-    
-    # Buscamos o produto e suas variações (tamanhos) em uma única query
+
     query = """
-        SELECT p.*, i.caminho_imagem as imagem,
-               GROUP_CONCAT(CONCAT(v.id, ':', v.tamanho, ':', v.estoque)) as variacoes
+        SELECT p.*,
+               SUBSTRING_INDEX(
+                 GROUP_CONCAT(ia.caminho_imagem ORDER BY ia.ordem_exibicao SEPARATOR '|'), '|', 1
+               ) as imagem,
+               GROUP_CONCAT(ia.caminho_imagem ORDER BY ia.ordem_exibicao SEPARATOR '|') as todas_imagens,
+               GROUP_CONCAT(DISTINCT CONCAT(v.id, ':', v.tamanho, ':', v.estoque)) as variacoes
         FROM produtos p
-        LEFT JOIN imagens_produto i ON p.id = i.produto_id AND i.ordem_exibicao = 0
+        LEFT JOIN imagens_produto ia ON p.id = ia.produto_id
         LEFT JOIN variacoes v ON p.id = v.produto_id
-        WHERE (p.slug = %s OR p.id = %s) 
+        WHERE (p.slug = %s OR p.id = %s)
         AND p.ativo = 1
         GROUP BY p.id
         LIMIT 1
     """
-    
+
     cursor.execute(query, (slug, slug))
     produto = cursor.fetchone()
-    
+
     cursor.close()
     conn.close()
     return produto

@@ -22,6 +22,11 @@ let excluirTarget = null;
 
 document.addEventListener('DOMContentLoaded', init);
 
+// Sem isso, soltar um arquivo fora de um .drop (ou um drag mal alinhado)
+// faz o navegador abrir a imagem e navegar pra fora do painel — parece um refresh.
+document.addEventListener('dragover', e => e.preventDefault());
+document.addEventListener('drop', e => e.preventDefault());
+
 /* ── JWT ── */
 function decodeJWT (token) {
     try {
@@ -219,13 +224,11 @@ async function enviarImagem (slot, file) {
         const res = await fetch(`${API}/admin/upload`, { method: 'POST', headers: authHeaders(), body: fd });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Falha no upload');
-        slot.dataset.caminho = data.caminho;
-        drop.innerHTML = `<img src="${imgUrl(data.caminho)}" alt="" />`;
-        slot.classList.add('up');
+        setSlot(slot, data.caminho);
     } catch (e) {
-        slot.dataset.caminho = '';
-        drop.innerHTML = `<span style="color:var(--danger)">${e.message}</span>`;
-        slot.classList.remove('up');
+        setSlot(slot, '');
+        const span = drop.querySelector('span');
+        if (span) { span.textContent = e.message; span.style.color = 'var(--danger)'; }
     }
 }
 
@@ -250,6 +253,14 @@ function setSlot (slot, caminho) {
         drop.onclick = () => input.click();
         input.addEventListener('change', () => { if (input.files[0]) enviarImagem(slot, input.files[0]); });
     }
+    drop.ondragover = e => { e.preventDefault(); drop.classList.add('dragover'); };
+    drop.ondragleave = () => drop.classList.remove('dragover');
+    drop.ondrop = e => {
+        e.preventDefault();
+        drop.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file) enviarImagem(slot, file);
+    };
 }
 
 function addVarRow (tamanho, estoque, id) {

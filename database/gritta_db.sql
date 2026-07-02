@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 02/07/2026 às 05:54
+-- Tempo de geração: 02/07/2026 às 16:50
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -101,7 +101,8 @@ CREATE TABLE `enderecos` (
 --
 
 INSERT INTO `enderecos` (`id`, `usuario_id`, `cep`, `rua`, `numero`, `complemento`, `bairro`, `cidade`, `estado`, `tipo_endereco`) VALUES
-(5, 1, '91350130', 'Rua Bezerra de Menezes', '333', NULL, 'Passo da Areia', 'Porto Alegre', 'RS', 'Entrega');
+(5, 1, '91350130', 'Rua Bezerra de Menezes', '333', NULL, 'Passo da Areia', 'Porto Alegre', 'RS', 'Entrega'),
+(6, 5, '123456789', 'casa do carai', '123', NULL, 'lá', 'aqui', 'kd', 'Entrega');
 
 -- --------------------------------------------------------
 
@@ -141,9 +142,7 @@ INSERT INTO `imagens_produto` (`id`, `produto_id`, `caminho_imagem`, `ordem_exib
 (14, 14, 'statics/img/roupas/calcas/calca-reta-jeans-medio.webp', 0),
 (15, 15, 'statics/img/roupas/calcas/calca-moletom-esportiva-listra.webp', 0),
 (16, 16, 'statics/img/roupas/calcas/calca-oversized-cargo-em-jeans.webp', 0),
-(18, 18, 'statics/img/roupas/calcas/calca-sarja-oversized-cargo.webp', 0),
 (19, 19, 'statics/img/roupas/moletons/jaqueta-acolchoada-estilo-camisa.webp', 0),
-(20, 20, 'statics/img/roupas/moletons/jaqueta-box-corta-vento-esportiva.webp', 0),
 (21, 21, 'statics/img/roupas/moletons/jaqueta-box-puffer-preta-gola-alta.webp', 0),
 (22, 22, 'statics/img/roupas/moletons/jaqueta-preta-poliuretano-capuz-moletom.webp', 0),
 (23, 23, 'statics/img/roupas/moletons/moletom-boxy-gaming-squad.webp', 0),
@@ -179,15 +178,6 @@ INSERT INTO `imagens_produto` (`id`, `produto_id`, `caminho_imagem`, `ordem_exib
 (119, 100, 'statics/img/roupas/moletons/jaqueta-asteric-peluciado-gola-alta-preto-6.webp', 5),
 (120, 100, 'statics/img/roupas/moletons/jaqueta-asteric-peluciado-gola-alta-preto-7.webp', 6),
 (121, 100, 'statics/img/roupas/moletons/jaqueta-asteric-peluciado-gola-alta-preto-8.webp', 7),
-(122, 101, 'statics/img/roupas/moletons/jaqueta-zipada-knight.webp', 0),
-(123, 101, 'statics/img/roupas/moletons/jaqueta-zipada-knight-2.webp', 1),
-(124, 102, 'statics/img/roupas/tenis/tenis-sneaker-haze-poom.webp', 0),
-(125, 102, 'statics/img/roupas/tenis/tenis-sneaker-haze-poom-2.webp', 1),
-(126, 102, 'statics/img/roupas/tenis/tenis-sneaker-haze-poom-3.webp', 2),
-(127, 103, 'statics/img/roupas/tenis/tenis-sneaker-preto-dark-fire.webp', 0),
-(128, 103, 'statics/img/roupas/tenis/tenis-sneaker-preto-dark-fire-2.webp', 1),
-(129, 103, 'statics/img/roupas/tenis/tenis-sneaker-preto-dark-fire-3.webp', 2),
-(130, 103, 'statics/img/roupas/tenis/tenis-sneaker-preto-dark-fire-4.webp', 3),
 (135, 98, 'statics/img/roupas/camisas/camiseta-feminina-oversized-made.webp', 0),
 (136, 98, 'statics/img/roupas/camisas/camiseta-feminina-oversized-made-2.webp', 1),
 (137, 99, 'statics/img/roupas/camisas/camiseta-masculina-oversized-smell.webp', 0),
@@ -200,27 +190,35 @@ INSERT INTO `imagens_produto` (`id`, `produto_id`, `caminho_imagem`, `ordem_exib
 (144, 100, 'statics/img/roupas/moletons/jaqueta-asteric-peluciado-gola-alta-preto-6.webp', 5),
 (145, 100, 'statics/img/roupas/moletons/jaqueta-asteric-peluciado-gola-alta-preto-7.webp', 6),
 (146, 100, 'statics/img/roupas/moletons/jaqueta-asteric-peluciado-gola-alta-preto-8.webp', 7),
-(147, 101, 'statics/img/roupas/moletons/jaqueta-zipada-knight.webp', 0),
-(148, 101, 'statics/img/roupas/moletons/jaqueta-zipada-knight-2.webp', 1),
-(149, 102, 'statics/img/roupas/tenis/tenis-sneaker-haze-poom.webp', 0),
-(150, 102, 'statics/img/roupas/tenis/tenis-sneaker-haze-poom-2.webp', 1),
-(151, 102, 'statics/img/roupas/tenis/tenis-sneaker-haze-poom-3.webp', 2),
-(152, 103, 'statics/img/roupas/tenis/tenis-sneaker-preto-dark-fire.webp', 0),
-(153, 103, 'statics/img/roupas/tenis/tenis-sneaker-preto-dark-fire-2.webp', 1),
-(154, 103, 'statics/img/roupas/tenis/tenis-sneaker-preto-dark-fire-3.webp', 2),
-(155, 103, 'statics/img/roupas/tenis/tenis-sneaker-preto-dark-fire-4.webp', 3),
-(156, 111, 'statics/img/roupas/tenis/tenis-sneaker-bradok-fitch.webp', 0),
-(157, 111, 'statics/img/roupas/tenis/tenis-sneaker-bradok-fitch-2.webp', 1),
-(158, 111, 'statics/img/roupas/tenis/tenis-sneaker-bradok-fitch-3.webp', 2),
-(159, 111, 'statics/img/roupas/tenis/tenis-sneaker-bradok-fitch-4.webp', 3),
 (160, 46, 'img/roupas/acessorios/bone-chorao-sunset-purple.webp', 0),
 (161, 25, 'img/roupas/tenis/qix-trek-urban-hiking-branco.webp', 0),
-(162, 27, 'img/roupas/tenis/qix-and-kings-trek-galeria.webp', 0),
 (163, 17, 'img/roupas/calcas/calca-sarja-baggy-cargo-camuflada.webp', 0),
 (164, 10, 'img/roupas/camisas/oversized-archangel.webp', 0),
 (165, 73, 'img/roupas/moletons/moletom-nightfall-capuz.jpg', 0),
 (166, 78, 'img/roupas/moletons/casaco-houndrise-capuz.jpg', 0),
-(167, 85, 'img/roupas/calcas/calca-reta-spider-web.jpg', 0);
+(167, 85, 'img/roupas/calcas/calca-reta-spider-web.jpg', 0),
+(168, 102, 'img/roupas/tenis/tenis-sneaker-haze-poom.webp', 0),
+(169, 102, 'img/roupas/tenis/tenis-sneaker-haze-poom-2.webp', 1),
+(170, 102, 'img/roupas/tenis/tenis-sneaker-haze-poom-3.webp', 2),
+(171, 101, 'img/roupas/moletons/jaqueta-zipada-knight.webp', 0),
+(172, 101, 'img/roupas/moletons/jaqueta-zipada-knight.webp', 1),
+(173, 101, 'img/roupas/moletons/jaqueta-zipada-knight-2.webp', 2),
+(174, 101, 'img/roupas/moletons/jaqueta-zipada-knight-2.webp', 3),
+(179, 103, 'img/roupas/tenis/tenis-sneaker-preto-dark-fire.webp', 0),
+(180, 103, 'img/roupas/tenis/tenis-sneaker-preto-dark-fire.webp', 1),
+(181, 103, 'img/roupas/tenis/tenis-sneaker-preto-dark-fire-2.webp', 2),
+(182, 103, 'img/roupas/tenis/tenis-sneaker-preto-dark-fire-2.webp', 3),
+(183, 103, 'img/roupas/tenis/tenis-sneaker-preto-dark-fire-3.webp', 4),
+(184, 103, 'img/roupas/tenis/tenis-sneaker-preto-dark-fire-3.webp', 5),
+(185, 103, 'img/roupas/tenis/tenis-sneaker-preto-dark-fire-4.webp', 6),
+(186, 103, 'img/roupas/tenis/tenis-sneaker-preto-dark-fire-4.webp', 7),
+(187, 27, 'img/roupas/tenis/qix-and-kings-trek-galeria.webp', 0),
+(188, 20, 'img/roupas/moletons/jaqueta-box-corta-vento-esportiva.webp', 0),
+(189, 18, 'img/roupas/calcas/calca-sarja-oversized-cargo.webp', 0),
+(194, 111, 'img/roupas/tenis/tenis-sneaker-bradok-fitch.webp', 0),
+(195, 111, 'img/roupas/tenis/tenis-sneaker-bradok-fitch-2.webp', 1),
+(196, 111, 'img/roupas/tenis/tenis-sneaker-bradok-fitch-3.webp', 2),
+(197, 111, 'img/roupas/tenis/tenis-sneaker-bradok-fitch-4.webp', 3);
 
 -- --------------------------------------------------------
 
@@ -241,7 +239,9 @@ CREATE TABLE `itens_pedido` (
 --
 
 INSERT INTO `itens_pedido` (`id`, `pedido_id`, `variacao_id`, `quantidade`, `preco_unitario`) VALUES
-(10, 9, 77, 1, 349.90);
+(10, 9, 77, 1, 349.90),
+(11, 10, 51, 1, 219.90),
+(12, 11, 86, 1, 329.90);
 
 -- --------------------------------------------------------
 
@@ -264,7 +264,9 @@ CREATE TABLE `notificacoes` (
 --
 
 INSERT INTO `notificacoes` (`id`, `usuario_id`, `titulo`, `mensagem`, `link`, `lida`, `criado_em`) VALUES
-(1, 1, 'Pedido confirmado!', 'Seu pedido #9 foi confirmado e já está sendo preparado. Acompanhe em Meus Pedidos.', 'pedidos.html', 1, '2026-07-01 09:45:22');
+(1, 1, 'Pedido confirmado!', 'Seu pedido #9 foi confirmado e já está sendo preparado. Acompanhe em Meus Pedidos.', 'pedidos.html', 1, '2026-07-01 09:45:22'),
+(2, 5, 'Pedido confirmado!', 'Seu pedido #10 foi confirmado e já está sendo preparado. Acompanhe em Meus Pedidos.', 'pedidos.html', 0, '2026-07-02 11:15:29'),
+(3, 1, 'Pedido confirmado!', 'Seu pedido #11 foi confirmado e já está sendo preparado. Acompanhe em Meus Pedidos.', 'pedidos.html', 1, '2026-07-02 11:16:17');
 
 -- --------------------------------------------------------
 
@@ -311,7 +313,9 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`id`, `usuario_id`, `endereco_entrega_id`, `codigo_rastreio`, `status`, `total_pedido`, `criado_em`) VALUES
-(9, 1, 5, NULL, 'Pago', 371.80, '2026-07-01 09:45:22');
+(9, 1, 5, NULL, 'Pago', 371.80, '2026-07-01 09:45:22'),
+(10, 5, 6, NULL, 'Pago', 219.90, '2026-07-02 11:15:29'),
+(11, 1, 5, NULL, 'Pago', 351.80, '2026-07-02 11:16:17');
 
 -- --------------------------------------------------------
 
@@ -343,19 +347,19 @@ INSERT INTO `produtos` (`id`, `nome`, `slug`, `descricao`, `preco_base`, `tipo`,
 (12, 'Camiseta Oversized Myth', 'camiseta-oversized-myth', 'Estampa exclusiva em silk screen, 100% algodão premium.', 99.90, 'camisa', 1, '2026-04-19 15:09:13', 'Coleção Oversized', 0),
 (13, 'Camiseta Oversized TDAH', 'camiseta-oversized-tdah', 'Estampa exclusiva em silk screen, 100% algodão premium.', 99.90, 'camisa', 1, '2026-04-19 15:09:13', 'Coleção Oversized', 0),
 (14, 'Calça Reta Jeans Médio', 'calca-reta-jeans-medio', 'calça em jeans médio com modelagem reta, sendo estilosa e versátil. com fechamento em zíper + botão, com bolsos.', 219.90, 'calca', 1, '2026-04-19 15:29:00', 'Coleção Urbana', 0),
-(15, 'Calça Moletom Esportiva Listrada', 'calca-moletom-esportiva-listrada', 'calça em moletom preto, no estilo esportivo, com listra branca nas laterais, cós com elástico e amarração, caimento larguinho e bolsos laterais e traseiro.', 219.90, 'calca', 1, '2026-04-19 15:29:00', 'Coleção Inverno', 0),
+(15, 'Calça Moletom Esportiva Listrada', 'calca-moletom-esportiva-listrada', 'calça em moletom preto, no estilo esportivo, com listra branca nas laterais, cós com elástico e amarração, caimento larguinho e bolsos laterais e traseiro.', 219.90, 'calca', 1, '2026-04-19 15:29:00', 'Coleção de Inverno', 0),
 (16, 'Calça Oversize Cargo Em Jeans', 'calca-oversize-cargo-em-jeans', 'calça jeans com bolsos cargo e modelagem oversized, ficando com caimento amplo nas pernas. em jeans com desfiados nos acabamentos e lavagem \"dirty\", que traz uma tonalidade vintage pra peça.', 219.90, 'calca', 1, '2026-04-19 15:29:00', 'Coleção Inverno', 0),
 (17, 'Calça Sarja Baggy Cargo Camuflado', 'calca-serja-baggy-cargo-camuflado', 'calça em sarja camuflada com bolsos cargo nas laterais e modelagem baggy, que começa mais soltinha nas pernas e vai se ajustando na barra.', 219.90, 'calca', 1, '2026-04-19 15:29:00', 'Coleção Inverno', 0),
-(18, 'Calça Sarja Oversized Cargo', 'calca-sarja-oversized-cargo', 'calça em sarja preta com quatro bolsos cargo grandes, dois deles com zíper. modelagem oversized, ficando com caimento amplo nas pernas.', 219.90, 'calca', 1, '2026-04-19 15:29:00', 'Coleção Inverno', 0),
-(19, 'Jaqueta Acolchoada Estilo Camisa', 'jaqueta-acolchoada-estilo-camisa', 'jaqueta marrom acolchoada, com bolsos frontais e fechamento em botões de pressão. modelo overshirt, tendo o fit parecido com o de uma camisa.', 219.90, 'jaqueta', 1, '2026-04-19 15:51:52', 'Coleção Urbana', 0),
-(20, 'Jaqueta Box Corta Vento Esportiva', 'jaqueta-box-corta-vento', 'jaqueta preta estilo corta vento, com mangas e laterais em branco, estampa esportiva, fechamento em zíper e gola alta. na modelagem box, que tem o caimento mais \"quadrado\".', 219.90, 'jaqueta', 1, '2026-04-19 15:51:52', 'Coleção Inverno', 0),
-(21, 'Jaqueta Box Puffer Preta Gola Alta', 'jaqueta-box-puffer-preta', 'jaqueta puffer em poliuretano, com \"gomos\" acolchoados, ribana nos pulsos e barra e modelagem box.', 349.90, 'jaqueta', 1, '2026-04-19 15:51:52', 'Coleção Inverno', 0),
+(18, 'Calça Sarja Oversized Cargo', 'calca-sarja-oversized-cargo', 'calça em sarja preta com quatro bolsos cargo grandes, dois deles com zíper. modelagem oversized, ficando com caimento amplo nas pernas.', 219.90, 'calca', 1, '2026-04-19 15:29:00', 'Coleção Inverno', 1),
+(19, 'Jaqueta Acolchoada Estilo Camisa', 'jaqueta-acolchoada-estilo-camisa', 'jaqueta marrom acolchoada, com bolsos frontais e fechamento em botões de pressão. modelo overshirt, tendo o fit parecido com o de uma camisa.', 219.90, 'jaqueta', 1, '2026-04-19 15:51:52', 'Coleção de Inverno', 0),
+(20, 'Jaqueta Box Corta Vento Esportiva', 'jaqueta-box-corta-vento', 'jaqueta preta estilo corta vento, com mangas e laterais em branco, estampa esportiva, fechamento em zíper e gola alta. na modelagem box, que tem o caimento mais \"quadrado\".', 219.90, 'jaqueta', 1, '2026-04-19 15:51:52', 'Coleção de Inverno', 1),
+(21, 'Jaqueta Box Puffer Preta Gola Alta', 'jaqueta-box-puffer-preta', 'jaqueta puffer em poliuretano, com \"gomos\" acolchoados, ribana nos pulsos e barra e modelagem box.', 349.90, 'jaqueta', 1, '2026-04-19 15:51:52', 'Coleção de Inverno', 0),
 (22, 'Jaqueta Preta Poliuretano Capuz Moletom', 'jaqueta-preta-poliuretano-capuz', 'jaqueta estilo bomber, na modelagem box, que fica com o caimento mais quadrado. em poliuretano preto, tecido sintético que lembra couro, com capuz em moletom, barra e pulsos ajustados.', 289.90, 'jaqueta', 1, '2026-04-19 15:51:52', 'Coleção Inverno', 0),
 (23, 'Moletom Boxy Gaming Squad', 'moletom-boxy-gaming-squad', 'Hoodie oversized com estampa digital futurista nas costas. Conforto pesado com caimento estruturado e urbano.', 219.90, 'moletom', 1, '2026-04-19 15:51:52', 'Coleção Inverno', 0),
 (24, 'Qix 90s - Preto e Branco', 'tenis-qix-90s-preto-branco', 'Aqui, o que importa não é aparência perfeita, é identidade. É rua, é estilo próprio, é viver do seu jeito. Um verdadeiro tênis pra quem carrega a essência do skate no dia a dia.', 299.90, 'tenis', 0, '2026-04-19 16:06:04', 'Coleção Urbana', 0),
 (25, 'Qix And Kings Trek Galeria', 'tenis-qix-kings-trek-galeria', 'Mais do que um tênis, é uma afirmação de estilo pra quem vive a rua intensamente. O Galeria reforça essa união com atitude, identidade e um visual que não passa despercebido nesta edição exclusiva e limitada.', 349.90, 'tenis', 1, '2026-04-19 16:06:04', 'Coleção Inverno', 0),
 (26, 'Qix Park - Preto', 'tenis-qix-park-preto', 'Se você cresceu ouvindo Charlie Brown Jr., sabe que cada letra tinha peso, verdade e rua. Esse tênis segue a mesma linha. É sobre expressão, liberdade e identidade no lifestyle urbano.', 279.90, 'tenis', 0, '2026-04-19 16:06:04', 'Coleção Inverno', 0),
-(27, 'Qix Trek Urban Hiking - Branco', 'tenis-qix-trek-urban-hiking-branco', 'Com design robusto e moderno, ele é feito pra quem vive o corre diário e quer um calçado que acompanhe do rolê ao lifestyle, sempre com conforto e autenticidade. Um tênis pensado pra quem vive sem rótulos.', 329.90, 'tenis', 1, '2026-04-19 16:06:04', 'Coleção Inverno', 0),
+(27, 'Qix Trek Urban Hiking - Branco', 'tenis-qix-trek-urban-hiking-branco', 'Com design robusto e moderno, ele é feito pra quem vive o corre diário e quer um calçado que acompanhe do rolê ao lifestyle, sempre com conforto e autenticidade. Um tênis pensado pra quem vive sem rótulos.', 329.90, 'tenis', 1, '2026-04-19 16:06:04', 'Coleção Inverno', 1),
 (28, 'Qix 90s Pro Series William Damascena - Branco', 'tenis-qix-90s-pro-william-damascena', 'O Tênis Qix 90s Pro Series William Damascena - Branco, com o estilo dos pisantes clássicos dos anos 90, reforçando o que Qix faz de melhor, ele une estilo e resistência para todos os momentos. Apresenta o logotipo da marca na lateral, calcanhar e palmilha.', 389.90, 'tenis', 0, '2026-04-19 16:06:04', 'Coleção Inverno', 0),
 (43, 'Boné Chumbo Play - Estilo Câmera', 'bone-chumbo-play-camera', 'Boné em tom chumbo com bordados inspirados em interface de gravação de vídeo.', 89.90, 'acessorio', 1, '2026-04-19 16:26:33', 'Coleção Urbana', 0),
 (44, 'Boné Jeans Destroyed com Ilhoses', 'bone-jeans-destroyed-ilhoses', 'Boné em jeans com lavagem estonada, detalhes desfiados e ilhoses metálicos.', 99.90, 'acessorio', 1, '2026-04-19 16:26:33', 'Coleção Urbana', 0),
@@ -380,11 +384,11 @@ INSERT INTO `produtos` (`id`, `nome`, `slug`, `descricao`, `preco_base`, `tipo`,
 (86, 'Calça Cargo Jeans Details', 'calca-cargo-jeans-details', 'Cargo em jeans azul-escuro lavagem vintage. Quatro bolsos laterais, dois com zíper oculto. Baggy sem ser frouxo — cada volume tem razão de ser.', 279.90, 'calca', 0, '2026-07-01 04:02:13', 'Winter is Coming', 0),
 (98, 'Camiseta Feminina Oversized Made', 'camiseta-feminina-oversized-made', 'Camiseta oversized feminina com modelagem ampla e caimento perfeito. Algod??o premium.', 99.90, 'camisa', 1, '2026-07-01 20:34:50', NULL, 0),
 (99, 'Camiseta Masculina Oversized Smell', 'camiseta-masculina-oversized-smell', 'Camiseta oversized masculina streetwear. Tecido pesado, caimento relaxado.', 99.90, 'camisa', 1, '2026-07-01 20:34:50', NULL, 0),
-(100, 'Jaqueta Asteric Pel??cia Gola Alta Preto', 'jaqueta-asteric-peluciado-gola-alta-preto', 'Jaqueta de pel??cia felpuda com gola alta estruturada. Bordado Asteric. Quente e brutal.', 299.90, 'jaqueta', 1, '2026-07-01 20:34:50', NULL, 0),
-(101, 'Jaqueta Zipada Knight', 'jaqueta-zipada-knight', 'Jaqueta com z??per frontal full-length e identidade Knight. Acabamento t??tico.', 249.90, 'jaqueta', 1, '2026-07-01 20:34:50', NULL, 0),
-(102, 'T??nis Sneaker Haze Poom', 'tenis-sneaker-haze-poom', 'Sneaker chunky com solado thick e paleta nebulosa. Edi????o Haze ?? Poom.', 199.90, 'tenis', 1, '2026-07-01 20:34:50', NULL, 0),
-(103, 'T??nis Sneaker Preto Dark Fire', 'tenis-sneaker-preto-dark-fire', 'Sneaker all-black com detalhes em chamas. Solado robusto, visual noturno.', 199.90, 'tenis', 1, '2026-07-01 20:34:50', NULL, 0),
-(111, 'T??nis Sneaker Bradok Fitch', 'tenis-sneaker-bradok-fitch', 'Sneaker Bradok s??rie Fitch. Constru????o robusta, visual clean-minimal.', 219.90, 'tenis', 1, '2026-07-01 21:04:37', NULL, 0);
+(100, 'Jaqueta Asteric Pel??cia Gola Alta Preto', 'jaqueta-asteric-peluciado-gola-alta-preto', 'Jaqueta de pel??cia felpuda com gola alta estruturada. Bordado Asteric. Quente e brutal.', 299.90, 'jaqueta', 1, '2026-07-01 20:34:50', 'Coleção de Inverno', 0),
+(101, 'Jaqueta Zipada Knight', 'jaqueta-zipada-knight', 'Jaqueta com z??per frontal full-length e identidade Knight. Acabamento t??tico.', 249.90, 'jaqueta', 1, '2026-07-01 20:34:50', 'Coleção de Inverno', 1),
+(102, 'T??nis Sneaker Haze Poom', 'tenis-sneaker-haze-poom', 'Sneaker chunky com solado thick e paleta nebulosa. Edi????o Haze ?? Poom.', 199.90, 'tenis', 1, '2026-07-01 20:34:50', NULL, 1),
+(103, 'T??nis Sneaker Preto Dark Fire', 'tenis-sneaker-preto-dark-fire', 'Sneaker all-black com detalhes em chamas. Solado robusto, visual noturno.', 199.90, 'tenis', 1, '2026-07-01 20:34:50', NULL, 1),
+(111, 'Ténis Sneaker Bradok Fitch', 'tenis-sneaker-bradok-fitch', 'Sneaker Bradok série Fitch. Construção robusta, visual clean-minimal.', 219.90, 'tenis', 1, '2026-07-01 21:04:37', 'Coleção de Inverno', 1);
 
 -- --------------------------------------------------------
 
@@ -435,7 +439,11 @@ INSERT INTO `refresh_tokens` (`id`, `usuario_id`, `token`, `expiracao`) VALUES
 (29, 1, 'KnvR4BT_A8H45vIsVk36W-Mkl1fe3ok98pw6-_DRRwtN966XAegg8lhG8SY7T7gMC7pnnWRo-4Dqc07tuojm9Q', '2026-05-19 17:01:11'),
 (30, 1, 'njkQ7Xo4qALpGrYitCI3zgpY5acGKGRLpdrbXyw0qwYNapFBNkhu-o7H3O5yIyny5fAGJRq3F7hp3yHFKnQFeA', '2026-07-31 11:59:12'),
 (31, 1, 'gqAbJoOGLLcUAQCPiAxDgtdVJkX2pUD5p9zpEikwd4NFtuNCLJZkE6Kd7rTNpo2db6TkLRNBxgFv24nm9ew7Hg', '2026-07-31 23:37:31'),
-(32, 1, 'Q7fjgj9YCPeHGjVEY9imH1s9rDJ-VDz88YvqmID0GPWJkG18w_E3eSAbhU5fT-oet1VjxGU6jXjuZEciBzIqpw', '2026-08-01 02:52:58');
+(32, 1, 'Q7fjgj9YCPeHGjVEY9imH1s9rDJ-VDz88YvqmID0GPWJkG18w_E3eSAbhU5fT-oet1VjxGU6jXjuZEciBzIqpw', '2026-08-01 02:52:58'),
+(33, 1, 'Ys0rFKRA1f512lGedji3EU5-9FMyXV1e88kKEQBrns_RRBePaq8tEdREO73DTTsX_IuaBmuUHYWbLMVd_abStw', '2026-08-01 12:48:17'),
+(34, 1, 'B2Hd7KhHUOu9QCpQhe0iEaEq6cmfDtjkqCs0POSVYp2sAeptswTS6QTdedOepaDgV2XQiTXRevCZt3pJ4aLC5g', '2026-08-01 14:07:18'),
+(35, 5, 'ctGXiAbj4QmPW73wtlVQttHmMrRGU5N59i8RULRQwZhFslZMvnmL9jTQNaEPrDJAscenv6WwtnoQeDYGZ53VPg', '2026-08-01 14:10:44'),
+(36, 1, 'YiBZb-I5hjTPfS_c69dnWK4BW6Eu_lsdooWUvoY6I6W70Z4VMLF9wAn_4syj1WsdZtwQrMuxBetF58t2B-R6pQ', '2026-08-01 14:16:02');
 
 -- --------------------------------------------------------
 
@@ -465,7 +473,8 @@ INSERT INTO `usuarios` (`id`, `nome`, `email`, `telefone`, `tipo`, `senha_hash`,
 (1, 'Pedro Nadalon Klippel', 'pnklippel@gmail.com', '(51) 99749-1810', 'admin', '$2b$12$PeDMMHW6KxucrMKfRMsFJ.fZ1f.ehHkAEpOJwySFOx/vDFFmOQdBK', '045.665.810-63', 1, 'local', NULL, '2026-04-17 16:51:57'),
 (2, 'David Beta', 'david@gmail.com', '(19) 69696-9696', 'cliente', '$2b$12$Uzp4V/pyxrqm0ce6lqKrpu5aqioi8zro3V2Oyt1dRCRA9GT.WuQQK', '676.767.676-76', 1, 'local', NULL, '2026-04-19 00:59:51'),
 (3, 'Livia Beta Alpha', 'livia@outlook.com', '(19) 12345-6789', 'cliente', '$2b$12$LFqcvhzTynIO4Z6JJKSKqO/54v7CCFiOOZ8MOO8fFs7MhFP9JhXNO', '414.141.414-14', 1, 'local', NULL, '2026-04-19 01:02:55'),
-(4, 'Maruan Beta ', 'gragas.agiota@gmail.com', '(11) 11111-1111', 'cliente', '$2b$12$ip/JRCj1Qj3u8ylme/H5UeYWrd5DaBC05pHzeZMOuiyCpV3regs4W', '696.969.696-67', 1, 'local', NULL, '2026-04-19 01:32:10');
+(4, 'Maruan Beta ', 'gragas.agiota@gmail.com', '(11) 11111-1111', 'cliente', '$2b$12$ip/JRCj1Qj3u8ylme/H5UeYWrd5DaBC05pHzeZMOuiyCpV3regs4W', '696.969.696-67', 1, 'local', NULL, '2026-04-19 01:32:10'),
+(5, 'o cara', 'nigger@gmail.com', '(51) 4002-8922', 'cliente', '$2b$12$CB5aK9WMMasq37u5qDcpV.UEfWpHqig.NiTyZn8BpysXrrw3livaG', '999.999.999-99', 1, 'local', NULL, '2026-07-02 11:10:23');
 
 -- --------------------------------------------------------
 
@@ -519,7 +528,7 @@ INSERT INTO `variacoes` (`id`, `produto_id`, `tamanho`, `sku`, `estoque`) VALUES
 (48, 17, 'GG', 'CJP-CAM-GG', 0),
 (49, 18, 'P', 'CJP-OVE-P', 8),
 (50, 18, 'M', 'CJP-OVE-M', 12),
-(51, 18, 'G', 'CJP-OVE-G', 3),
+(51, 18, 'G', 'CJP-OVE-G', 2),
 (52, 18, 'GG', 'CJP-OVE-GG', 0),
 (53, 19, 'P', 'JKT-ACO-P', 8),
 (54, 19, 'M', 'JKT-ACO-M', 12),
@@ -554,7 +563,7 @@ INSERT INTO `variacoes` (`id`, `produto_id`, `tamanho`, `sku`, `estoque`) VALUES
 (83, 26, '41', 'TEN-PARK-41', 8),
 (84, 26, '42', 'TEN-PARK-42', 5),
 (85, 27, '38', 'TEN-TREK-BR-38', 4),
-(86, 27, '40', 'TEN-TREK-BR-40', 7),
+(86, 27, '40', 'TEN-TREK-BR-40', 6),
 (87, 27, '41', 'TEN-TREK-BR-41', 6),
 (88, 27, '42', 'TEN-TREK-BR-42', 3),
 (89, 28, '39', 'TEN-QIXPRO-39', 4),
@@ -785,7 +794,7 @@ ALTER TABLE `avaliacoes`
 -- AUTO_INCREMENT de tabela `carrinhos`
 --
 ALTER TABLE `carrinhos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de tabela `cupons`
@@ -797,7 +806,7 @@ ALTER TABLE `cupons`
 -- AUTO_INCREMENT de tabela `enderecos`
 --
 ALTER TABLE `enderecos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `favoritos`
@@ -809,19 +818,19 @@ ALTER TABLE `favoritos`
 -- AUTO_INCREMENT de tabela `imagens_produto`
 --
 ALTER TABLE `imagens_produto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=198;
 
 --
 -- AUTO_INCREMENT de tabela `itens_pedido`
 --
 ALTER TABLE `itens_pedido`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `notificacoes`
 --
 ALTER TABLE `notificacoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `password_resets`
@@ -833,7 +842,7 @@ ALTER TABLE `password_resets`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
@@ -845,13 +854,13 @@ ALTER TABLE `produtos`
 -- AUTO_INCREMENT de tabela `refresh_tokens`
 --
 ALTER TABLE `refresh_tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `variacoes`

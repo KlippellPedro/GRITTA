@@ -1,0 +1,23 @@
+{% extends "_base.html" %}
+{% import "_macros.html" as m %}
+
+{% block title %}GR!TTA — Código de redefinição de senha{% endblock %}
+{% block eyebrow %}Redefinição de senha{% endblock %}
+
+{% block content %}
+<p style="color:#F2F2F2;font-size:15px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Oi, <strong style="color:#F2F2F2;">{{ nome }}</strong>!</p>
+<p style="color:#9A9A9A;font-size:14px;line-height:1.6;margin:0 0 22px;font-family:Arial,Helvetica,sans-serif;">Recebemos um pedido pra redefinir a senha da sua conta. Use o código abaixo pra continuar:</p>
+{% endblock %}
+
+{% block cta %}
+<tr><td style="padding:0 40px;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0A0A0A;border:1px solid #3A7D59;">
+    <tr><td style="padding:22px;text-align:center;">
+      <div style="font-family:'Courier New',Courier,monospace;font-size:40px;font-weight:700;letter-spacing:16px;color:#3A7D59;">{{ codigo }}</div>
+    </td></tr>
+  </table>
+  <p style="color:#6B6B6B;font-size:12px;text-align:center;margin:14px 0 0;font-family:Arial,Helvetica,sans-serif;">Vale por <strong style="color:#9A9A9A;">15 minutos</strong> &middot; uso único</p>
+</td></tr>
+{{ m.divisor() }}
+{{ m.aviso_seguranca("Se não foi você que pediu, é só ignorar este e-mail — sua senha continua a mesma e ninguém tem acesso à sua conta.") }}
+{% endblock %}

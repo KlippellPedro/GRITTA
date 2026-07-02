@@ -1,0 +1,15 @@
+{% extends "_base.html" %}
+{% import "_macros.html" as m %}
+
+{% block title %}Você está na lista VIP da GR!TTA{% endblock %}
+{% block eyebrow %}Lista VIP{% endblock %}
+
+{% block content %}
+<p style="color:#F2F2F2;font-size:15px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">{{ saudacao }}</p>
+<p style="color:#9A9A9A;font-size:14px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Boa — você entrou na lista VIP. A partir de agora recebe os drops antes de todo mundo, ofertas exclusivas e acesso antecipado às coleções limitadas.</p>
+<p style="color:#9A9A9A;font-size:14px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Fica de olho na caixa de entrada. O próximo drop não espera.</p>
+{% endblock %}
+
+{% block cta %}
+{{ m.botao_cta(loja_url, "Conhecer os drops") }}
+{% endblock %}

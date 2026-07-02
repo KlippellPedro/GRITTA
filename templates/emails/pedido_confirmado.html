@@ -1,0 +1,18 @@
+{% extends "_base.html" %}
+{% import "_macros.html" as m %}
+
+{% block title %}Pedido #{{ pedido_id }} confirmado — GR!TTA{% endblock %}
+{% block eyebrow %}Pedido confirmado{% endblock %}
+
+{% block content %}
+<p style="color:#F2F2F2;font-size:15px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Oi, <strong style="color:#F2F2F2;">{{ nome }}</strong>!</p>
+<p style="color:#9A9A9A;font-size:14px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Recebemos o pagamento do seu pedido <strong style="color:#3A7D59;">#{{ pedido_id }}</strong>. Já estamos preparando tudo.</p>
+{% if total_fmt %}
+<p style="color:#9A9A9A;font-size:14px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Total do pedido: <strong style="color:#F2F2F2;">{{ total_fmt }}</strong></p>
+{% endif %}
+<p style="color:#9A9A9A;font-size:14px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Acompanhe o status em Meus Pedidos. Seu estilo está a caminho!</p>
+{% endblock %}
+
+{% block cta %}
+{{ m.botao_cta(pedidos_url, "Acompanhar pedido") }}
+{% endblock %}

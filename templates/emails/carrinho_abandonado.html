@@ -1,0 +1,19 @@
+{# Conversão — carrinho abandonado. Base pronta pra uso; o gatilho
+   (job/cron detectando carrinho parado) ainda precisa ser implementado. #}
+{% extends "_base.html" %}
+{% import "_macros.html" as m %}
+
+{% block title %}Você esqueceu umas peças no carrinho — GR!TTA{% endblock %}
+{% block eyebrow %}Sua sacola tá esperando{% endblock %}
+
+{% block content %}
+<p style="color:#F2F2F2;font-size:15px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Oi, <strong style="color:#F2F2F2;">{{ nome }}</strong>!</p>
+<p style="color:#9A9A9A;font-size:14px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Você deixou {{ qtd_itens or "umas peças" }} na sacola e elas continuam te esperando. Estoque é limitado — drops não voltam.</p>
+{% if cupom %}
+<p style="color:#9A9A9A;font-size:14px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Cola o cupom <strong style="color:#3A7D59;font-family:'Courier New',Courier,monospace;">{{ cupom }}</strong> no checkout pra garantir desconto.</p>
+{% endif %}
+{% endblock %}
+
+{% block cta %}
+{{ m.botao_cta(carrinho_url, "Voltar pro carrinho") }}
+{% endblock %}

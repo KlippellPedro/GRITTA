@@ -1,0 +1,36 @@
+{# ══════════════════════════════════════════════
+   GR!TTA — Layout base de e-mail (Brutal Minimalist Darkwear)
+   Preto absoluto + carvão + verde tático. Tabelas + CSS inline
+   pra sobreviver a Gmail/Outlook/Apple Mail.
+══════════════════════════════════════════════ #}
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>{% block title %}GR!TTA{% endblock %}</title>
+</head>
+<body style="margin:0;padding:0;background:#0A0A0A;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0A0A0A;padding:32px 12px;font-family:Arial,Helvetica,sans-serif;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px;background:#141414;border:1px solid #2A2A2A;border-top:3px solid #3A7D59;">
+        <tr><td style="padding:38px 40px 6px;text-align:center;">
+          <div style="font-family:'Arial Black',Arial,sans-serif;font-size:30px;font-weight:900;letter-spacing:6px;color:#F2F2F2;">GR<span style="color:#3A7D59;">!</span>TTA</div>
+          <div style="font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:3px;color:#6B6B6B;text-transform:uppercase;margin-top:8px;">{% block eyebrow %}{% endblock %}</div>
+        </td></tr>
+        <tr><td style="padding:24px 40px 4px;">
+          {% block content %}{% endblock %}
+        </td></tr>
+        {% block cta %}{% endblock %}
+        <tr><td style="padding:26px 40px 34px;"></td></tr>
+      </table>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px;font-family:Arial,Helvetica,sans-serif;">
+        <tr><td style="padding:18px 40px;text-align:center;">
+          <p style="color:#6B6B6B;font-size:11px;line-height:1.7;margin:0;">GR!TTA &middot; Streetwear<br>E-mail autom&aacute;tico, n&atilde;o responda.</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{# ══════════════════════════════════════════════
+   GR!TTA — Macros de e-mail (Brutal Minimalist Darkwear)
+   Tabelas + estilo inline: compatibilidade com clientes de e-mail.
+══════════════════════════════════════════════ #}
+
+{% macro botao_cta(url, texto) -%}
+<tr><td style="padding:8px 40px 0;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+    <td style="background:#1F3D2E;border:1px solid #2F6045;">
+      <a href="{{ url }}" style="display:inline-block;padding:13px 30px;color:#F2F2F2;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-decoration:none;text-transform:uppercase;">{{ texto }}</a>
+    </td>
+  </tr></table>
+</td></tr>
+{%- endmacro %}
+
+{% macro divisor() -%}
+<tr><td style="padding:28px 40px 0;"><div style="height:1px;background:#2A2A2A;line-height:1px;font-size:1px;">&nbsp;</div></td></tr>
+{%- endmacro %}
+
+{% macro aviso_seguranca(texto) -%}
+<tr><td style="padding:18px 40px 36px;">
+  <p style="color:#6B6B6B;font-size:12px;line-height:1.6;margin:0;font-family:Arial,Helvetica,sans-serif;">{{ texto }}</p>
+</td></tr>
+{%- endmacro %}

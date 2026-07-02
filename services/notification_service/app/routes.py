@@ -1,6 +1,6 @@
 import re
 from flask import Blueprint, request, jsonify
-from .service import processar_envio_email
+from .email_service import processar_envio_email
 from .email_templates import montar
 from .auth import token_required
 

@@ -1,0 +1,27 @@
+{# Segurança — novo login detectado. Base pronta pra uso; o gatilho
+   (IP/dispositivo/local no login_user) ainda precisa ser implementado. #}
+{% extends "_base.html" %}
+{% import "_macros.html" as m %}
+
+{% block title %}Novo acesso à sua conta GR!TTA{% endblock %}
+{% block eyebrow %}Alerta de segurança{% endblock %}
+
+{% block content %}
+<p style="color:#F2F2F2;font-size:15px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Oi, <strong style="color:#F2F2F2;">{{ nome }}</strong>!</p>
+<p style="color:#9A9A9A;font-size:14px;line-height:1.6;margin:0 0 22px;font-family:Arial,Helvetica,sans-serif;">Detectamos um novo login na sua conta. Se foi você, pode ignorar este e-mail.</p>
+{% endblock %}
+
+{% block cta %}
+<tr><td style="padding:0 40px;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0A0A0A;border:1px solid #2A2A2A;">
+    <tr><td style="padding:18px 22px;">
+      <p style="margin:0 0 8px;font-family:'Courier New',Courier,monospace;font-size:12px;color:#6B6B6B;">DISPOSITIVO <span style="color:#F2F2F2;">{{ dispositivo or "—" }}</span></p>
+      <p style="margin:0 0 8px;font-family:'Courier New',Courier,monospace;font-size:12px;color:#6B6B6B;">LOCAL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#F2F2F2;">{{ local or "—" }}</span></p>
+      <p style="margin:0;font-family:'Courier New',Courier,monospace;font-size:12px;color:#6B6B6B;">DATA/HORA <span style="color:#F2F2F2;">{{ data_hora or "—" }}</span></p>
+    </td></tr>
+  </table>
+</td></tr>
+{{ m.botao_cta(reset_url, "Não fui eu — trocar senha") }}
+{{ m.divisor() }}
+{{ m.aviso_seguranca("Por segurança, recomendamos trocar sua senha sempre que não reconhecer um acesso. Se o problema persistir, fale com a gente.") }}
+{% endblock %}

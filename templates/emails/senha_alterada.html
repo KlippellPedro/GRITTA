@@ -1,0 +1,17 @@
+{# Segurança — confirmação de troca de senha. Base pronta pra uso; o gatilho
+   (chamada ao final de reset_password) ainda precisa ser implementado. #}
+{% extends "_base.html" %}
+{% import "_macros.html" as m %}
+
+{% block title %}Sua senha foi alterada — GR!TTA{% endblock %}
+{% block eyebrow %}Alerta de segurança{% endblock %}
+
+{% block content %}
+<p style="color:#F2F2F2;font-size:15px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Oi, <strong style="color:#F2F2F2;">{{ nome }}</strong>!</p>
+<p style="color:#9A9A9A;font-size:14px;line-height:1.6;margin:0 0 22px;font-family:Arial,Helvetica,sans-serif;">Sua senha foi alterada com sucesso{{ " em " + data_hora if data_hora else "" }}. Se foi você, não precisa fazer nada.</p>
+{% endblock %}
+
+{% block cta %}
+{{ m.divisor() }}
+{{ m.aviso_seguranca("Se você não trocou sua senha, sua conta pode estar comprometida — fale com a gente imediatamente e redefina a senha de novo.") }}
+{% endblock %}

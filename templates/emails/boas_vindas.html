@@ -1,0 +1,15 @@
+{% extends "_base.html" %}
+{% import "_macros.html" as m %}
+
+{% block title %}Bem-vindo(a) à GR!TTA{% endblock %}
+{% block eyebrow %}Boas-vindas{% endblock %}
+
+{% block content %}
+<p style="color:#F2F2F2;font-size:15px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Oi, <strong style="color:#F2F2F2;">{{ nome }}</strong>!</p>
+<p style="color:#9A9A9A;font-size:14px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Sua conta na GR!TTA foi criada com sucesso. Agora você faz parte da cena — streetwear oversized, drops limitados e peças feitas pra rua.</p>
+<p style="color:#9A9A9A;font-size:14px;line-height:1.6;margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;">Dá uma olhada nas novidades e monta seu look. Sem firula, sem concessão.</p>
+{% endblock %}
+
+{% block cta %}
+{{ m.botao_cta(loja_url, "Ver a loja") }}
+{% endblock %}
